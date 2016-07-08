@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Xml.Linq;
 using System.Xml.Serialization;
-using MagicCardMarketOptimizer.DataContracts;
+using MagicCardMarket.DataContracts;
 
 namespace MagicCardMarketOptimizer
 {
@@ -15,6 +15,8 @@ namespace MagicCardMarketOptimizer
         {
             InitializeComponent();
 
+            Tokens.Init(@"d:\utils\token mcm.txt");
+
             //Account account = GetData<Account>("account");
             //Game game = GetData<Game>("games");
             //Game[] games = GetDatas<Game>("games");
@@ -23,7 +25,12 @@ namespace MagicCardMarketOptimizer
             //MetaProduct metaIsland = GetData<MetaProduct>("metaproduct/2923");
             //Expansion expansion = GetData<Expansion>("expansion/1");
             //Expansion[] expansions = GetDatas<Expansion>("expansion/1");
-            Article[] articles = GetDatas<Article>("articles/266361");
+            //WantsList[] wantsLists = GetDatas<WantsList>("wantslist");
+
+            //Product product266361 = GetData<Product>("product/266361");
+            //Article[] articles266361 = GetDatas<Article>("articles/266361");
+            //wantsListId to test 968105
+            WantsList wantsList = GetData<WantsList>("wantslist/968105");
         }
 
         //public XDocument Request(string resource)

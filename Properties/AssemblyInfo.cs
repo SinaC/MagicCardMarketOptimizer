@@ -8,9 +8,9 @@ using System.Windows;
 [assembly: AssemblyTitle("MagicCardMarketOptimizer")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Elia")]
+[assembly: AssemblyCompany("SinaC")]
 [assembly: AssemblyProduct("MagicCardMarketOptimizer")]
-[assembly: AssemblyCopyright("Copyright © Elia 2016")]
+[assembly: AssemblyCopyright("Copyright © SinaC 2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

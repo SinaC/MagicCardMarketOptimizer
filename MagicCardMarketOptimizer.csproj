@@ -56,25 +56,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="DataContracts\AccountAddress.cs" />
-    <Compile Include="DataContracts\Article.cs" />
-    <Compile Include="DataContracts\ArticleLanguage.cs" />
-    <Compile Include="DataContracts\ArticleSeller.cs" />
-    <Compile Include="DataContracts\Expansion.cs" />
-    <Compile Include="DataContracts\Game.cs" />
-    <Compile Include="DataContracts\AccountName.cs" />
-    <Compile Include="DataContracts\MetaProduct.cs" />
-    <Compile Include="DataContracts\MetaProductIds.cs" />
-    <Compile Include="DataContracts\MetaProductName.cs" />
-    <Compile Include="DataContracts\ProductCategory.cs" />
-    <Compile Include="DataContracts\ProductName.cs" />
-    <Compile Include="DataContracts\ProductPriceGuide.cs" />
-    <Compile Include="DataContracts\ProductReprint.cs" />
     <Compile Include="OAuthHeader.cs" />
-    <Compile Include="DataContracts\Product.cs" />
     <Compile Include="RequestHelper.cs" />
     <Compile Include="Tokens.cs" />
-    <Compile Include="DataContracts\Account.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -114,6 +98,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MagicCardMarket.DataContracts\MagicCardMarket.DataContracts.csproj">
+      <Project>{cd5aff37-ea2e-4379-bb15-57466a9082fe}</Project>
+      <Name>MagicCardMarket.DataContracts</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
