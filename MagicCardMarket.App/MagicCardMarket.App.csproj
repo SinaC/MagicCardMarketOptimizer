@@ -56,6 +56,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CircularProgressBarControl.xaml.cs">
+      <DependentUpon>CircularProgressBarControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DesignMode.cs" />
+    <Compile Include="ViewModelBase.cs" />
+    <Page Include="CircularProgressBarControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -64,6 +73,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="MainViewModel.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -97,9 +107,17 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AdornedControl\AdornedControl.csproj">
+      <Project>{94b81cb7-f8a6-44bc-bd71-e927f701e0d8}</Project>
+      <Name>AdornedControl</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MagicCardMarket.Models\MagicCardMarket.Models.csproj">
       <Project>{cd5aff37-ea2e-4379-bb15-57466a9082fe}</Project>
       <Name>MagicCardMarket.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MagicCardMarket.MVVM\MagicCardMarket.MVVM.csproj">
+      <Project>{35f68c5d-10f1-4248-b3bc-6a76f437feee}</Project>
+      <Name>MagicCardMarket.MVVM</Name>
     </ProjectReference>
     <ProjectReference Include="..\MagicCardMarket.Request\MagicCardMarket.Request.csproj">
       <Project>{21723232-14a9-4688-abdc-d1e4a0ab49d6}</Project>

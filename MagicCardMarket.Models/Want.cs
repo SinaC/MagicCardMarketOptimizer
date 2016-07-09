@@ -24,7 +24,7 @@ namespace MagicCardMarket.Models
         public string Type { get; set; }
 
         [XmlElement("idMetaproduct", Form = XmlSchemaForm.Unqualified)] // type is "metaproduct"
-        public int MetaProductIc { get; set; }
+        public int MetaProductId { get; set; }
 
         [XmlElement("idProduct", Form = XmlSchemaForm.Unqualified)] // if type is "product"
         public int ProductId { get; set; }

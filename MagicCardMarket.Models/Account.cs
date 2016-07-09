@@ -76,7 +76,7 @@ namespace MagicCardMarket.Models
         public decimal PayPalRecharge { get; set; }
 
         [XmlElement("unreadMessages", Form = XmlSchemaForm.Unqualified)]
-        public decimal UnreadMessages { get; set; }
+        public int UnreadMessages { get; set; }
     }
     //  <account>
     //  <idUser>55207</idUser>
