@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagicCardMarket.App", "Magi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagicCardMarket.Models", "MagicCardMarket.Models\MagicCardMarket.Models.csproj", "{CD5AFF37-EA2E-4379-BB15-57466A9082FE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagicCardMarket.Request", "MagicCardMarket.Request\MagicCardMarket.Request.csproj", "{21723232-14A9-4688-ABDC-D1E4A0AB49D6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{CD5AFF37-EA2E-4379-BB15-57466A9082FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CD5AFF37-EA2E-4379-BB15-57466A9082FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CD5AFF37-EA2E-4379-BB15-57466A9082FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21723232-14A9-4688-ABDC-D1E4A0AB49D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21723232-14A9-4688-ABDC-D1E4A0AB49D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21723232-14A9-4688-ABDC-D1E4A0AB49D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21723232-14A9-4688-ABDC-D1E4A0AB49D6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

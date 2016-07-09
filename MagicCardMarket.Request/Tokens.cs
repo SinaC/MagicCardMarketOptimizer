@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace MagicCardMarket.App
+namespace MagicCardMarket.Request
 {
     //https://github.com/martsve/mkm_api
     public static class Tokens
