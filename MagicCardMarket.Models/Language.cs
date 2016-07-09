@@ -2,11 +2,11 @@
 using System.Xml.Schema;
 using System.Xml.Serialization;
 
-namespace MagicCardMarket.Contracts
+namespace MagicCardMarket.Models
 {
     [Serializable]
     [XmlType(AnonymousType = true)]
-    public class ArticleLanguage
+    public class Language
     {
         [XmlElement("idLanguage", Form = XmlSchemaForm.Unqualified)]
         public int Id { get; set; }

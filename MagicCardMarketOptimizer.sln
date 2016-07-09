@@ -5,7 +5,7 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagicCardMarket.App", "MagicCardMarket.App\MagicCardMarket.App.csproj", "{D3589714-FE74-4647-A96F-5A53D4DF89A0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagicCardMarket.Contracts", "MagicCardMarket.Contracts\MagicCardMarket.Contracts.csproj", "{CD5AFF37-EA2E-4379-BB15-57466A9082FE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagicCardMarket.Models", "MagicCardMarket.Models\MagicCardMarket.Models.csproj", "{CD5AFF37-EA2E-4379-BB15-57466A9082FE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

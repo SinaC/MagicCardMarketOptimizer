@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 
-namespace MagicCardMarket.Contracts
+namespace MagicCardMarket.Models
 {
     //https://www.mkmapi.eu/ws/documentation/API_1.1:Entities:Product
     [Serializable]
@@ -21,24 +21,15 @@ namespace MagicCardMarket.Contracts
         public int GameId { get; set; }
 
         [XmlElement("countReprints", Form = XmlSchemaForm.Unqualified)]
-        public string ReprintsCountAsString { get; set; }
+        public string ReprintsCountRaw { get; set; }
 
         [XmlIgnore]
         public int ReprintsCount
         {
-            get
-            {
-                if (String.IsNullOrWhiteSpace(ReprintsCountAsString))
-                    return 0;
-                int result;
-                if (!int.TryParse(ReprintsCountAsString, out result))
-                    return 0;
-                return result;
-            }
-            set { ReprintsCountAsString = value.ToString(CultureInfo.InvariantCulture); }
+            get { return Helpers.SafeConvertToInt(ReprintsCountRaw); }
+            set { ReprintsCountRaw = value.ToString(CultureInfo.InvariantCulture); }
         }
-
-
+        
         [XmlElement("name", Form = XmlSchemaForm.Unqualified)]
         public ProductName[] Names { get; set; }
 

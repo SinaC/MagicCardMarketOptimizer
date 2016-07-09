@@ -2,7 +2,6 @@
 using System.Windows;
 using System.Xml.Linq;
 using System.Xml.Serialization;
-using MagicCardMarket.Contracts;
 
 namespace MagicCardMarket.App
 {
@@ -29,8 +28,7 @@ namespace MagicCardMarket.App
 
             //Product product266361 = GetData<Product>("product/266361");
             //Article[] articles266361 = GetDatas<Article>("articles/266361");
-            //wantsListId to test 968105
-            Want[] wants968105 = GetDatas<Want>("wantslist/968105");
+            //Want[] wants968105 = GetDatas<Want>("wantslist/968105");
         }
 
         //public XDocument Request(string resource)

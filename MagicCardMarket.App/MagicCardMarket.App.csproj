@@ -100,9 +100,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MagicCardMarket.Contracts\MagicCardMarket.Contracts.csproj">
+    <ProjectReference Include="..\MagicCardMarket.Models\MagicCardMarket.Models.csproj">
       <Project>{cd5aff37-ea2e-4379-bb15-57466a9082fe}</Project>
-      <Name>MagicCardMarket.Contracts</Name>
+      <Name>MagicCardMarket.Models</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

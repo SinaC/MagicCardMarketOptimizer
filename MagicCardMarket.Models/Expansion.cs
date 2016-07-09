@@ -2,7 +2,7 @@
 using System.Xml.Schema;
 using System.Xml.Serialization;
 
-namespace MagicCardMarket.Contracts
+namespace MagicCardMarket.Models
 {
     //https://www.mkmapi.eu/ws/documentation/API_1.1:Entities:Expansion
     [Serializable]

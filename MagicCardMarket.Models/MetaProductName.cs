@@ -2,11 +2,11 @@
 using System.Xml.Schema;
 using System.Xml.Serialization;
 
-namespace MagicCardMarket.Contracts
+namespace MagicCardMarket.Models
 {
     [Serializable]
     [XmlType(AnonymousType = true)]
-    public class ProductName
+    public class MetaProductName
     {
         [XmlElement("idLanguage", Form = XmlSchemaForm.Unqualified)]
         public int LanguageId { get; set; }
@@ -14,12 +14,7 @@ namespace MagicCardMarket.Contracts
         [XmlElement("languageName", Form = XmlSchemaForm.Unqualified)]
         public string LanguageName { get; set; }
 
-        [XmlElement("productName", Form = XmlSchemaForm.Unqualified)]
+        [XmlElement("metaproductName", Form = XmlSchemaForm.Unqualified)]
         public string Name { get; set; }
     }
-    //  <name>
-    //    <idLanguage>1</idLanguage>
-    //    <languageName>English</languageName>
-    //    <productName>Island(Version 2)</productName>
-    //  </name>
 }

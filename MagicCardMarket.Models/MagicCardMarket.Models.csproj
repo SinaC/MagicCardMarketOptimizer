@@ -7,8 +7,8 @@
     <ProjectGuid>{CD5AFF37-EA2E-4379-BB15-57466A9082FE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MagicCardMarket.Contracts</RootNamespace>
-    <AssemblyName>MagicCardMarket.Contracts</AssemblyName>
+    <RootNamespace>MagicCardMarket.Models</RootNamespace>
+    <AssemblyName>MagicCardMarket.Models</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -44,7 +44,8 @@
     <Compile Include="AccountAddress.cs" />
     <Compile Include="AccountName.cs" />
     <Compile Include="Article.cs" />
-    <Compile Include="ArticleLanguage.cs" />
+    <Compile Include="Helpers.cs" />
+    <Compile Include="Language.cs" />
     <Compile Include="ArticleSeller.cs" />
     <Compile Include="Expansion.cs" />
     <Compile Include="Game.cs" />

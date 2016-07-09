@@ -2,7 +2,7 @@
 using System.Xml.Schema;
 using System.Xml.Serialization;
 
-namespace MagicCardMarket.Contracts
+namespace MagicCardMarket.Models
 {
     //https://www.mkmapi.eu/ws/documentation/API_1.1:Entities:Article
     [Serializable]
@@ -17,7 +17,7 @@ namespace MagicCardMarket.Contracts
         public int ProductId { get; set; }
 
         [XmlElement("language", Form = XmlSchemaForm.Unqualified)]
-        public ArticleLanguage Language { get; set; }
+        public Language Language { get; set; }
 
         [XmlElement("comments", Form = XmlSchemaForm.Unqualified)]
         public string Comments { get; set; }
