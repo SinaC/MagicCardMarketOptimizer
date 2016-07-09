@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace MagicCardMarketOptimizer
+namespace MagicCardMarket.App
 {
     /// <summary>
     /// Interaction logic for App.xaml

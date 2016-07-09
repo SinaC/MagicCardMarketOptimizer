@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace MagicCardMarketOptimizer
+namespace MagicCardMarket.App
 {
     //https://github.com/martsve/mkm_api
     /// <summary>

@@ -4,7 +4,7 @@ using System.Net;
 using System.Text;
 using System.Xml;
 
-namespace MagicCardMarketOptimizer
+namespace MagicCardMarket.App
 {
     //https://github.com/martsve/mkm_api
     public class RequestHelper
