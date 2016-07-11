@@ -49,7 +49,7 @@ namespace MagicCardMarket.App
             Articles = new List<ArticleItem>();
             if (MetaProduct?.Products != null) // TODO: should be able to take only one product but which one ???
             {
-                System.Diagnostics.Debug.WriteLine($"LoadArticlesAsync: Name: {MetaProduct.Names[0].Name} #Products: {MetaProduct.Products.ProductIds.Length}");
+                //System.Diagnostics.Debug.WriteLine($"LoadArticlesAsync: Name: {MetaProduct.Names[0].Name} #Products: {MetaProduct.Products.ProductIds.Length}");
 
                 RequestHelper helper = new RequestHelper();
 

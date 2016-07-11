@@ -189,6 +189,7 @@
                             Content="Optimize" />
 
                     <DataGrid Grid.Row="1"
+                              MaxHeight="240"
                               Margin="5,2"
                               VerticalAlignment="Top"
                               HorizontalAlignment="Left"

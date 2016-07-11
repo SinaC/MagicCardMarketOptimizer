@@ -250,7 +250,7 @@ namespace MagicCardMarket.App
                     //    Debugger.Break();
                     seller.ComputeBestTotalPrice();
                 }
-                Sellers = sellers.OrderByDescending(x => x.Wants.Count).ThenBy(x => x.BestTotalPrices).Take(15).ToList();
+                Sellers = sellers.OrderByDescending(x => x.Wants.Count).ThenBy(x => x.BestTotalPrices).ToList();
             }
             finally
             {
@@ -313,7 +313,7 @@ namespace MagicCardMarket.App
 
         public async Task Initialize()
         {
-            Tokens.Init(@"d:\temp\token mcm.txt");
+            Tokens.Init(@"d:\utils\token mcm.txt");
 
             //Account account = GetData<Account>("account");
             //Game game = GetData<Game>("games");
