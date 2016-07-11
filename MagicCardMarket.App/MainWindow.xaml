@@ -13,6 +13,18 @@
         d:DataContext="{d:DesignInstance app:MainViewModelDesignData, IsDesignTimeCreatable=True}">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <Style TargetType="{x:Type TextBlock}">
+            <Setter Property="FontSize" Value="10"/>
+        </Style>
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="FontSize" Value="10"/>
+        </Style>
+        <Style TargetType="{x:Type DataGrid}">
+            <Setter Property="FontSize" Value="10"/>
+        </Style>
+        <Style TargetType="{x:Type ListBox}">
+            <Setter Property="FontSize" Value="10"/>
+        </Style>
     </Window.Resources>
     <!--http://www.codeproject.com/Articles/57984/WPF-Loading-Wait-Adorner-->
     <adornedControl:AdornedControl IsAdornerVisible="{Binding IsBusy}">

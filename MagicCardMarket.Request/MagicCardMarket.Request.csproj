@@ -45,6 +45,12 @@
     <Compile Include="RequestHelper.cs" />
     <Compile Include="Tokens.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MagicCardMarket.Cache\MagicCardMarket.Cache.csproj">
+      <Project>{f5f6cea6-c24b-4d21-ae82-28b4d5c6834b}</Project>
+      <Name>MagicCardMarket.Cache</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

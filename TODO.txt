@@ -1,4 +1,5 @@
 add paging to GetDatasAsync/GetDatas
+a cache (disk or in backend hosted in iis) for product/metaproduct
 
 Optimize options in UI
 

@@ -7,38 +7,21 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
+using MagicCardMarket.Cache;
 
 namespace MagicCardMarket.Request
 {
     //https://github.com/martsve/mkm_api
     public class RequestHelper
     {
+        private readonly ICache _cache = new FileSystemCache(@"d:\temp\MCMOCache");
+
         public T GetData<T>(string resource)
         {
             string responseRaw = String.Empty;
             try
             {
-                RequestHelper request = new RequestHelper();
-                responseRaw = request.MakeRequest(resource);
-                XDocument responseXml = XDocument.Parse(responseRaw);
-                XmlSerializer serializer = new XmlSerializer(typeof(T));
-                XElement rootElement = responseXml.Root.Elements().First();
-                return (T) serializer.Deserialize(rootElement.CreateReader());
-            }
-            catch (Exception)
-            {
-                System.Diagnostics.Debug.WriteLine(responseRaw);
-                throw;
-            }
-        }
-
-        public async Task<T> GetDataAsync<T>(string resource)
-        {
-            string responseRaw = String.Empty;
-            try
-            {
-                RequestHelper request = new RequestHelper();
-                responseRaw = await request.MakeRequestAsync(resource);
+                responseRaw = MakeRequest(resource);
                 XDocument responseXml = XDocument.Parse(responseRaw);
                 XmlSerializer serializer = new XmlSerializer(typeof(T));
                 XElement rootElement = responseXml.Root.Elements().First();
@@ -56,8 +39,57 @@ namespace MagicCardMarket.Request
             string responseRaw = String.Empty;
             try
             {
-                RequestHelper request = new RequestHelper();
-                responseRaw = request.MakeRequest(resource);
+                responseRaw = MakeRequest(resource);
+                XDocument responseXml = XDocument.Parse(responseRaw);
+                XmlSerializer serializer = new XmlSerializer(typeof(T));
+                T[] values = new T[responseXml.Root.Nodes().Count()];
+                int index = 0;
+                foreach (XNode node in responseXml.Root.Nodes())
+                {
+                    values[index] = (T)serializer.Deserialize(node.CreateReader());
+                    index++;
+                }
+                return values;
+            }
+            catch (Exception)
+            {
+                System.Diagnostics.Debug.WriteLine(responseRaw);
+                throw;
+            }
+        }
+
+        public async Task<T> GetDataAsync<T>(string resource, bool useCache = false)
+        {
+            string responseRaw = null;
+            try
+            {
+                if (useCache)
+                    responseRaw = await MakeRequestAsyncWithCache(resource);
+                else
+                    responseRaw = await MakeRequestAsync(resource);
+
+                XDocument responseXml = XDocument.Parse(responseRaw);
+                XmlSerializer serializer = new XmlSerializer(typeof(T));
+                XElement rootElement = responseXml.Root.Elements().First();
+                return (T) serializer.Deserialize(rootElement.CreateReader());
+            }
+            catch (Exception)
+            {
+                System.Diagnostics.Debug.WriteLine(responseRaw);
+                throw;
+            }
+        }
+
+        public async Task<T[]> GetDatasAsync<T>(string resource, bool useCache = false)
+        {
+            string responseRaw = null;
+            try
+            {
+                if (useCache)
+                    responseRaw = await MakeRequestAsyncWithCache(resource);
+                else
+                    responseRaw = await MakeRequestAsync(resource);
+
                 XDocument responseXml = XDocument.Parse(responseRaw);
                 XmlSerializer serializer = new XmlSerializer(typeof(T));
                 T[] values = new T[responseXml.Root.Nodes().Count()];
@@ -76,29 +108,19 @@ namespace MagicCardMarket.Request
             }
         }
 
-        public async Task<T[]> GetDatasAsync<T>(string resource)
+        private async Task<string> MakeRequestAsyncWithCache(string resource)
         {
-            string responseRaw = String.Empty;
-            try
+            string responseRaw;
+            string[] tokens = resource.Split('/');
+            if (_cache.Contains(tokens[0], Convert.ToInt32(tokens[1])))
+                responseRaw = _cache.Get(tokens[0], Convert.ToInt32(tokens[1]));
+            else
             {
                 RequestHelper request = new RequestHelper();
                 responseRaw = await request.MakeRequestAsync(resource);
-                XDocument responseXml = XDocument.Parse(responseRaw);
-                XmlSerializer serializer = new XmlSerializer(typeof(T));
-                T[] values = new T[responseXml.Root.Nodes().Count()];
-                int index = 0;
-                foreach (XNode node in responseXml.Root.Nodes())
-                {
-                    values[index] = (T) serializer.Deserialize(node.CreateReader());
-                    index++;
-                }
-                return values;
+                _cache.Set(tokens[0], Convert.ToInt32(tokens[1]), responseRaw);
             }
-            catch (Exception)
-            {
-                System.Diagnostics.Debug.WriteLine(responseRaw);
-                throw;
-            }
+            return responseRaw;
         }
 
         public async Task<string> MakeRequestAsync(string resource, string method = "GET", string postData = "")
@@ -134,25 +156,29 @@ namespace MagicCardMarket.Request
                 byte[] b = ReadFully(response.GetResponseStream());
                 return Encoding.UTF8.GetString(b, 0, b.Length);
             }
-
             catch (WebException ex)
             {
-                Console.WriteLine("Error: " + ex.Message);
-                response = ex.Response as HttpWebResponse;
-                if (response.StatusCode == HttpStatusCode.Unauthorized)
-                {
-                    Console.WriteLine(@"App token = '{0}'
-App secret = '{1}'
-Access token = '{2}'
-Access token secret = '{3}'", Tokens.AppToken, Tokens.AppSecret, Tokens.AccessToken, Tokens.AccessSecret);
-                }
-                return "";
-            }
+                // TODO: add logging
 
+                //                Console.WriteLine("Error: " + ex.Message);
+                //                response = ex.Response as HttpWebResponse;
+                //                if (response.StatusCode == HttpStatusCode.Unauthorized)
+                //                {
+                //                    Console.WriteLine(@"App token = '{0}'
+                //App secret = '{1}'
+                //Access token = '{2}'
+                //Access token secret = '{3}'", Tokens.AppToken, Tokens.AppSecret, Tokens.AccessToken, Tokens.AccessSecret);
+                //                }
+                //                return "";
+                throw;
+            }
             catch (Exception ex)
             {
-                Console.WriteLine("Error: " + ex.Message);
-                return "";
+                // TODO: add logging
+
+                //Console.WriteLine("Error: " + ex.Message);
+                //return "";
+                throw;
             }
         }
 

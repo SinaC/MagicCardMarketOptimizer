@@ -18,6 +18,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solutions Items", "Solution
 		TODO.txt = TODO.txt
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagicCardMarket.Cache", "MagicCardMarket.Cache\MagicCardMarket.Cache.csproj", "{F5F6CEA6-C24B-4D21-AE82-28B4D5C6834B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,6 +46,10 @@ Global
 		{94B81CB7-F8A6-44BC-BD71-E927F701E0D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{94B81CB7-F8A6-44BC-BD71-E927F701E0D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{94B81CB7-F8A6-44BC-BD71-E927F701E0D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5F6CEA6-C24B-4D21-AE82-28B4D5C6834B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5F6CEA6-C24B-4D21-AE82-28B4D5C6834B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5F6CEA6-C24B-4D21-AE82-28B4D5C6834B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5F6CEA6-C24B-4D21-AE82-28B4D5C6834B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

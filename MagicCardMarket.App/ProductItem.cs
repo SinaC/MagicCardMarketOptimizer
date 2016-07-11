@@ -28,7 +28,7 @@ namespace MagicCardMarket.App
         public override async Task LoadAdditionalDatasAsync()
         {
             RequestHelper helper = new RequestHelper();
-            Product = await helper.GetDataAsync<Product>($"product/{Want.ProductId}");
+            Product = await helper.GetDataAsync<Product>($"product/{Want.ProductId}", true);
             Name = Product?.Names?.FirstOrDefault(x => x.LanguageId == 1)?.Name;
         }
 

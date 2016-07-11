@@ -149,7 +149,7 @@ namespace MagicCardMarket.App
                 SelectedWantItem = null;
                 Sellers = null;
                 RequestHelper requestHelper = new RequestHelper();
-                Want[] wants = await requestHelper.GetDatasAsync<Want>("wantslist/"+SelectedWantsList.Id);
+                Want[] wants = await requestHelper.GetDatasAsync<Want>($"wantslist/{SelectedWantsList.Id}");
                 //Wants = wants?.ToList();
                 if (wants != null)
                 {
@@ -222,6 +222,7 @@ namespace MagicCardMarket.App
                 ShowWaitingScreen();
 
                 await Items.ForEachAsync(5, item => item.LoadArticlesAsync());
+                //await Items.OfType<MetaProductItem>().First(x => x.MetaProduct.Id == 10738).LoadArticlesAsync();
 
                 List<SellerItem> sellers = new List<SellerItem>();
                 foreach (WantItemBase item in Items)
@@ -231,17 +232,29 @@ namespace MagicCardMarket.App
                     //var toto = item.Articles.GroupBy(x => x.Seller.Id);
                     //var toto1 = toto.Where(x => x.Sum(a => a.Count) >= item.Count);
                     //var sellersUsername = item.Articles.GroupBy(x => x.Seller.UserName).Where(x => x.Sum(a => a.Count) >= item.Count).Select(x => x.Key);
-                    foreach (var sellerWithEnoughItem in item.Articles.GroupBy(x => x.Article.Seller.Id).Where(x => x.Sum(a => a.Article.Count + a.Article.Count*4*(a.Article.IsPlayset?1:0)) >= item.Count)) // seller with enough items
+                    //foreach (var articlesFromSellerWithEnoughItem in item.Articles.Where(x => x.Article.Seller != null).GroupBy(x => x.Article.Seller.Id).Where(x => x.Sum(a => a.Article.Count + a.Article.Count*4*(a.Article.IsPlayset?1:0)) >= item.Count)) // seller with enough items
+                    //{
+                    //    SellerItem seller = sellers.FirstOrDefault(x => x.Seller.Id == articlesFromSellerWithEnoughItem.Key);
+                    //    if (seller == null)
+                    //    {
+                    //        seller = new SellerItem(articlesFromSellerWithEnoughItem.First().Article.Seller);
+                    //        sellers.Add(seller);
+                    //    }
+                    //    //seller.AddArticles(item, item.Articles);
+                    //    seller.AddArticles(item, articlesFromSellerWithEnoughItem);
+                    //}
+                    foreach (var articlesFromSellerWithEnoughItem in item.Articles.Where(x => x.Article.Seller != null).GroupBy(x => x.Article.Seller.Id))
                     {
-                        SellerItem seller = sellers.FirstOrDefault(x => x.Seller.Id == sellerWithEnoughItem.Key);
+                        SellerItem seller = sellers.FirstOrDefault(x => x.Seller.Id == articlesFromSellerWithEnoughItem.Key);
                         if (seller == null)
                         {
-                            seller = new SellerItem(sellerWithEnoughItem.First().Article.Seller);
+                            seller = new SellerItem(articlesFromSellerWithEnoughItem.First().Article.Seller);
                             sellers.Add(seller);
                         }
                         //seller.AddArticles(item, item.Articles);
-                        seller.AddArticles(item, sellerWithEnoughItem);
+                        seller.AddArticles(item, articlesFromSellerWithEnoughItem);
                     }
+
                 }
                 foreach (SellerItem seller in sellers)
                 {
@@ -250,7 +263,7 @@ namespace MagicCardMarket.App
                     //    Debugger.Break();
                     seller.ComputeBestTotalPrice();
                 }
-                Sellers = sellers.OrderByDescending(x => x.Wants.Count).ThenBy(x => x.BestTotalPrices).ToList();
+                Sellers = sellers.OrderByDescending(x => x.WantsCount).ThenBy(x => x.BestTotalPrices).ToList();
             }
             finally
             {

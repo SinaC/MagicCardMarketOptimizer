@@ -13,9 +13,9 @@ namespace MagicCardMarket.App
         {
             InitializeComponent();
 
-            //Tokens.Init(@"d:\temp\token mcm.txt");
+            //Tokens.Init(@"d:\utils\token mcm.txt");
             //RequestHelper helper = new RequestHelper();
-            //Product[] islands = helper.GetDatas<Product>("products/island/1/1/false");
+            //Product[] vampireNighthawks = helper.GetDatas<Product>("products/vampirenighthawk/1/1/false");
 
             MainViewModel vm = new MainViewModel();
             DataContext = vm;

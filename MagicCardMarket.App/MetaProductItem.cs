@@ -38,7 +38,7 @@ namespace MagicCardMarket.App
         public override async Task LoadAdditionalDatasAsync()
         {
             RequestHelper helper = new RequestHelper();
-            MetaProduct = await helper.GetDataAsync<MetaProduct>($"metaproduct/{Want.MetaProductId}");
+            MetaProduct = await helper.GetDataAsync<MetaProduct>($"metaproduct/{Want.MetaProductId}", true);
             Name = MetaProduct?.Names?.FirstOrDefault(x => x.LanguageId == 1)?.Name;
         }
 
@@ -53,25 +53,25 @@ namespace MagicCardMarket.App
 
                 RequestHelper helper = new RequestHelper();
 
-                if (Parameters.UseHigherIdHeuristics || Parameters.FilterOutSpecial)
+                if (Parameters.UseHigherIdHeuristic || Parameters.FilterOutSpecial)
                 {
                     // Heuristic, recent items (with higher id) are cheaper
                     IEnumerable<int> productsIds = MetaProduct.Products.ProductIds;
-                    if (Parameters.UseHigherIdHeuristics)
-                        productsIds = productsIds.OrderByDescending(x => x).Take(Parameters.HigherIdHeuristicsCount);
+                    if (Parameters.UseHigherIdHeuristic)
+                        productsIds = productsIds.OrderByDescending(x => x).Take(Parameters.HigherIdHeuristicCount);
                     foreach (int productId in productsIds)
                     {
-                        Product product = await helper.GetDataAsync<Product>($"product/{productId}");
+                        Product product = await helper.GetDataAsync<Product>($"product/{productId}", true);
                         Products.Add(product);
                     }
                     //
                     IEnumerable<Product> validProducts = Products;
                     if (Parameters.FilterOutSpecial)
                         validProducts = validProducts.Where(x => x.Rarity != "Special");
-                    if (Parameters.UseTrendPriceHeuristics)
+                    if (Parameters.UseTrendPriceHeuristic)
                     {
                         double averageTrendPrice = validProducts.Average(x => x.PriceGuide.Trend);
-                        validProducts = validProducts.Where(x => x.PriceGuide.Trend <= averageTrendPrice * (1 + Parameters.TrendPriceHeuristicsPercentage));
+                        validProducts = validProducts.Where(x => x.PriceGuide.Trend <= averageTrendPrice * (1 + Parameters.TrendPriceHeuristicPercentage));
                     }
                     foreach (Product product in validProducts)
                     {
