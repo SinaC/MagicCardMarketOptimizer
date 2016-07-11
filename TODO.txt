@@ -1,0 +1,11 @@
+add paging to GetDatasAsync/GetDatas
+
+Optimize options in UI
+
+Optimization 'algorithm'
+
+1st method:
+Take top X results with classic optimization as upper bound
+Foreach article
+	Take top Y best seller
+		If card price + shipping cost is lower than price without shipping cost in top X results, buy from this seller

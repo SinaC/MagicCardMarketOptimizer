@@ -1,4 +1,6 @@
 ﻿using System.Windows;
+using MagicCardMarket.Models;
+using MagicCardMarket.Request;
 
 namespace MagicCardMarket.App
 {
@@ -10,6 +12,10 @@ namespace MagicCardMarket.App
         public MainWindow()
         {
             InitializeComponent();
+
+            //Tokens.Init(@"d:\temp\token mcm.txt");
+            //RequestHelper helper = new RequestHelper();
+            //Product[] islands = helper.GetDatas<Product>("products/island/1/1/false");
 
             MainViewModel vm = new MainViewModel();
             DataContext = vm;

@@ -9,6 +9,6 @@ namespace MagicCardMarket.Models
     public class MetaProductIds
     {
         [XmlElement("idProduct", Form = XmlSchemaForm.Unqualified)]
-        public int[] ProductId { get; set; }
+        public int[] ProductIds { get; set; }
     }
 }

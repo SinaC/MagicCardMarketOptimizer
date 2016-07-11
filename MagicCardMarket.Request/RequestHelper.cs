@@ -15,54 +15,90 @@ namespace MagicCardMarket.Request
     {
         public T GetData<T>(string resource)
         {
-            RequestHelper request = new RequestHelper();
-            string responseRaw = request.MakeRequest(resource);
-            XDocument responseXml = XDocument.Parse(responseRaw);
-            XmlSerializer serializer = new XmlSerializer(typeof(T));
-            XElement rootElement = responseXml.Root.Elements().First();
-            return (T) serializer.Deserialize(rootElement.CreateReader());
+            string responseRaw = String.Empty;
+            try
+            {
+                RequestHelper request = new RequestHelper();
+                responseRaw = request.MakeRequest(resource);
+                XDocument responseXml = XDocument.Parse(responseRaw);
+                XmlSerializer serializer = new XmlSerializer(typeof(T));
+                XElement rootElement = responseXml.Root.Elements().First();
+                return (T) serializer.Deserialize(rootElement.CreateReader());
+            }
+            catch (Exception)
+            {
+                System.Diagnostics.Debug.WriteLine(responseRaw);
+                throw;
+            }
         }
 
         public async Task<T> GetDataAsync<T>(string resource)
         {
-            RequestHelper request = new RequestHelper();
-            string responseRaw = await request.MakeRequestAsync(resource);
-            XDocument responseXml = XDocument.Parse(responseRaw);
-            XmlSerializer serializer = new XmlSerializer(typeof(T));
-            XElement rootElement = responseXml.Root.Elements().First();
-            return (T) serializer.Deserialize(rootElement.CreateReader());
+            string responseRaw = String.Empty;
+            try
+            {
+                RequestHelper request = new RequestHelper();
+                responseRaw = await request.MakeRequestAsync(resource);
+                XDocument responseXml = XDocument.Parse(responseRaw);
+                XmlSerializer serializer = new XmlSerializer(typeof(T));
+                XElement rootElement = responseXml.Root.Elements().First();
+                return (T) serializer.Deserialize(rootElement.CreateReader());
+            }
+            catch (Exception)
+            {
+                System.Diagnostics.Debug.WriteLine(responseRaw);
+                throw;
+            }
         }
 
         public T[] GetDatas<T>(string resource)
         {
-            RequestHelper request = new RequestHelper();
-            string responseRaw = request.MakeRequest(resource);
-            XDocument responseXml = XDocument.Parse(responseRaw);
-            XmlSerializer serializer = new XmlSerializer(typeof(T));
-            T[] values = new T[responseXml.Root.Nodes().Count()];
-            int index = 0;
-            foreach (XNode node in responseXml.Root.Nodes())
+            string responseRaw = String.Empty;
+            try
             {
-                values[index] = (T) serializer.Deserialize(node.CreateReader());
-                index++;
+                RequestHelper request = new RequestHelper();
+                responseRaw = request.MakeRequest(resource);
+                XDocument responseXml = XDocument.Parse(responseRaw);
+                XmlSerializer serializer = new XmlSerializer(typeof(T));
+                T[] values = new T[responseXml.Root.Nodes().Count()];
+                int index = 0;
+                foreach (XNode node in responseXml.Root.Nodes())
+                {
+                    values[index] = (T) serializer.Deserialize(node.CreateReader());
+                    index++;
+                }
+                return values;
             }
-            return values;
+            catch (Exception)
+            {
+                System.Diagnostics.Debug.WriteLine(responseRaw);
+                throw;
+            }
         }
 
         public async Task<T[]> GetDatasAsync<T>(string resource)
         {
-            RequestHelper request = new RequestHelper();
-            string responseRaw = await request.MakeRequestAsync(resource);
-            XDocument responseXml = XDocument.Parse(responseRaw);
-            XmlSerializer serializer = new XmlSerializer(typeof(T));
-            T[] values = new T[responseXml.Root.Nodes().Count()];
-            int index = 0;
-            foreach (XNode node in responseXml.Root.Nodes())
+            string responseRaw = String.Empty;
+            try
             {
-                values[index] = (T) serializer.Deserialize(node.CreateReader());
-                index++;
+                RequestHelper request = new RequestHelper();
+                responseRaw = await request.MakeRequestAsync(resource);
+                XDocument responseXml = XDocument.Parse(responseRaw);
+                XmlSerializer serializer = new XmlSerializer(typeof(T));
+                T[] values = new T[responseXml.Root.Nodes().Count()];
+                int index = 0;
+                foreach (XNode node in responseXml.Root.Nodes())
+                {
+                    values[index] = (T) serializer.Deserialize(node.CreateReader());
+                    index++;
+                }
+                return values;
             }
-            return values;
+            catch (Exception)
+            {
+                System.Diagnostics.Debug.WriteLine(responseRaw);
+                throw;
+            }
         }
 
         public async Task<string> MakeRequestAsync(string resource, string method = "GET", string postData = "")
@@ -152,25 +188,29 @@ Access token secret = '{3}'", Tokens.AppToken, Tokens.AppSecret, Tokens.AccessTo
                 byte[] b = ReadFully(response.GetResponseStream());
                 return Encoding.UTF8.GetString(b, 0, b.Length);
             }
-
             catch (WebException ex)
             {
-                Console.WriteLine("Error: " + ex.Message);
-                response = ex.Response as HttpWebResponse;
-                if (response.StatusCode == HttpStatusCode.Unauthorized)
-                {
-                    Console.WriteLine(@"App token = '{0}'
-App secret = '{1}'
-Access token = '{2}'
-Access token secret = '{3}'", Tokens.AppToken, Tokens.AppSecret, Tokens.AccessToken, Tokens.AccessSecret);
-                }
-                return "";
-            }
+                // TODO: add logging
 
+                //                Console.WriteLine("Error: " + ex.Message);
+                //                response = ex.Response as HttpWebResponse;
+                //                if (response.StatusCode == HttpStatusCode.Unauthorized)
+                //                {
+                //                    Console.WriteLine(@"App token = '{0}'
+                //App secret = '{1}'
+                //Access token = '{2}'
+                //Access token secret = '{3}'", Tokens.AppToken, Tokens.AppSecret, Tokens.AccessToken, Tokens.AccessSecret);
+                //                }
+                //                return "";
+                throw;
+            }
             catch (Exception ex)
             {
-                Console.WriteLine("Error: " + ex.Message);
-                return "";
+                // TODO: add logging
+
+                //Console.WriteLine("Error: " + ex.Message);
+                //return "";
+                throw;
             }
         }
 

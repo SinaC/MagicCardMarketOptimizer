@@ -56,11 +56,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ArticleItem.cs" />
     <Compile Include="CircularProgressBarControl.xaml.cs">
       <DependentUpon>CircularProgressBarControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="DesignMode.cs" />
+    <Compile Include="IEnumerableExtensions.cs" />
+    <Compile Include="MetaProductItem.cs" />
+    <Compile Include="Parameters.cs" />
+    <Compile Include="SellerItem.cs" />
     <Compile Include="ViewModelBase.cs" />
+    <Compile Include="ProductItem.cs" />
+    <Compile Include="WantItemBase.cs" />
     <Page Include="CircularProgressBarControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
