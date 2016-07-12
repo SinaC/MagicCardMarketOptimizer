@@ -16,12 +16,16 @@ namespace MagicCardMarket.Request
     {
         private readonly ICache _cache = new FileSystemCache(@"d:\temp\MCMOCache");
 
-        public T GetData<T>(string resource)
+        public T GetData<T>(string resource, bool useCache = false)
         {
             string responseRaw = String.Empty;
             try
             {
-                responseRaw = MakeRequest(resource);
+                if (useCache)
+                    responseRaw = MakeRequestWithCache(resource, false);
+                else
+                    responseRaw = MakeRequest(resource);
+
                 XDocument responseXml = XDocument.Parse(responseRaw);
                 XmlSerializer serializer = new XmlSerializer(typeof(T));
                 XElement rootElement = responseXml.Root.Elements().First(); // remove <response>
@@ -34,12 +38,16 @@ namespace MagicCardMarket.Request
             }
         }
 
-        public T[] GetDatas<T>(string resource)
+        public T[] GetDatas<T>(string resource, bool useCache = false)
         {
             string responseRaw = String.Empty;
             try
             {
-                responseRaw = MakeRequest(resource);
+                if (useCache)
+                    responseRaw = MakeRequestWithCache(resource, true);
+                else
+                    responseRaw = MakeRequest(resource);
+
                 XDocument responseXml = XDocument.Parse(responseRaw);
                 XmlSerializer serializer = new XmlSerializer(typeof(T));
                 T[] values = new T[responseXml.Root.Nodes().Count()];
@@ -64,7 +72,7 @@ namespace MagicCardMarket.Request
             try
             {
                 if (useCache)
-                    responseRaw = await MakeRequestAsyncWithCache(resource);
+                    responseRaw = await MakeRequestAsyncWithCache(resource, false);
                 else
                     responseRaw = await MakeRequestAsync(resource);
 
@@ -86,7 +94,7 @@ namespace MagicCardMarket.Request
             try
             {
                 if (useCache)
-                    responseRaw = await MakeRequestAsyncWithCache(resource);
+                    responseRaw = await MakeRequestAsyncWithCache(resource, true);
                 else
                     responseRaw = await MakeRequestAsync(resource);
 
@@ -108,7 +116,7 @@ namespace MagicCardMarket.Request
             }
         }
 
-        public async Task<string> MakeRequestAsyncWithCache(string resource)
+        protected string MakeRequestWithCache(string resource, bool paging)
         {
             string responseRaw;
             string[] tokens = resource.Split('/');
@@ -117,13 +125,72 @@ namespace MagicCardMarket.Request
             else
             {
                 RequestHelper request = new RequestHelper();
-                responseRaw = await request.MakeRequestAsync(resource);
+                if (paging)
+                    responseRaw = request.MakeRequestPaging(resource);
+                else
+                    responseRaw = request.MakeRequest(resource);
                 _cache.Set(tokens[0], Convert.ToInt32(tokens[1]), responseRaw);
             }
             return responseRaw;
         }
 
-        public async Task<string> MakeRequestAsync(string resource, string method = "GET", string postData = "")
+        protected async Task<string> MakeRequestAsyncWithCache(string resource, bool paging)
+        {
+            string responseRaw;
+            string[] tokens = resource.Split('/');
+            if (_cache.Contains(tokens[0], Convert.ToInt32(tokens[1])))
+                responseRaw = _cache.Get(tokens[0], Convert.ToInt32(tokens[1]));
+            else
+            {
+                RequestHelper request = new RequestHelper();
+                if (paging)
+                    responseRaw = await request.MakeRequestPagingAsync(resource);
+                else
+                    responseRaw = await request.MakeRequestAsync(resource);
+                _cache.Set(tokens[0], Convert.ToInt32(tokens[1]), responseRaw);
+            }
+            return responseRaw;
+        }
+
+        protected string MakeRequest(string resource, string method = "GET", string postData = "")
+        {
+            string url = Tokens.Url + resource;
+
+            ServicePointManager.Expect100Continue = false;
+
+            HttpWebRequest request = WebRequest.Create(url) as HttpWebRequest;
+
+            OAuthHeader header = new OAuthHeader();
+            request.Headers.Add(HttpRequestHeader.Authorization, header.GetAuthorizationHeader(method, url));
+            request.Method = method;
+
+            if (postData.Length > 0 && (method == "POST" || method == "PUT"))
+            {
+                XmlDocument soapEnvelopeXml = new XmlDocument();
+                soapEnvelopeXml.LoadXml(postData);
+                using (Stream stream = request.GetRequestStream())
+                {
+                    soapEnvelopeXml.Save(stream);
+                }
+
+                request.ContentType = "application/xml;charset=\"utf-8\"";
+                request.Accept = "application/json,application/xml";
+            }
+
+            try
+            {
+                HttpWebResponse response = request.GetResponse() as HttpWebResponse;
+                return StreamToString(response.GetResponseStream());
+            }
+            catch (WebException ex)
+            {
+                if ((ex.Response as HttpWebResponse)?.StatusCode == HttpStatusCode.Unauthorized)
+                    throw new UnauthorizedException("Unauthorized access Magic Card Market. Check your token file.", ex);
+                throw;
+            }
+        }
+
+        protected async Task<string> MakeRequestAsync(string resource, string method = "GET", string postData = "")
         {
             string url = Tokens.Url + resource;
 
@@ -162,45 +229,7 @@ namespace MagicCardMarket.Request
             }
         }
 
-        public string MakeRequest(string resource, string method = "GET", string postData = "")
-        {
-            string url = Tokens.Url + resource;
-
-            ServicePointManager.Expect100Continue = false;
-
-            HttpWebRequest request = WebRequest.Create(url) as HttpWebRequest;
-
-            OAuthHeader header = new OAuthHeader();
-            request.Headers.Add(HttpRequestHeader.Authorization, header.GetAuthorizationHeader(method, url));
-            request.Method = method;
-
-            if (postData.Length > 0 && (method == "POST" || method == "PUT"))
-            {
-                XmlDocument soapEnvelopeXml = new XmlDocument();
-                soapEnvelopeXml.LoadXml(postData);
-                using (Stream stream = request.GetRequestStream())
-                {
-                    soapEnvelopeXml.Save(stream);
-                }
-
-                request.ContentType = "application/xml;charset=\"utf-8\"";
-                request.Accept = "application/json,application/xml";
-            }
-
-            try
-            {
-                HttpWebResponse response = request.GetResponse() as HttpWebResponse;
-                return StreamToString(response.GetResponseStream());
-            }
-            catch (WebException ex)
-            {
-                if ((ex.Response as HttpWebResponse)?.StatusCode == HttpStatusCode.Unauthorized)
-                    throw new UnauthorizedException("Unauthorized access Magic Card Market. Check your token file.", ex);
-                throw;
-            }
-        }
-
-        public string MakeRequestPaging(string resource, string method = "GET", string postData = "")
+        protected string MakeRequestPaging(string resource, string method = "GET", string postData = "")
         {
             int start = 1;
             StringBuilder result = new StringBuilder();
@@ -260,11 +289,70 @@ namespace MagicCardMarket.Request
             return result.ToString();
         }
 
-        private static string StreamToString(Stream input)
+        protected async Task<string> MakeRequestPagingAsync(string resource, string method = "GET", string postData = "")
+        {
+            int start = 1;
+            StringBuilder result = new StringBuilder();
+            while (true)
+            {
+                string url = Tokens.Url + resource + "/" + start;
+
+                ServicePointManager.Expect100Continue = false;
+
+                HttpWebRequest request = WebRequest.Create(url) as HttpWebRequest;
+
+                OAuthHeader header = new OAuthHeader();
+                request.Headers.Add(HttpRequestHeader.Authorization, header.GetAuthorizationHeader(method, url));
+                request.Method = method;
+
+                if (postData.Length > 0 && (method == "POST" || method == "PUT"))
+                {
+                    XmlDocument soapEnvelopeXml = new XmlDocument();
+                    soapEnvelopeXml.LoadXml(postData);
+                    using (Stream stream = request.GetRequestStream())
+                    {
+                        soapEnvelopeXml.Save(stream);
+                    }
+
+                    request.ContentType = "application/xml;charset=\"utf-8\"";
+                    request.Accept = "application/json,application/xml";
+                }
+
+                try
+                {
+                    HttpWebResponse response = await request.GetResponseAsync() as HttpWebResponse;
+                    string data = StreamToString(response.GetResponseStream())
+                        .Replace(@"<response>", String.Empty)
+                        .Replace(@"</response>", String.Empty)
+                        .Replace("<?xml version=\"1.0\" encoding=\"utf-8\"?>", String.Empty);
+                    result.Append(data);
+                    if (response.StatusCode == HttpStatusCode.NoContent)
+                        break;
+                    else if (response.StatusCode == HttpStatusCode.PartialContent)
+                    {
+                        string contentRange = response.Headers[HttpResponseHeader.ContentRange]; // 1-100/841
+                        string[] tokens = contentRange.Split('-', '/');
+                        if (tokens[1] == tokens[2])
+                            break;
+                    }
+                    start += 100;
+                }
+                catch (WebException ex)
+                {
+                    if ((ex.Response as HttpWebResponse)?.StatusCode == HttpStatusCode.Unauthorized)
+                        throw new UnauthorizedException("Unauthorized access Magic Card Market. Check your token file.", ex);
+                    throw;
+                }
+            }
+            result.Insert(0, "<?xml version=\"1.0\" encoding=\"utf-8\"?>" + Environment.NewLine + "<result>" + Environment.NewLine);
+            result.AppendLine("</result>");
+            return result.ToString();
+        }
+
+        protected static string StreamToString(Stream input)
         {
             StreamReader reader = new StreamReader(input, Encoding.UTF8);
             return reader.ReadToEnd();
         }
-
     }
 }

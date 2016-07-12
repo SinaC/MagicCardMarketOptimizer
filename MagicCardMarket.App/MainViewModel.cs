@@ -133,10 +133,7 @@ namespace MagicCardMarket.App
             set
             {
                 if (Set(() => SelectedWantItem, ref _selectedWantItem, value) && !DesignMode.IsInDesignModeStatic)
-                {
-                    //SelectedWantItem.RaisePropertyChangedOnAll();
-                    LoadArticlesAsync();
-                }
+                    LoadArticlesFromSelectedWantItemAsync();
             }
         }
 
@@ -195,10 +192,12 @@ namespace MagicCardMarket.App
                 if (Set(() => SelectedSeller, ref _selectedSeller, value))
                 {
                     if (SelectedSeller != null)
+                    {
                         ArticlesGridHeader = $"Articles for Seller {SelectedSeller.Seller.UserName}";
+                        Articles = SelectedSeller.BestArticles.Select(x => x.ArticleItem).ToList(); // TODO: 2 different grids
+                    }
                     IsArticleProductNameColumnVisible = true;
                     IsArticleSellerNameColumnVisible = false;
-                    Articles = SelectedSeller.Articles;
                 }
             }
         }
@@ -304,7 +303,7 @@ namespace MagicCardMarket.App
             set { Set(() => Articles, ref _articles, value); }
         }
 
-        private async Task LoadArticlesAsync()
+        private async Task LoadArticlesFromSelectedWantItemAsync()
         {
             try
             {

@@ -1,4 +1,4 @@
-modify GetDatas(async or not) to use paging
+2 differents article datagrid: one for display article from want list and the other to display best article from seller
 redo RequestHelper (and MagicCardMarket.Request project)
 
 Optimize options in UI

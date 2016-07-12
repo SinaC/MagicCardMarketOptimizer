@@ -64,6 +64,7 @@
     <Compile Include="IEnumerableExtensions.cs" />
     <Compile Include="MetaProductItem.cs" />
     <Compile Include="Parameters.cs" />
+    <Compile Include="SellerArticleItem.cs" />
     <Compile Include="SellerItem.cs" />
     <Compile Include="ViewModelBase.cs" />
     <Compile Include="ProductItem.cs" />

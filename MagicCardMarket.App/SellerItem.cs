@@ -11,6 +11,8 @@ namespace MagicCardMarket.App
 
         public List<ArticleItem> Articles { get; protected set; }
 
+        public List<SellerArticleItem> BestArticles { get; protected set; }
+
         public List<WantItemBase> Wants { get; protected set; }
 
         public decimal BestTotalPrices { get; protected set; }
@@ -22,6 +24,7 @@ namespace MagicCardMarket.App
             Seller = seller;
             Articles = new List<ArticleItem>();
             Wants = new List<WantItemBase>();
+            BestArticles = new List<SellerArticleItem>();
         }
 
         public void AddArticle(WantItemBase wantItem, ArticleItem article)
@@ -49,18 +52,21 @@ namespace MagicCardMarket.App
                 {
                     if (article.Article.IsPlayset && count >= 4)
                     {
+                        BestArticles.Add(new SellerArticleItem(article, 4));
                         sumByWant += article.Article.Price;
                         WantsCount += 4;
                         count -= 4;
                     }
                     else if (article.Article.Count >= count)
                     {
+                        BestArticles.Add(new SellerArticleItem(article, count));
                         sumByWant += count*article.Article.Price;
                         WantsCount += count;
                         count = 0;
                     }
                     else
                     {
+                        BestArticles.Add(new SellerArticleItem(article, article.Article.Count));
                         sumByWant += article.Article.Count*article.Article.Price;
                         WantsCount += article.Article.Count;
                         count -= article.Article.Count;
