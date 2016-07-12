@@ -1,5 +1,5 @@
-add paging to GetDatasAsync/GetDatas
-a cache (disk or in backend hosted in iis) for product/metaproduct
+modify GetDatas(async or not) to use paging
+redo RequestHelper (and MagicCardMarket.Request project)
 
 Optimize options in UI
 

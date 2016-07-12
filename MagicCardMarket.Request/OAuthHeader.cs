@@ -5,6 +5,7 @@ using System.Text;
 
 namespace MagicCardMarket.Request
 {
+    //https://www.mkmapi.eu/ws/documentation/API:Auth_csharp
     //https://github.com/martsve/mkm_api
     /// <summary>
     /// Class encapsulates tokens and secret to create OAuth signatures and return Authorization headers for web requests.
@@ -23,10 +24,10 @@ namespace MagicCardMarket.Request
         /// </summary>
         public OAuthHeader()
         {
-            //string nonce = Guid.NewGuid().ToString("n");
-            String nonce = "53eb1f44909d6";
-            //string timestamp = ((int)((DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds)).ToString();
-            string timestamp = "1407917892";
+            string nonce = Guid.NewGuid().ToString("n");
+            //string nonce = "53eb1f44909d6";
+            string timestamp = ((int)((DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds)).ToString();
+            //string timestamp = "1407917892";
 
             HeaderParams = new Dictionary<string, string>
             {

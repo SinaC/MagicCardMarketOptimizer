@@ -326,7 +326,7 @@ namespace MagicCardMarket.App
 
         public async Task Initialize()
         {
-            Tokens.Init(@"d:\utils\token mcm.txt");
+            Tokens.Init(@"d:\temp\token mcm.txt");
 
             //Account account = GetData<Account>("account");
             //Game game = GetData<Game>("games");
