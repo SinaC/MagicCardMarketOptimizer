@@ -33,23 +33,29 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IDeleteRequestHelper.cs" />
+    <Compile Include="IGetRequestHelper.cs" />
+    <Compile Include="IPostRequestHelper.cs" />
+    <Compile Include="IPutRequestHelper.cs" />
+    <Compile Include="GetPagingRequestHelper.cs" />
+    <Compile Include="GetRequestHelper.cs" />
     <Compile Include="OAuthHeader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RequestHelper.cs" />
     <Compile Include="Tokens.cs" />
-    <Compile Include="UnauthorizedException.cs" />
+    <Compile Include="Exceptions\TooManyRequestsException.cs" />
+    <Compile Include="Exceptions\UnauthorizedException.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MagicCardMarket.Cache\MagicCardMarket.Cache.csproj">
       <Project>{f5f6cea6-c24b-4d21-ae82-28b4d5c6834b}</Project>
       <Name>MagicCardMarket.Cache</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MagicCardMarket.Log\MagicCardMarket.Log.csproj">
+      <Project>{a0514df7-c844-4951-9b83-e5200f38f0f3}</Project>
+      <Name>MagicCardMarket.Log</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

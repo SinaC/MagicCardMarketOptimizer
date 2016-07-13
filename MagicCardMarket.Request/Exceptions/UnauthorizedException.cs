@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MagicCardMarket.Request
+namespace MagicCardMarket.Request.Exceptions
 {
     public class UnauthorizedException : Exception
     {

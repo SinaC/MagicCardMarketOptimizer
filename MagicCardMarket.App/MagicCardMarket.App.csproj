@@ -36,14 +36,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Xml" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
@@ -63,6 +58,7 @@
     <Compile Include="DesignMode.cs" />
     <Compile Include="IEnumerableExtensions.cs" />
     <Compile Include="MetaProductItem.cs" />
+    <Compile Include="MissingItem.cs" />
     <Compile Include="Parameters.cs" />
     <Compile Include="SellerArticleItem.cs" />
     <Compile Include="SellerItem.cs" />
@@ -105,6 +101,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="NLog.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -119,6 +118,14 @@
       <Project>{94b81cb7-f8a6-44bc-bd71-e927f701e0d8}</Project>
       <Name>AdornedControl</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MagicCardMarket.APIHelpers\MagicCardMarket.APIHelpers.csproj">
+      <Project>{85993069-9e45-44b7-84b5-6170b992cf27}</Project>
+      <Name>MagicCardMarket.APIHelpers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MagicCardMarket.Log\MagicCardMarket.Log.csproj">
+      <Project>{a0514df7-c844-4951-9b83-e5200f38f0f3}</Project>
+      <Name>MagicCardMarket.Log</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MagicCardMarket.Models\MagicCardMarket.Models.csproj">
       <Project>{cd5aff37-ea2e-4379-bb15-57466a9082fe}</Project>
       <Name>MagicCardMarket.Models</Name>
@@ -126,10 +133,6 @@
     <ProjectReference Include="..\MagicCardMarket.MVVM\MagicCardMarket.MVVM.csproj">
       <Project>{35f68c5d-10f1-4248-b3bc-6a76f437feee}</Project>
       <Name>MagicCardMarket.MVVM</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MagicCardMarket.Request\MagicCardMarket.Request.csproj">
-      <Project>{21723232-14a9-4688-abdc-d1e4a0ab49d6}</Project>
-      <Name>MagicCardMarket.Request</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

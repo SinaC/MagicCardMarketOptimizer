@@ -16,6 +16,8 @@ namespace MagicCardMarket.App
 
         public int ProductId { get; private set; }
 
+        public decimal RealPrice => Article.IsPlayset ? Article.Price/4m : Article.Price;
+
         public ArticleItem(Article article, Product product)
         {
             Article = article;

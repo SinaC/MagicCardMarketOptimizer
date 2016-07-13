@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Documents;
+using MagicCardMarket.APIHelpers;
 using MagicCardMarket.Models;
-using MagicCardMarket.Request;
 
 namespace MagicCardMarket.App
 {
@@ -37,8 +36,8 @@ namespace MagicCardMarket.App
 
         public override async Task LoadAdditionalDatasAsync()
         {
-            RequestHelper helper = new RequestHelper();
-            MetaProduct = await helper.GetDataAsync<MetaProduct>($"metaproduct/{Want.MetaProductId}", true);
+            MarketPlaceInformation helper = new MarketPlaceInformation();
+            MetaProduct = await helper.GetMetaProductAsync(Want.MetaProductId);
             Name = MetaProduct?.Names?.FirstOrDefault(x => x.LanguageId == 1)?.Name;
         }
 
@@ -51,8 +50,6 @@ namespace MagicCardMarket.App
             {
                 //System.Diagnostics.Debug.WriteLine($"LoadArticlesAsync: Name: {MetaProduct.Names[0].Name} #Products: {MetaProduct.Products.ProductIds.Length}");
 
-                RequestHelper helper = new RequestHelper();
-
                 if (Parameters.UseHigherIdHeuristic || Parameters.FilterOutSpecial)
                 {
                     // Heuristic, recent items (with higher id) are cheaper
@@ -61,13 +58,16 @@ namespace MagicCardMarket.App
                         productsIds = productsIds.OrderByDescending(x => x).Take(Parameters.HigherIdHeuristicCount);
                     foreach (int productId in productsIds)
                     {
-                        Product product = await helper.GetDataAsync<Product>($"product/{productId}", true);
+                        MarketPlaceInformation helper = new MarketPlaceInformation();
+                        Product product = await helper.GetProductAsync(productId);
                         Products.Add(product);
                     }
                     //
                     IEnumerable<Product> validProducts = Products;
                     if (Parameters.FilterOutSpecial)
                         validProducts = validProducts.Where(x => x.Rarity != "Special");
+                    if (Parameters.FilterOutSpecial)
+                        validProducts = validProducts.Where(x => x.Rarity != "Land");
                     if (Parameters.UseTrendPriceHeuristic)
                     {
                         double averageTrendPrice = validProducts.Average(x => x.PriceGuide.Trend);
@@ -76,7 +76,8 @@ namespace MagicCardMarket.App
                     foreach (Product product in validProducts)
                     {
                         //Article[] articles = await helper.GetDatasAsync<Article>($"articles/{productId}/1"); // takes first 100 entries
-                        Article[] articles = await helper.GetDatasAsync<Article>($"articles/{product.Id}");
+                        MarketPlaceInformation helper = new MarketPlaceInformation();
+                        Article[] articles = await helper.GetArticlesAsync(product.Id);
                         List<ArticleItem> articleItems = articles.Select(x => new ArticleItem(x, product)).ToList();
                         Articles.AddRange(articleItems);
                     }
@@ -86,7 +87,8 @@ namespace MagicCardMarket.App
                     foreach (int productId in MetaProduct.Products.ProductIds)
                     {
                         //Article[] articles = await helper.GetDatasAsync<Article>($"articles/{productId}/1"); // takes first 100 entries
-                        Article[] articles = await helper.GetDatasAsync<Article>($"articles/{productId}");
+                        MarketPlaceInformation helper = new MarketPlaceInformation();
+                        Article[] articles = await helper.GetArticlesAsync(productId);
                         List<ArticleItem> articleItems = articles.Select(x => new ArticleItem(x, MetaProduct, productId)).ToList();
                         Articles.AddRange(articleItems);
                     }

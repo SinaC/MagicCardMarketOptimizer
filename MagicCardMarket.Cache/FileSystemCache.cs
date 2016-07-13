@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Xml.Linq;
 
 namespace MagicCardMarket.Cache
 {
@@ -17,20 +18,20 @@ namespace MagicCardMarket.Cache
             return File.Exists(filename);
         }
 
-        public void Set(string category, int id, string xml)
+        public void Set(string category, int id, XDocument xml)
         {
             string path = Path.Combine(RootPath, category);
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);
-            string filename = Path.Combine(path, id.ToString())+".xml";
-            File.WriteAllText(filename, xml);
+            string filename = Path.Combine(path, id.ToString()) + ".xml";
+            File.WriteAllText(filename, xml.ToString());
         }
 
-        public string Get(string category, int id)
+        XDocument ICache.Get(string category, int id)
         {
             string filename = Path.Combine(RootPath, category, id.ToString()) + ".xml";
             if (File.Exists(filename))
-                return File.ReadAllText(filename);
+                return XDocument.Parse(File.ReadAllText(filename));
             return null;
         }
     }

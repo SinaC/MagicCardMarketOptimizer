@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MagicCardMarket.APIHelpers;
 using MagicCardMarket.Models;
-using MagicCardMarket.Request;
 
 namespace MagicCardMarket.App
 {
@@ -27,8 +27,8 @@ namespace MagicCardMarket.App
 
         public override async Task LoadAdditionalDatasAsync()
         {
-            RequestHelper helper = new RequestHelper();
-            Product = await helper.GetDataAsync<Product>($"product/{Want.ProductId}", true);
+            MarketPlaceInformation helper = new MarketPlaceInformation();
+            Product = await helper.GetProductAsync(Want.ProductId);
             Name = Product?.Names?.FirstOrDefault(x => x.LanguageId == 1)?.Name;
         }
 
@@ -39,9 +39,8 @@ namespace MagicCardMarket.App
             Articles = new List<ArticleItem>();
             if (Product != null)
             {
-                RequestHelper helper = new RequestHelper();
-                //Article[] articles = await helper.GetDatasAsync<Article>($"articles/{Product.Id}/1"); // takes first 100 entries
-                Article[] articles = await helper.GetDatasAsync<Article>($"articles/{Product.Id}");
+                MarketPlaceInformation helper = new MarketPlaceInformation();
+                Article[] articles = await helper.GetArticlesAsync(Product.Id);
                 List<ArticleItem> articleItems = articles.Select(x => new ArticleItem(x, Product)).ToList();
                 Articles = articleItems.OrderBy(x => x.Article.Price).ToList();
             }

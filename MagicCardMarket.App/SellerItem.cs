@@ -15,6 +15,8 @@ namespace MagicCardMarket.App
 
         public List<WantItemBase> Wants { get; protected set; }
 
+        public List<MissingItem> MissingItems { get; protected set; }
+
         public decimal BestTotalPrices { get; protected set; }
 
         public int WantsCount { get; protected set; }
@@ -25,6 +27,7 @@ namespace MagicCardMarket.App
             Articles = new List<ArticleItem>();
             Wants = new List<WantItemBase>();
             BestArticles = new List<SellerArticleItem>();
+            MissingItems = new List<MissingItem>();
         }
 
         public void AddArticle(WantItemBase wantItem, ArticleItem article)
@@ -75,6 +78,30 @@ namespace MagicCardMarket.App
                         break;
                 }
                 BestTotalPrices += sumByWant;
+            }
+        }
+
+        public void ComputeMissingItems(IEnumerable<WantItemBase> wants)
+        {
+            // TODO: dont store wants in AddArticle, add Wants parameter to ComputeBestTotalPrice and compute missing items in the same loop
+            foreach (WantItemBase want in wants)
+            {
+                int count = Articles.Where(x => want.Articles.Any(a => a.Article.Id == x.Article.Id)).Sum(x => x.Article.IsPlayset ? 4 : x.Article.Count);
+                if (count < want.Count)
+                    MissingItems.Add(new MissingItem(want, want.Count - count));
+                //foreach (ArticleItem wantArticle in want.Articles)
+                //{
+                //    int count = Articles.Where(x => x.Article.Id == wantArticle.Article.Id).Sum(x => x.Article.IsPlayset ? 4 : x.Article.Count);
+                //    if (count < want.Count)
+                //        MissingItems.Add(new MissingItem(want, want.Count-count));
+                //    //// article not found, add count
+                //    //if (Articles.All(x => x.Article.Id != wantArticle.Article.Id))
+                //    //    MissingItems.Add(new MissingItem(want, want.Count));
+                //    //// article found, add missing count
+                //    //else
+                //    //{
+                //    //}
+                //}
             }
         }
     }

@@ -24,4 +24,11 @@ namespace MagicCardMarket.App
             Count = count;
         }
     }
+
+    public class SellerArticleItemDesignData : SellerArticleItem
+    {
+        public SellerArticleItemDesignData() : base(new ArticleItemDesignData(), 10)
+        {
+        }
+    }
 }

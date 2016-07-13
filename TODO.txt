@@ -1,5 +1,4 @@
-2 differents article datagrid: one for display article from want list and the other to display best article from seller
-redo RequestHelper (and MagicCardMarket.Request project)
+test every methods in APIHelpers
 
 Optimize options in UI
 
@@ -10,3 +9,70 @@ Take top X results with classic optimization as upper bound
 Foreach article with price below trend price
 	Take top Y best seller
 		If card price + shipping cost is lower than price without shipping cost in top X results, buy from this seller
+
+MagicCardMarket.APIHelpers   ** = paging allowed
+
+Account Management (https://www.mkmapi.eu/ws/documentation/API_1.1:Account_Management)
+------------------
+GetAccount()
+SetVacation(isOnVacation)
+SetLanguage(idLanguage)
+GetMessageThreadOverview()
+GetMessageThread(idOtherUser)
+WriteMessage(idOtherUser, messageContent)
+DeleteMessage(idOtherUser)
+DeleteMessage(idOtherUser, idMessage)
+
+Market Place Information (https://www.mkmapi.eu/ws/documentation/API_1.1:Market_Place_Information)
+------------------------
+GetGames()
+GetMetaProduct(idMetaProduct)
+SearchMetaProducts(name, idGame, idLanguage)
+GetProduct(idProduct)
+SearchProducts(name, idGame, idLanguage, isExact) **
+GetExpansions(idGame) // TO TEST
+GetExpansion(idGame, name) // TO TEST
+GetArticles(idProduct) **
+GetUser(idUser)
+GetArticles(idUser) **
+
+Order Management (https://www.mkmapi.eu/ws/documentation/API_1.1:Order_Management)
+----------------
+GetOrder(idOrder)
+ChangeOrder(idOrder, action, reason, relistItems)
+EvaluateOrder(idOrder, evalutationGrade, itemDescription, packaging, speed, comment, complaint[])
+GetOrders(actor, state) **
+
+Shopping Cart Manipulation (https://www.mkmapi.eu/ws/documentation/API_1.1:Shopping_Cart_Manipulation)
+--------------------------
+GetShoppingCart()
+AddArticleInShoppingCart(idArticle, amount)
+RemoveArticlesFromShoppingCart({idArticle, amount}[])
+EmptyShoppingCart()
+CheckOutShoppingCart()
+ChangeShippingAddress(name, extra, street, zip, city, country)
+GetShippingMethods(idReservation)
+ChangeShippingMethod(idReservation, idShippingMethod)
+
+Stock Management (https://www.mkmapi.eu/ws/documentation/API_1.1:Stock_Management)
+----------------
+GetStock() **
+AddArticleInStock(idProduct, idLanguage, comments, count, price, condition, isFoil, isSigned, IsPlayset)
+ChangeArticleInStock({idArticle, idLanguage, comments, count, price, condition, isFoil, isSigned, IsPlayset}[])
+DeleteArticleInStock({idArticle, count}[])
+GetArticlesInStockInShoppingCarts()
+GetArticleInStock(articleId)
+SearchArticlesInStock(name, idGame)
+IncreaseStock(articleId, count)
+DecreaseStock(articleId, count)
+
+Wants List Management (https://www.mkmapi.eu/ws/documentation/API_1.1:Wants_List_Management)
+---------------------
+GetWantsList()
+GetWants(idWantsList)
+CreateWantsList(idGame, name)
+AddProductInWantsList(idProduct, count, idLanguage, minCondition, wishPrice, isFoil, isAltered, isPlayset, isSigned, isFirstEd)
+AddMetaProductInWantsList(idMetaProduct, count, idLanguage, minCondition, wishPrice, isFoil, isAltered, isPlayset, isSigned, isFirstEd)
+ChangeWant(idWant, count, idLanguage, minCondition, wishPrice, isFoil, isAltered, isPlayset, isSigned, isFirstEd)
+DeleteWantInWantsList(idWant)
+DeleteWantsList(idWantsList)

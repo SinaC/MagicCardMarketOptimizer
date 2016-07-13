@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using MagicCardMarket.APIHelpers;
 using MagicCardMarket.Models;
 using MagicCardMarket.MVVM;
-using MagicCardMarket.Request;
 
 namespace MagicCardMarket.App
 {
@@ -61,8 +61,8 @@ namespace MagicCardMarket.App
             {
                 ShowWaitingScreen();
 
-                RequestHelper requestHelper = new RequestHelper();
-                Account account = await requestHelper.GetDataAsync<Account>("account");
+                AccountManagement helper = new AccountManagement();
+                Account account = await helper.GetAccountAsync();
                 Id = account.Id;
                 UserName = account.UserName;
                 UnreadMessages = account.UnreadMessages;
@@ -104,8 +104,8 @@ namespace MagicCardMarket.App
             {
                 ShowWaitingScreen();
 
-                RequestHelper requestHelper = new RequestHelper();
-                WantsList[] wantsLists = await requestHelper.GetDatasAsync<WantsList>("wantslist");
+                WantsListManagement helper = new WantsListManagement();
+                WantsList[] wantsLists = await helper.GetWantsList();
                 WantsLists = wantsLists?.OrderBy(x => x.Name).ToList();
                 SelectedWantsList = WantsLists?.FirstOrDefault();
             }
@@ -119,11 +119,11 @@ namespace MagicCardMarket.App
 
         #region Want
 
-        private List<WantItemBase> _items;
-        public List<WantItemBase> Items
+        private List<WantItemBase> _wants;
+        public List<WantItemBase> Wants
         {
-            get { return _items; }
-            set { Set(() => Items, ref _items, value); }
+            get { return _wants; }
+            set { Set(() => Wants, ref _wants, value); }
         }
 
         private WantItemBase _selectedWantItem;
@@ -145,8 +145,11 @@ namespace MagicCardMarket.App
 
                 SelectedWantItem = null;
                 Sellers = null;
-                RequestHelper requestHelper = new RequestHelper();
-                Want[] wants = await requestHelper.GetDatasAsync<Want>($"wantslist/{SelectedWantsList.Id}");
+                Articles = null;
+                SellerArticles = null;
+                Wants = null;
+                WantsListManagement helper = new WantsListManagement();
+                Want[] wants = await helper.GetWants(SelectedWantsList.Id);
                 //Wants = wants?.ToList();
                 if (wants != null)
                 {
@@ -163,7 +166,7 @@ namespace MagicCardMarket.App
                         await item.LoadAdditionalDatasAsync();
                         items.Add(item);
                     }
-                    Items = items;
+                    Wants = items;
                 }
             }
             finally
@@ -193,11 +196,10 @@ namespace MagicCardMarket.App
                 {
                     if (SelectedSeller != null)
                     {
-                        ArticlesGridHeader = $"Articles for Seller {SelectedSeller.Seller.UserName}";
-                        Articles = SelectedSeller.BestArticles.Select(x => x.ArticleItem).ToList(); // TODO: 2 different grids
+                        SellerArticles = SelectedSeller.BestArticles;
+                        MissingItems = SelectedSeller.MissingItems;
+                        IsSellerArticlesExpanded = true;
                     }
-                    IsArticleProductNameColumnVisible = true;
-                    IsArticleSellerNameColumnVisible = false;
                 }
             }
         }
@@ -220,11 +222,12 @@ namespace MagicCardMarket.App
                 // for the moment, this only get list a seller with most cards and order them by total price (shipping cost is not used)
                 ShowWaitingScreen();
 
-                await Items.ForEachAsync(5, item => item.LoadArticlesAsync());
+                // Foreach want item, get sellers and articles
+                await Wants.ForEachAsync(5, want => want.LoadArticlesAsync());
                 //await Items.OfType<MetaProductItem>().First(x => x.MetaProduct.Id == 10738).LoadArticlesAsync();
 
                 List<SellerItem> sellers = new List<SellerItem>();
-                foreach (WantItemBase item in Items)
+                foreach (WantItemBase item in Wants)
                 {
                     //var gharsim = item.Articles.Where(x => x.Seller.UserName == "gharsim");
                     //var daniel20044 = item.Articles.Where(x => x.Seller.UserName == "daniel20044");
@@ -242,16 +245,15 @@ namespace MagicCardMarket.App
                     //    //seller.AddArticles(item, item.Articles);
                     //    seller.AddArticles(item, articlesFromSellerWithEnoughItem);
                     //}
-                    foreach (var articlesFromSellerWithEnoughItem in item.Articles.Where(x => x.Article.Seller != null).GroupBy(x => x.Article.Seller.Id))
+                    foreach (var articlesFromSeller in item.Articles.Where(x => x.Article.Seller != null).GroupBy(x => x.Article.Seller.Id))
                     {
-                        SellerItem seller = sellers.FirstOrDefault(x => x.Seller.Id == articlesFromSellerWithEnoughItem.Key);
+                        SellerItem seller = sellers.FirstOrDefault(x => x.Seller.Id == articlesFromSeller.Key);
                         if (seller == null)
                         {
-                            seller = new SellerItem(articlesFromSellerWithEnoughItem.First().Article.Seller);
+                            seller = new SellerItem(articlesFromSeller.First().Article.Seller);
                             sellers.Add(seller);
                         }
-                        //seller.AddArticles(item, item.Articles);
-                        seller.AddArticles(item, articlesFromSellerWithEnoughItem);
+                        seller.AddArticles(item, articlesFromSeller);
                     }
 
                 }
@@ -261,6 +263,7 @@ namespace MagicCardMarket.App
                     //if (seller.Seller.UserName == "Griselbrandx")
                     //    Debugger.Break();
                     seller.ComputeBestTotalPrice();
+                    seller.ComputeMissingItems(Wants);
                 }
                 Sellers = sellers.OrderByDescending(x => x.WantsCount).ThenBy(x => x.BestTotalPrices).ToList();
             }
@@ -272,28 +275,13 @@ namespace MagicCardMarket.App
 
         #endregion
 
-        #region Articles
+        #region Articles from wants list
 
-        private bool _isArticleProductNameColumnVisible;
-        public bool IsArticleProductNameColumnVisible
+        private bool _isArticlesExpanded;
+        public bool IsArticlesExpanded
         {
-            get {  return _isArticleProductNameColumnVisible;}
-            set { Set(() => IsArticleProductNameColumnVisible, ref _isArticleProductNameColumnVisible, value); }
-        }
-
-
-        private bool _isArticleSellerNameColumnVisible;
-        public bool IsArticleSellerNameColumnVisible
-        {
-            get { return _isArticleSellerNameColumnVisible; }
-            set { Set(() => IsArticleSellerNameColumnVisible, ref _isArticleSellerNameColumnVisible, value); }
-        }
-
-        private string _articlesGridHeader;
-        public string ArticlesGridHeader
-        {
-            get { return _articlesGridHeader; }
-            set { Set(() => ArticlesGridHeader, ref _articlesGridHeader, value); }
+            get { return _isArticlesExpanded; }
+            set { Set(() => IsArticlesExpanded, ref _isArticlesExpanded, value); }
         }
 
         private List<ArticleItem> _articles;
@@ -309,11 +297,9 @@ namespace MagicCardMarket.App
             {
                 ShowWaitingScreen();
 
-                ArticlesGridHeader = $"Articles for Product {SelectedWantItem.Name}";
-                IsArticleProductNameColumnVisible = false;
-                IsArticleSellerNameColumnVisible = true;
                 await SelectedWantItem.LoadArticlesAsync();
                 Articles = SelectedWantItem.Articles;
+                IsArticlesExpanded = true;
             }
             finally
             {
@@ -323,9 +309,34 @@ namespace MagicCardMarket.App
 
         #endregion
 
+        #region Articles (+missing) from optimized seller
+
+        private bool _isSellerArticlesExpanded;
+        public bool IsSellerArticlesExpanded
+        {
+            get { return _isSellerArticlesExpanded; }
+            set { Set(() => IsSellerArticlesExpanded, ref _isSellerArticlesExpanded, value); }
+        }
+
+        private List<SellerArticleItem> _sellerArticles;
+        public List<SellerArticleItem> SellerArticles
+        {
+            get { return _sellerArticles; }
+            set { Set(() => SellerArticles, ref _sellerArticles, value); }
+        }
+
+        private List<MissingItem> _missingItems;
+        public List<MissingItem> MissingItems
+        {
+            get { return _missingItems; }
+            set { Set(() => MissingItems, ref _missingItems, value); }
+        }
+
+        #endregion
+
         public async Task Initialize()
         {
-            Tokens.Init(@"d:\temp\token mcm.txt");
+            //Tokens.Init(@"d:\temp\token mcm.txt");
 
             //Account account = GetData<Account>("account");
             //Game game = GetData<Game>("games");
@@ -371,12 +382,20 @@ namespace MagicCardMarket.App
             };
             SelectedWantsList = WantsLists[0];
 
-            Items = new List<WantItemBase>
+            Wants = new List<WantItemBase>
             {
                 new MetaProductItemDesignData("MetaProduct1"),
                 new ProductItemDesignData("Product2"),
             };
-            SelectedWantItem = Items[1];
+            SelectedWantItem = Wants[1];
+
+            Articles = Enumerable.Repeat(new ArticleItemDesignData(), 100).Cast<ArticleItem>().ToList();
+            IsArticlesExpanded = true;
+
+            SellerArticles = Enumerable.Repeat(new SellerArticleItemDesignData(), 100).Cast<SellerArticleItem>().ToList();
+            IsSellerArticlesExpanded = true;
+
+            MissingItems = Enumerable.Repeat(new MissingItemDesignData(), 10).Cast<MissingItem>().ToList();
         }
     }
 }
