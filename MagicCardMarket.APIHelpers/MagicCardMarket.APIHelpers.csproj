@@ -39,7 +39,6 @@
   <ItemGroup>
     <Compile Include="AccountManagement.cs" />
     <Compile Include="HelperBase.cs" />
-    <Compile Include="Initialization.cs" />
     <Compile Include="MarketPlaceInformation.cs" />
     <Compile Include="OrderManagement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

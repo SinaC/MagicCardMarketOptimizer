@@ -6,7 +6,7 @@ namespace MagicCardMarket.Models
 {
     [Serializable]
     [XmlType(AnonymousType = true)]
-    public class AccountAddress
+    public class Address
     {
         [XmlElement("name", Form = XmlSchemaForm.Unqualified)]
         public string Name { get; set; }

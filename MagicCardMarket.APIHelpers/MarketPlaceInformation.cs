@@ -4,7 +4,6 @@ using MagicCardMarket.Models;
 using MagicCardMarket.Request;
 
 // TODO: implement every methods
-
 namespace MagicCardMarket.APIHelpers
 {
     //https://www.mkmapi.eu/ws/documentation/API_1.1:Market_Place_Information

@@ -28,7 +28,7 @@ namespace MagicCardMarket.Request
                 StringBuilder result = new StringBuilder();
                 while (true)
                 {
-                    string url = Tokens.Url + request + "/" + start;
+                    string url = Tokens.Instance.Url + request + "/" + start;
 
                     ServicePointManager.Expect100Continue = false;
 
@@ -61,7 +61,7 @@ namespace MagicCardMarket.Request
                         if ((ex.Response as HttpWebResponse)?.StatusCode == HttpStatusCode.Unauthorized)
                             throw new UnauthorizedException("Unauthorized access Magic Card Market. Check your token file.", ex);
                         if ((ex.Response as HttpWebResponse)?.StatusCode == (HttpStatusCode)429)
-                            throw new TooManyRequestsException("Too many requests for today. Wait until 12am CET", ex);
+                            throw new TooManyRequestsException("Too many requests for today. Wait until 12am CET.", ex);
                         throw;
                     }
                 }

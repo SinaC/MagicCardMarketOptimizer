@@ -226,10 +226,41 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
-                        <Button Grid.Row="0"
-                                Margin="5,2"
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Button Grid.Column="0"
+                                    Margin="5,2"
                                 Command="{Binding OptimizeCommand}"
                                 Content="Optimize" />
+                            <StackPanel Grid.Column="1"
+                                        Margin="5,2"
+                                        Orientation="Vertical">
+                                <CheckBox Margin="5,2"
+                                        IsChecked="{Binding FilterOutSpecial}">
+                                    <TextBlock Text="Filter out special"/>
+                                </CheckBox>
+                                <CheckBox Margin="5,2"
+                                        IsChecked="{Binding FilterOutBasicLand}">
+                                    <TextBlock Text="Filter out basic lands"/>
+                                </CheckBox>
+                            </StackPanel>
+                            <StackPanel Grid.Column="2"
+                                        Margin="5,2"
+                                        Orientation="Vertical">
+                                <CheckBox Margin="5,2"
+                                        IsChecked="{Binding UseHigherIdHeuristic}">
+                                    <TextBlock Text="Use higher id heuristic"/>
+                                </CheckBox>
+                                <CheckBox Margin="5,2"
+                                        IsChecked="{Binding UseTrendPriceHeuristic}">
+                                    <TextBlock Text="Use trend price heuristic (not recommended)"/>
+                                </CheckBox>
+                            </StackPanel>
+                        </Grid>
 
                         <DataGrid Grid.Row="1"
                                   MaxHeight="240"
@@ -377,6 +408,7 @@
 
                         <!-- Missing -->
                         <TextBlock Grid.Row="1"
+                                   Margin="5,2"
                                    FontWeight="Bold"
                                    Text="Missing"/>
                         <DataGrid Grid.Row="2"

@@ -5,6 +5,7 @@ using MagicCardMarket.Request;
 // TODO: implement every methods
 namespace MagicCardMarket.APIHelpers
 {
+    //https://www.mkmapi.eu/ws/documentation/API_1.1:Account_Management
     public class AccountManagement : HelperBase
     {
         public async Task<Account> GetAccountAsync()

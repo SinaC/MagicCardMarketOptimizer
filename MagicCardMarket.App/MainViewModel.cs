@@ -179,6 +179,30 @@ namespace MagicCardMarket.App
 
         #region Optimize
 
+        public bool FilterOutSpecial
+        {
+            get { return Parameters.FilterOutSpecial; }
+            set { Set(() => FilterOutSpecial, ref Parameters.FilterOutSpecial, value); }
+        }
+
+        public bool FilterOutBasicLand
+        {
+            get { return Parameters.FilterOutBasicLand; }
+            set { Set(() => FilterOutBasicLand, ref Parameters.FilterOutBasicLand, value); }
+        }
+
+        public bool UseHigherIdHeuristic
+        {
+            get { return Parameters.UseHigherIdHeuristic; }
+            set { Set(() => UseHigherIdHeuristic, ref Parameters.UseHigherIdHeuristic, value); }
+        }
+
+        public bool UseTrendPriceHeuristic
+        {
+            get { return Parameters.UseTrendPriceHeuristic; }
+            set { Set(() => UseTrendPriceHeuristic, ref Parameters.UseTrendPriceHeuristic, value); }
+        }
+
         private List<SellerItem> _sellers;
         public List<SellerItem> Sellers
         {
@@ -336,23 +360,19 @@ namespace MagicCardMarket.App
 
         public async Task Initialize()
         {
-            //Tokens.Init(@"d:\temp\token mcm.txt");
+            try
+            {
+                RaisePropertyChanged(() => FilterOutSpecial);
+                RaisePropertyChanged(() => FilterOutBasicLand);
+                RaisePropertyChanged(() => UseHigherIdHeuristic);
+                RaisePropertyChanged(() => UseTrendPriceHeuristic);
 
-            //Account account = GetData<Account>("account");
-            //Game game = GetData<Game>("games");
-            //Game[] games = GetDatas<Game>("games");
-            //Product island = GetData<Product>("products/island/1/1/false");
-            //Product[] islands = GetDatas<Product>("products/island/1/1/false");
-            //MetaProduct metaIsland = GetData<MetaProduct>("metaproduct/2923");
-            //Expansion expansion = GetData<Expansion>("expansion/1");
-            //Expansion[] expansions = GetDatas<Expansion>("expansion/1");
-            //WantsList[] wantsLists = GetDatas<WantsList>("wantslist");
-
-            //Product product266361 = GetData<Product>("product/266361");
-            //Article[] articles266361 = GetDatas<Article>("articles/266361");
-            //Want[] wants968105 = GetDatas<Want>("wantslist/968105");
-
-            await Task.WhenAll(LoadAccountAsync(), LoadWantsListsAsync());
+                await Task.WhenAll(LoadAccountAsync(), LoadWantsListsAsync());
+            }
+            catch (Exception ex)
+            {
+                OnError(true, ex);
+            }
         }
     }
 

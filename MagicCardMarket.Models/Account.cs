@@ -64,7 +64,7 @@ namespace MagicCardMarket.Models
         public AccountName AccountName { get; set; }
 
         [XmlElement("address", Form = XmlSchemaForm.Unqualified)]
-        public AccountAddress Address { get; set; }
+        public Address Address { get; set; }
 
         [XmlElement("accountBalance", Form = XmlSchemaForm.Unqualified)]
         public decimal AccountBalance { get; set; }

@@ -31,8 +31,8 @@ namespace MagicCardMarket.Request
 
             HeaderParams = new Dictionary<string, string>
             {
-                { "oauth_consumer_key",  Tokens.AppToken},
-                { "oauth_token",  Tokens.AccessToken},
+                { "oauth_consumer_key",  Tokens.Instance.AppToken},
+                { "oauth_token",  Tokens.Instance.AccessToken},
                 { "oauth_nonce", nonce},
                 { "oauth_timestamp", timestamp},
                 { "oauth_signature_method", SignatureMethod},
@@ -95,7 +95,7 @@ namespace MagicCardMarket.Request
             baseString += paramString;
 
             // Create the OAuth signature
-            string signatureKey = Uri.EscapeDataString(Tokens.AppSecret) + "&" + Uri.EscapeDataString(Tokens.AccessSecret);
+            string signatureKey = Uri.EscapeDataString(Tokens.Instance.AppSecret) + "&" + Uri.EscapeDataString(Tokens.Instance.AccessSecret);
             HMAC hasher = HMAC.Create();
             hasher.Key = Encoding.UTF8.GetBytes(signatureKey);
             Byte[] rawSignature = hasher.ComputeHash(Encoding.UTF8.GetBytes(baseString));

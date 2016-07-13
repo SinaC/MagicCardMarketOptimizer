@@ -6,7 +6,7 @@ namespace MagicCardMarket.Models
 {
     [Serializable]
     [XmlType(AnonymousType = true)]
-    public class ArticleSeller // TODO should be a base class for Account (every fields are also in Account)
+    public class ArticleSeller // TODO should be a base class for Account (every fields are also in Account) with Name/Address/AccountBalance/ArticlesInShoppingCart/UnreadMessages optional
     {
         [XmlElement("idUser", Form = XmlSchemaForm.Unqualified)]
         public int Id { get; set; }

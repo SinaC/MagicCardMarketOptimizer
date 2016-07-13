@@ -1,4 +1,7 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
+using System.Windows;
+using MagicCardMarket.Log;
 using MagicCardMarket.MVVM;
 
 namespace MagicCardMarket.App
@@ -8,6 +11,7 @@ namespace MagicCardMarket.App
         private int _busyCount;
 
         private bool _isBusy;
+
         public bool IsBusy
         {
             get { return _isBusy; }
@@ -25,6 +29,15 @@ namespace MagicCardMarket.App
             int newValue = Interlocked.Decrement(ref _busyCount);
             if (newValue == 0)
                 IsBusy = false;
+        }
+
+        public void OnError(bool isFatal, Exception ex)
+        {
+            Log.Log.Default.WriteLine(LogLevels.Error, ex.ToString());
+            // TODO: better error popup
+            MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK);
+            if (isFatal)
+                Application.Current.Shutdown();
         }
     }
 }
