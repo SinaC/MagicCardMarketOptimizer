@@ -1,4 +1,7 @@
-﻿using System.Windows;
+﻿using System.IO;
+using System.Windows;
+using System.Xml;
+using System.Xml.Linq;
 
 namespace MagicCardMarket.App
 {
@@ -17,6 +20,9 @@ namespace MagicCardMarket.App
             //string responseRaw = helper.MakeRequestPaging("articles/284478");
             //XDocument responseXml = XDocument.Parse(responseRaw);
             //Article[] articles = GetDatas<Article>("articles/284478");
+
+            XDocument doc = XDocument.Load(@"d:\temp\MCMO\invalidarticles.xml");
+
 
             MainViewModel vm = new MainViewModel();
             DataContext = vm;

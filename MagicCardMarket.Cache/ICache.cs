@@ -1,11 +1,11 @@
-﻿using System.Xml.Linq;
-
-namespace MagicCardMarket.Cache
+﻿namespace MagicCardMarket.Cache
 {
-    public interface ICache
+    public interface ICache<T>
     {
-        bool Contains(string category, int id);
-        void Set(string category, int id, XDocument xml);
-        XDocument Get(string category, int id);
+        bool Contains(int id);
+        void Set(int id, T data);
+        T Get(int id);
+        void Remove(int id);
+        void Clear();
     }
 }

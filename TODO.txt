@@ -1,3 +1,5 @@
+bug in GetPagingRequestHelper with utf8 characters
+
 test every methods in APIHelpers
 
 Optimize options in UI

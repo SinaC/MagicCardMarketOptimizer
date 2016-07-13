@@ -36,8 +36,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FileSystemCache.cs" />
+    <Compile Include="FileSystemXDocumentCache.cs" />
     <Compile Include="ICache.cs" />
+    <Compile Include="IXDocumentCache.cs" />
+    <Compile Include="MemoryCache.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

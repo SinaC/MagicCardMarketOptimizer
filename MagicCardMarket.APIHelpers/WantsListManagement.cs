@@ -11,13 +11,15 @@ namespace MagicCardMarket.APIHelpers
         public async Task<WantsList[]> GetWantsList()
         {
             GetRequestHelper helper = new GetRequestHelper();
-            return await GetMultipleAsync<WantsList>(helper.GetAsync("wantslist"));
+            //return await DeserializeMultipleAsync<WantsList>(helper.GetAsync("wantslist"));
+            return DeserializeMultiple<WantsList>(await helper.GetAsync("wantslist"));
         }
 
         public async Task<Want[]> GetWants(int idWantsList)
         {
             GetRequestHelper helper = new GetRequestHelper();
-            return await GetMultipleAsync<Want>(helper.GetAsync($"wantslist/{idWantsList}"));
+            //return await DeserializeMultipleAsync<Want>(helper.GetAsync($"wantslist/{idWantsList}"));
+            return DeserializeMultiple<Want>(await helper.GetAsync($"wantslist/{idWantsList}"));
         }
 
 //CreateWantsList(idGame, name)

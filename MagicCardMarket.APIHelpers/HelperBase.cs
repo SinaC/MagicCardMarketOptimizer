@@ -1,27 +1,30 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using MagicCardMarket.Cache;
+using MagicCardMarket.Models;
+using MagicCardMarket.Request;
 
 namespace MagicCardMarket.APIHelpers
 {
     public abstract class HelperBase
     {
-        protected ICache Cache = new FileSystemCache(ConfigurationManager.AppSettings["cachepath"]);
+        protected IXDocumentCache Cache = new FileSystemXDocumentCache(ConfigurationManager.AppSettings["cachepath"]);
 
-        protected async Task<T> GetSingleAsync<T>(Task<XDocument> document)
+        protected T DeserializeSingle<T>(XDocument document)
         {
             XmlSerializer serializer = new XmlSerializer(typeof(T));
-            XElement rootElement = (await document).Root.Elements().First(); // remove <response>
+            XElement rootElement = document.Root.Elements().First(); // remove <response>
             return (T)serializer.Deserialize(rootElement.CreateReader());
         }
 
-        protected async Task<T[]> GetMultipleAsync<T>(Task<XDocument> document)
+        protected T[] DeserializeMultiple<T>(XDocument document)
         {
             XmlSerializer serializer = new XmlSerializer(typeof(T));
-            XDocument doc = await document;
+            XDocument doc = document;
             T[] values = new T[doc.Root.Nodes().Count()];
             int index = 0;
             foreach (XNode node in doc.Root.Nodes()) // loop on <response> subnodes
@@ -30,6 +33,53 @@ namespace MagicCardMarket.APIHelpers
                 index++;
             }
             return values;
+        }
+
+        //protected async Task<T> DeserializeSingleAsync<T>(Task<XDocument> documentTask)
+        //{
+        //    XmlSerializer serializer = new XmlSerializer(typeof(T));
+        //    XElement rootElement = (await documentTask).Root.Elements().First(); // remove <response>
+        //    return (T)serializer.Deserialize(rootElement.CreateReader());
+        //}
+
+        //protected async Task<T[]> DeserializeMultipleAsync<T>(Task<XDocument> documentTask)
+        //{
+        //    XmlSerializer serializer = new XmlSerializer(typeof(T));
+        //    XDocument doc = await documentTask;
+        //    T[] values = new T[doc.Root.Nodes().Count()];
+        //    int index = 0;
+        //    foreach (XNode node in doc.Root.Nodes()) // loop on <response> subnodes
+        //    {
+        //        values[index] = (T)serializer.Deserialize(node.CreateReader());
+        //        index++;
+        //    }
+        //    return values;
+        //}
+
+        //protected XDocument GetWithCache(string category, int id, Func<XDocument> documentFunc)
+        //{
+        //    XDocument document;
+        //    if (Cache.Contains(category, id))
+        //        document = Cache.Get(category, id);
+        //    else
+        //    {
+        //        document = documentFunc();
+        //        Cache.Set(category, id, document);
+        //    }
+        //    return document;
+        //}
+
+        protected async Task<XDocument> GetWithCacheAsync(string category, int id, Func<Task<XDocument>> documentTaskFunc)
+        {
+            XDocument document;
+            if (Cache.Contains(category, id))
+                document = Cache.Get(category, id);
+            else
+            {
+                document = await documentTaskFunc();
+                Cache.Set(category, id, document);
+            }
+            return document;
         }
     }
 }
