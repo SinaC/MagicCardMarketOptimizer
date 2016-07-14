@@ -1,4 +1,4 @@
-bug in GetPagingRequestHelper with utf8 characters
+!!! remove caching on account, wants list, wants, articles   this has been set for debug purpose
 
 test every methods in APIHelpers
 

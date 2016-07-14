@@ -8,18 +8,18 @@ namespace MagicCardMarket.APIHelpers
     //https://www.mkmapi.eu/ws/documentation/API_1.1:Wants_List_Management
     public class WantsListManagement : HelperBase
     {
-        public async Task<WantsList[]> GetWantsList()
+        public async Task<WantsList[]> GetWantsListAsync()
         {
             GetRequestHelper helper = new GetRequestHelper();
             //return await DeserializeMultipleAsync<WantsList>(helper.GetAsync("wantslist"));
-            return DeserializeMultiple<WantsList>(await helper.GetAsync("wantslist"));
+            return await DeserializeMultipleAsync<WantsList>(GetWithCacheAsync("wantslist", 1, () => helper.GetAsync("wantslist")));
         }
 
-        public async Task<Want[]> GetWants(int idWantsList)
+        public async Task<Want[]> GetWantsAsync(int idWantsList)
         {
             GetRequestHelper helper = new GetRequestHelper();
             //return await DeserializeMultipleAsync<Want>(helper.GetAsync($"wantslist/{idWantsList}"));
-            return DeserializeMultiple<Want>(await helper.GetAsync($"wantslist/{idWantsList}"));
+            return await DeserializeMultipleAsync<Want>(GetWithCacheAsync("wants", idWantsList, () => helper.GetAsync($"wantslist/{idWantsList}")));
         }
 
 //CreateWantsList(idGame, name)

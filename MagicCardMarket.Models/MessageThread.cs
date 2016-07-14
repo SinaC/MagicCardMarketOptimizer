@@ -8,6 +8,7 @@ namespace MagicCardMarket.Models
     //https://www.mkmapi.eu/ws/documentation/API_1.1:Entities:MessageThread
     [Serializable]
     [XmlType("thread", AnonymousType = true)]
+    [XmlRoot(Namespace = "", ElementName = "thread", IsNullable = false)]
     public class MessageThread
     {
         [XmlElement("partner", Form = XmlSchemaForm.Unqualified)]
@@ -17,12 +18,12 @@ namespace MagicCardMarket.Models
         public Message[] Messages { get; set; }
 
         [XmlElement("unreadMessages", Form = XmlSchemaForm.Unqualified)]
-        public string UnreadMessagesCountRaw  { get; set; }
+        public string UnreadMessagesCountRaw { get; set; }
 
         [XmlIgnore]
-        public bool UnreadMessagesCount
-    {
-            get { return Helpers.SafeConvertToBool(UnreadMessagesCountRaw); }
+        public int UnreadMessagesCount
+        {
+            get { return Helpers.SafeConvertToInt(UnreadMessagesCountRaw); }
             set { UnreadMessagesCountRaw = value.ToString(CultureInfo.InvariantCulture); }
         }
     }

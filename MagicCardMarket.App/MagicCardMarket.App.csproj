@@ -53,6 +53,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ArticleItem.cs" />
+    <Compile Include="BusyIndicator.xaml.cs">
+      <DependentUpon>BusyIndicator.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CircularProgressBarControl.xaml.cs">
       <DependentUpon>CircularProgressBarControl.xaml</DependentUpon>
     </Compile>
@@ -66,6 +69,10 @@
     <Compile Include="ViewModelBase.cs" />
     <Compile Include="ProductItem.cs" />
     <Compile Include="WantItemBase.cs" />
+    <Page Include="BusyIndicator.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="CircularProgressBarControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

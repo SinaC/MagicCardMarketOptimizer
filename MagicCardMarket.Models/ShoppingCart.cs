@@ -25,7 +25,7 @@ namespace MagicCardMarket.Models
         public int ArticleCount { get; set; }
 
         [XmlElement("shippingMethod", Form = XmlSchemaForm.Unqualified)]
-        public int ShippingMethod { get; set; }
+        public ShippingMethod ShippingMethod { get; set; }
 
         [XmlElement("totalValue", Form = XmlSchemaForm.Unqualified)]
         public decimal TotalValue { get; set; }

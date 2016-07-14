@@ -17,8 +17,11 @@ namespace MagicCardMarket.Models
         [XmlElement("country", Form = XmlSchemaForm.Unqualified)]
         public string Country { get; set; }
 
+        // 0: private user
+        // 1: commercial user
+        // 2: powerseller
         [XmlElement("isCommercial", Form = XmlSchemaForm.Unqualified)]
-        public bool IsCommercial { get; set; }
+        public int IsCommercial { get; set; }
 
         // 0: no risk
         // 1: low risk

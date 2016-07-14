@@ -53,12 +53,14 @@
     <!--http://www.codeproject.com/Articles/57984/WPF-Loading-Wait-Adorner-->
     <adornedControl:AdornedControl IsAdornerVisible="{Binding IsBusy}">
         <adornedControl:AdornedControl.AdornerContent>
-            <app:CircularProgressBarControl Width="40"
+            <!--<app:CircularProgressBarControl Width="40"
                                             Height="40"
                                             HorizontalAlignment="Center"
                                             VerticalAlignment="Center"
                                             StartupDelay="0"
-                                            Visibility="Visible" />
+                                            Visibility="Visible" />-->
+            <app:BusyIndicator Width="40"
+                               Height="40" />
         </adornedControl:AdornedControl.AdornerContent>
         <Grid>
             <Grid.RowDefinitions>
@@ -261,8 +263,9 @@
                                 </CheckBox>
                             </StackPanel>
                         </Grid>
-
                         <DataGrid Grid.Row="1"
+                                  VirtualizingStackPanel.IsVirtualizing="True"
+                                  VirtualizingPanel.VirtualizationMode="Recycling"
                                   MaxHeight="240"
                                   Margin="5,2"
                                   VerticalAlignment="Top"

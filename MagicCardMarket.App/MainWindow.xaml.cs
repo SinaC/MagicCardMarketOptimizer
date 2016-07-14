@@ -2,6 +2,9 @@
 using System.Windows;
 using System.Xml;
 using System.Xml.Linq;
+using System.Xml.Serialization;
+using MagicCardMarket.APIHelpers;
+using MagicCardMarket.Models;
 
 namespace MagicCardMarket.App
 {
@@ -13,16 +16,6 @@ namespace MagicCardMarket.App
         public MainWindow()
         {
             InitializeComponent();
-
-            //Tokens.Init(@"d:\temp\token mcm.txt");
-            //RequestHelper helper = new RequestHelper();
-            //Product[] vampireNighthawks = helper.GetDatas<Product>("products/vampirenighthawk/1/1/false");
-            //string responseRaw = helper.MakeRequestPaging("articles/284478");
-            //XDocument responseXml = XDocument.Parse(responseRaw);
-            //Article[] articles = GetDatas<Article>("articles/284478");
-
-            XDocument doc = XDocument.Load(@"d:\temp\MCMO\invalidarticles.xml");
-
 
             MainViewModel vm = new MainViewModel();
             DataContext = vm;

@@ -28,13 +28,14 @@ namespace MagicCardMarket.Request
                 try
                 {
                     HttpWebResponse response = (HttpWebResponse)httpWebRequest.GetResponse();
+                    Log.Log.Default.WriteLine(LogLevels.Info, $"X-Request-Limit: {response.Headers["X-Request-Limit-Count"]}/{response.Headers["X-Request-Limit-Max"]}");
                     return XDocument.Load(new StreamReader(response.GetResponseStream()));
                 }
                 catch (WebException ex)
                 {
                     Log.Log.Default.WriteLine(LogLevels.Error, ex.ToString());
                     if ((ex.Response as HttpWebResponse)?.StatusCode == HttpStatusCode.Unauthorized)
-                        throw new UnauthorizedException("Unauthorized access Magic Card Market. Check your token file.", ex);
+                        throw new UnauthorizedException("Unauthorized access. Check your token file.", ex);
                     if ((ex.Response as HttpWebResponse)?.StatusCode == (HttpStatusCode)429)
                         throw new TooManyRequestsException("Too many requests for today. Wait until 12am CET.", ex);
                     throw;
@@ -59,13 +60,14 @@ namespace MagicCardMarket.Request
                 try
                 {
                     HttpWebResponse response = (HttpWebResponse)await httpWebRequest.GetResponseAsync();
+                    Log.Log.Default.WriteLine(LogLevels.Info, $"X-Request-Limit: {response.Headers["X-Request-Limit-Count"]}/{response.Headers["X-Request-Limit-Max"]}");
                     return XDocument.Load(new StreamReader(response.GetResponseStream()));
                 }
                 catch (WebException ex)
                 {
                     Log.Log.Default.WriteLine(LogLevels.Error, ex.ToString());
                     if ((ex.Response as HttpWebResponse)?.StatusCode == HttpStatusCode.Unauthorized)
-                        throw new UnauthorizedException("Unauthorized access Magic Card Market. Check your token file.", ex);
+                        throw new UnauthorizedException("Unauthorized access. Check your token file.", ex);
                     if ((ex.Response as HttpWebResponse)?.StatusCode == (HttpStatusCode)429)
                         throw new TooManyRequestsException("Too many requests for today. Wait until 12am CET.", ex);
                     throw;

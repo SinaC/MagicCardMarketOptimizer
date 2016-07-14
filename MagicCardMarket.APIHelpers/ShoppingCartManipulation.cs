@@ -11,8 +11,7 @@ namespace MagicCardMarket.APIHelpers
         public async Task<ShoppingCarts> GetShoppingCartAsync()
         {
             GetRequestHelper helper = new GetRequestHelper();
-            //return await DeserializeSingleAsync<ShoppingCarts>(helper.GetAsync("shoppingcart"));
-            return DeserializeSingle<ShoppingCarts>(await helper.GetAsync("shoppingcart"));
+            return await DeserializeSingleAsync<ShoppingCarts>(helper.GetAsync("shoppingcart"));
         }
 
 //AddArticleInShoppingCart(idArticle, amount)

@@ -105,7 +105,7 @@ namespace MagicCardMarket.App
                 ShowWaitingScreen();
 
                 WantsListManagement helper = new WantsListManagement();
-                WantsList[] wantsLists = await helper.GetWantsList();
+                WantsList[] wantsLists = await helper.GetWantsListAsync();
                 WantsLists = wantsLists?.OrderBy(x => x.Name).ToList();
                 SelectedWantsList = WantsLists?.FirstOrDefault();
             }
@@ -149,7 +149,7 @@ namespace MagicCardMarket.App
                 SellerArticles = null;
                 Wants = null;
                 WantsListManagement helper = new WantsListManagement();
-                Want[] wants = await helper.GetWants(SelectedWantsList.Id);
+                Want[] wants = await helper.GetWantsAsync(SelectedWantsList.Id);
                 //Wants = wants?.ToList();
                 if (wants != null)
                 {

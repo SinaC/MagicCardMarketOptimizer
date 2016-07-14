@@ -40,6 +40,7 @@ namespace MagicCardMarket.Request
                     try
                     {
                         HttpWebResponse webResponse = (HttpWebResponse)(await webRequest.GetResponseAsync());
+                        Log.Log.Default.WriteLine(LogLevels.Info, $"X-Request-Limit: {webResponse.Headers["X-Request-Limit-Count"]}/{webResponse.Headers["X-Request-Limit-Max"]}");
                         string data = StreamToString(webResponse.GetResponseStream());
                         result.Append(data);
                         if (webResponse.StatusCode == HttpStatusCode.NoContent)
@@ -59,7 +60,7 @@ namespace MagicCardMarket.Request
                     {
                         Log.Log.Default.WriteLine(LogLevels.Error, ex.ToString());
                         if ((ex.Response as HttpWebResponse)?.StatusCode == HttpStatusCode.Unauthorized)
-                            throw new UnauthorizedException("Unauthorized access Magic Card Market. Check your token file.", ex);
+                            throw new UnauthorizedException("Unauthorized access. Check your token file.", ex);
                         if ((ex.Response as HttpWebResponse)?.StatusCode == (HttpStatusCode)429)
                             throw new TooManyRequestsException("Too many requests for today. Wait until 12am CET.", ex);
                         throw;
@@ -76,7 +77,7 @@ namespace MagicCardMarket.Request
                     result.Insert(0, "<?xml version=\"1.0\" encoding=\"utf-8\"?>" + Environment.NewLine + "<result>" + Environment.NewLine);
                     result.AppendLine("</result>");
                 }
-                return XDocument.Load(new StreamReader(result.ToString()));
+                return XDocument.Parse(result.ToString());
             }
         }
 
