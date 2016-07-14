@@ -8,6 +8,7 @@ using System.Configuration;
 using System.Linq;
 using System.Net.WebSockets;
 using System.Threading.Tasks;
+using MagicCardMarket.Log;
 
 namespace MagicCardMarket.ConsoleApp
 {
@@ -49,6 +50,47 @@ namespace MagicCardMarket.ConsoleApp
             //ShoppingCarts carts = (ShoppingCarts)serializer.Deserialize(doc.CreateReader());
 
             WantsListObject tree = BuildTree(968414);
+
+            var c = tree.WantObjects.SelectMany(w => w.MetaProductObjects.SelectMany(m => m.ProductObjects.SelectMany(p => p.ArticleObjects))).DistinctBy(x => x.Article.Id).Count();
+            var names = tree.WantObjects.SelectMany(w => w.MetaProductObjects).Select(m => m.MetaProduct.Names.First(x => x.LanguageId == 1).Name);
+            var invalidArticles = tree.WantObjects.SelectMany(w => w.MetaProductObjects.SelectMany(m => m.ProductObjects.SelectMany(p => p.ArticleObjects))).Where(a => a.Article.Seller == null);
+
+            // totally wrong :p
+            List<Tuple<ArticleObject,int>> bestArticles = new List<Tuple<ArticleObject, int>>();
+            int wantsCount = 0;
+            decimal bestTotalPrice = 0;
+            foreach (WantObject want in tree.WantObjects)
+            {
+                decimal sumByWant = 0;
+                int count = want.Want.Count;
+                foreach (ArticleObject article in want.MetaProductObjects.SelectMany(m => m.ProductObjects.SelectMany(p => p.ArticleObjects)).OrderBy(x => x.Article.Price))
+                {
+                    if (article.Article.IsPlayset && count >= 4)
+                    {
+                        bestArticles.Add(new Tuple<ArticleObject, int>(article, 4));
+                        sumByWant += article.Article.Price;
+                        wantsCount += 4;
+                        count -= 4;
+                    }
+                    else if (article.Article.Count >= count)
+                    {
+                        bestArticles.Add(new Tuple<ArticleObject, int>(article, count));
+                        sumByWant += count * article.Article.Price;
+                        wantsCount += count;
+                        count = 0;
+                    }
+                    else
+                    {
+                        bestArticles.Add(new Tuple<ArticleObject, int>(article, article.Article.Count));
+                        sumByWant += article.Article.Count * article.Article.Price;
+                        wantsCount += article.Article.Count;
+                        count -= article.Article.Count;
+                    }
+                    if (count == 0)
+                        break;
+                }
+                bestTotalPrice += sumByWant;
+            }
 
             System.Diagnostics.Debugger.Break();
         }
@@ -97,7 +139,7 @@ namespace MagicCardMarket.ConsoleApp
                             metaProductObject.ProductObjects.AddIfNotExists(productObject);
 
                             Article[] articles = AsyncGetResult(marketHelper.GetArticlesAsync(product.Id));
-                            foreach (Article article in articles)
+                            foreach (Article article in articles.Where(a => a.Seller != null))
                             {
                                 ArticleObject articleObject = new ArticleObject
                                 {
@@ -120,7 +162,7 @@ namespace MagicCardMarket.ConsoleApp
                         wantObject.ProductObjects.AddIfNotExists(productObject);
 
                         Article[] articles = AsyncGetResult(marketHelper.GetArticlesAsync(product.Id));
-                        foreach (Article article in articles)
+                        foreach (Article article in articles.Where(a => a.Seller != null))
                         {
                             ArticleObject articleObject = new ArticleObject
                             {
