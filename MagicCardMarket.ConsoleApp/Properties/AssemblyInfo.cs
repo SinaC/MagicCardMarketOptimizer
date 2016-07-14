@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("MagicCardMarket.ConsoleApp")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Elia")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("MagicCardMarket.ConsoleApp")]
-[assembly: AssemblyCopyright("Copyright © Elia 2016")]
+[assembly: AssemblyCopyright("Copyright © 2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
