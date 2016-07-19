@@ -60,7 +60,6 @@
       <DependentUpon>CircularProgressBarControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="DesignMode.cs" />
-    <Compile Include="IEnumerableExtensions.cs" />
     <Compile Include="MetaProductItem.cs" />
     <Compile Include="MissingItem.cs" />
     <Compile Include="Parameters.cs" />
@@ -129,6 +128,10 @@
     <ProjectReference Include="..\MagicCardMarket.APIHelpers\MagicCardMarket.APIHelpers.csproj">
       <Project>{85993069-9e45-44b7-84b5-6170b992cf27}</Project>
       <Name>MagicCardMarket.APIHelpers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MagicCardMarket.Extensions\MagicCardMarket.Extensions.csproj">
+      <Project>{57cdad5e-aff3-45a1-b578-672bb1f75319}</Project>
+      <Name>MagicCardMarket.Extensions</Name>
     </ProjectReference>
     <ProjectReference Include="..\MagicCardMarket.Log\MagicCardMarket.Log.csproj">
       <Project>{a0514df7-c844-4951-9b83-e5200f38f0f3}</Project>

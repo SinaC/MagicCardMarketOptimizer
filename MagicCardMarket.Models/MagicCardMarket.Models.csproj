@@ -39,6 +39,7 @@
     <Compile Include="Address.cs" />
     <Compile Include="AccountName.cs" />
     <Compile Include="Article.cs" />
+    <Compile Include="ExpansionCards.cs" />
     <Compile Include="Helpers.cs" />
     <Compile Include="Language.cs" />
     <Compile Include="ArticleSeller.cs" />
@@ -58,6 +59,8 @@
     <Compile Include="MessageThread.cs" />
     <Compile Include="ShippingMethod.cs" />
     <Compile Include="ShoppingCart.cs" />
+    <Compile Include="ShoppingCartArticle.cs" />
+    <Compile Include="ShoppingCartRequest.cs" />
     <Compile Include="ShoppingCarts.cs" />
     <Compile Include="Want.cs" />
     <Compile Include="WantsList.cs" />

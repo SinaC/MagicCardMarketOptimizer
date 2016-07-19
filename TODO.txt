@@ -2,9 +2,8 @@
 
 test every methods in APIHelpers
 
-Optimize options in UI
 
-Optimization 'algorithm'
+Optimization 'algorithms'
 
 1st method:
 Take top X results with classic optimization as upper bound

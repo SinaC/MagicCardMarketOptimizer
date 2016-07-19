@@ -1,0 +1,69 @@
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Text;
+using System.Threading.Tasks;
+using System.Xml.Linq;
+using MagicCardMarket.Log;
+using MagicCardMarket.Request.Exceptions;
+
+namespace MagicCardMarket.Request
+{
+    public class DeleteRequestHelper : IDeleteRequestHelper
+    {
+        public void Delete(string request, XDocument data)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task DeleteAsync(string request)
+        {
+            await DeleteAsync(request, null);
+        }
+
+        public async Task DeleteAsync(string request, XDocument data)
+        {
+            using (new LogExecutionTime($"PutAsync: request={request}"))
+            {
+                string url = Tokens.Instance.Url + request;
+
+                ServicePointManager.Expect100Continue = false;
+
+                HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
+
+                OAuthHeader header = new OAuthHeader();
+                httpWebRequest.Headers.Add(HttpRequestHeader.Authorization, header.GetAuthorizationHeader("DELETE", url));
+                httpWebRequest.Method = "DELETE";
+
+                if (data != null)
+                {
+                    using (Stream stream = await httpWebRequest.GetRequestStreamAsync())
+                    {
+                        data.Save(stream);
+                    }
+                    httpWebRequest.ContentType = "application/xml;charset=\"utf-8\"";
+                    httpWebRequest.Accept = "application/json,application/xml";
+                }
+
+                try
+                {
+                    HttpWebResponse response = (HttpWebResponse)await httpWebRequest.GetResponseAsync();
+                    Log.Log.Default.WriteLine(LogLevels.Debug, $"X-Request-Limit: {response.Headers["X-Request-Limit-Count"]}/{response.Headers["X-Request-Limit-Max"]}");
+                    //return XDocument.Load(new StreamReader(response.GetResponseStream()));
+                    //string s = new StreamReader(response.GetResponseStream()).ReadToEnd();
+                }
+                catch (WebException ex)
+                {
+                    Log.Log.Default.WriteLine(LogLevels.Error, ex.ToString());
+                    if ((ex.Response as HttpWebResponse)?.StatusCode == HttpStatusCode.Unauthorized)
+                        throw new UnauthorizedException("Unauthorized access. Check your token file.", ex);
+                    if ((ex.Response as HttpWebResponse)?.StatusCode == (HttpStatusCode)429)
+                        throw new TooManyRequestsException("Too many requests for today. Wait until 12am CET.", ex);
+                    throw;
+                }
+            }
+        }
+    }
+}

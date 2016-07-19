@@ -1,10 +1,4 @@
-﻿using System.IO;
-using System.Windows;
-using System.Xml;
-using System.Xml.Linq;
-using System.Xml.Serialization;
-using MagicCardMarket.APIHelpers;
-using MagicCardMarket.Models;
+﻿using System.Windows;
 
 namespace MagicCardMarket.App
 {

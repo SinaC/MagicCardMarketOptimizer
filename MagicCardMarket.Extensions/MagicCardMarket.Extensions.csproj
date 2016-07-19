@@ -4,17 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E55A6ACB-976E-4F16-91A6-6C67C51A720F}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{57CDAD5E-AFF3-45A1-B578-672BB1F75319}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MagicCardMarket.ConsoleApp</RootNamespace>
-    <AssemblyName>MagicCardMarket.ConsoleApp</AssemblyName>
+    <RootNamespace>MagicCardMarket.Extensions</RootNamespace>
+    <AssemblyName>MagicCardMarket.Extensions</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -24,7 +22,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -34,7 +31,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -44,32 +40,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="IEnumerableExtensions.cs" />
+    <Compile Include="LambdaComparer.cs" />
+    <Compile Include="ListExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-    <None Include="NLog.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\MagicCardMarket.APIHelpers\MagicCardMarket.APIHelpers.csproj">
-      <Project>{85993069-9e45-44b7-84b5-6170b992cf27}</Project>
-      <Name>MagicCardMarket.APIHelpers</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MagicCardMarket.Extensions\MagicCardMarket.Extensions.csproj">
-      <Project>{57cdad5e-aff3-45a1-b578-672bb1f75319}</Project>
-      <Name>MagicCardMarket.Extensions</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MagicCardMarket.Log\MagicCardMarket.Log.csproj">
-      <Project>{a0514df7-c844-4951-9b83-e5200f38f0f3}</Project>
-      <Name>MagicCardMarket.Log</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MagicCardMarket.Models\MagicCardMarket.Models.csproj">
-      <Project>{cd5aff37-ea2e-4379-bb15-57466a9082fe}</Project>
-      <Name>MagicCardMarket.Models</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

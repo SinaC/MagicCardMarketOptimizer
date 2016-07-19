@@ -26,6 +26,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagicCardMarket.APIHelpers"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagicCardMarket.ConsoleApp", "MagicCardMarket.ConsoleApp\MagicCardMarket.ConsoleApp.csproj", "{E55A6ACB-976E-4F16-91A6-6C67C51A720F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagicCardMarket.Extensions", "MagicCardMarket.Extensions\MagicCardMarket.Extensions.csproj", "{57CDAD5E-AFF3-45A1-B578-672BB1F75319}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -68,6 +70,10 @@ Global
 		{E55A6ACB-976E-4F16-91A6-6C67C51A720F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E55A6ACB-976E-4F16-91A6-6C67C51A720F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E55A6ACB-976E-4F16-91A6-6C67C51A720F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57CDAD5E-AFF3-45A1-B578-672BB1F75319}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57CDAD5E-AFF3-45A1-B578-672BB1F75319}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57CDAD5E-AFF3-45A1-B578-672BB1F75319}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57CDAD5E-AFF3-45A1-B578-672BB1F75319}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

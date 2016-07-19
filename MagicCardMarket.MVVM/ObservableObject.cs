@@ -92,12 +92,12 @@ namespace MagicCardMarket.MVVM
                 var ubody = (UnaryExpression) propertyExpression.Body;
                 body = ubody.Operand as MemberExpression;
                 if (body == null)
-                    throw new ArgumentException(String.Format("Expression '{0}' refers to a method, not a property.", propertyExpression));
+                    throw new ArgumentException($"Expression '{propertyExpression}' refers to a method, not a property.");
             }
 
             var propInfo = body.Member as PropertyInfo;
             if (propInfo == null)
-                throw new ArgumentException(String.Format("Expression '{0}' refers to a field, not a property.", propertyExpression));
+                throw new ArgumentException($"Expression '{propertyExpression}' refers to a field, not a property.");
 
             return propInfo;
         }
@@ -107,7 +107,7 @@ namespace MagicCardMarket.MVVM
             var propInfo = GetPropertyInfo(propertyExpression);
             var type = typeof (TSource);
             if (propInfo.ReflectedType != null && (type != propInfo.ReflectedType && !type.IsSubclassOf(propInfo.ReflectedType)))
-                throw new ArgumentException(String.Format("Expresion '{0}' refers to a property that is not from type {1}.", propertyExpression, type));
+                throw new ArgumentException($"Expresion '{propertyExpression}' refers to a property that is not from type {type}.");
 
             return propInfo;
         }

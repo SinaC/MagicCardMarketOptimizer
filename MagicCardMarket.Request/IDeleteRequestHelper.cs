@@ -7,6 +7,8 @@ namespace MagicCardMarket.Request
     {
         void Delete(string request, XDocument data);
 
+        Task DeleteAsync(string request);
+
         Task DeleteAsync(string request, XDocument data);
     }
 }

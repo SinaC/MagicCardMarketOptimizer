@@ -82,7 +82,7 @@ namespace MagicCardMarket.APIHelpers
             XDocument document;
             if (Cache.Contains(category, id))
             {
-                Log.Log.Default.WriteLine(LogLevels.Info, $"CACHE HIT GetWithCacheAsync: category={category} id={id}");
+                Log.Log.Default.WriteLine(LogLevels.Debug, $"CACHE HIT GetWithCacheAsync: category={category} id={id}");
                 document = Cache.Get(category, id);
             }
             else

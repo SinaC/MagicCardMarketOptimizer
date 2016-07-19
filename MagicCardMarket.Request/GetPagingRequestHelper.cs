@@ -39,8 +39,8 @@ namespace MagicCardMarket.Request
 
                     try
                     {
-                        HttpWebResponse webResponse = (HttpWebResponse)(await webRequest.GetResponseAsync());
-                        Log.Log.Default.WriteLine(LogLevels.Info, $"X-Request-Limit: {webResponse.Headers["X-Request-Limit-Count"]}/{webResponse.Headers["X-Request-Limit-Max"]}");
+                        HttpWebResponse webResponse = (HttpWebResponse)await webRequest.GetResponseAsync();
+                        Log.Log.Default.WriteLine(LogLevels.Debug, $"X-Request-Limit: {webResponse.Headers["X-Request-Limit-Count"]}/{webResponse.Headers["X-Request-Limit-Max"]}");
                         string data = StreamToString(webResponse.GetResponseStream());
                         result.Append(data);
                         if (webResponse.StatusCode == HttpStatusCode.NoContent)
@@ -73,7 +73,7 @@ namespace MagicCardMarket.Request
                         .Replace(@"<response>", String.Empty)
                         .Replace(@"</response>", String.Empty)
                         .Replace("<?xml version=\"1.0\" encoding=\"utf-8\"?>", String.Empty);
-                    // Add xml/response tag
+                    // Add one global xml/response tag
                     result.Insert(0, "<?xml version=\"1.0\" encoding=\"utf-8\"?>" + Environment.NewLine + "<result>" + Environment.NewLine);
                     result.AppendLine("</result>");
                 }

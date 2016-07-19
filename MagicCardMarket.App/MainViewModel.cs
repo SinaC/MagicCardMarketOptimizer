@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using MagicCardMarket.APIHelpers;
+using MagicCardMarket.Extensions;
 using MagicCardMarket.Models;
 using MagicCardMarket.MVVM;
 

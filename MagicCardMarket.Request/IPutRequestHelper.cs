@@ -5,8 +5,8 @@ namespace MagicCardMarket.Request
 {
     public interface IPutRequestHelper
     {
-        void Put(string request, XDocument data);
+        XDocument Put(string request, XDocument data);
 
-        Task PutAsync(string request, XDocument data);
+        Task<XDocument> PutAsync(string request, XDocument data);
     }
 }

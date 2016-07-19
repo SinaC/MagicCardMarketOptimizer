@@ -1,14 +1,15 @@
 ﻿using System;
+using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 using MagicCardMarket.Cache;
-using MagicCardMarket.Log;
 using MagicCardMarket.Models;
 using MagicCardMarket.Request;
 
 // TODO: implement every methods
 namespace MagicCardMarket.APIHelpers
 {
-    //https://www.mkmapi.eu/ws/documentation/API_1.1:Market_Place_Information
+    //c
     public class MarketPlaceInformation : HelperBase
     {
         private static readonly Lazy<ICache<Article[]>> LazyArticlesByProductIdCache = new Lazy<ICache<Article[]>>(() => new MemoryCache<Article[]>());
@@ -45,8 +46,22 @@ namespace MagicCardMarket.APIHelpers
         }
 
 //SearchProducts(name, idGame, idLanguage, isExact) **
-//GetExpansions(idGame) // TO TEST
-//GetExpansion(idGame, name) // TO TEST
+
+        public async Task<Expansion[]> GetExpansions(int idGame)
+        {
+            GetRequestHelper helper = new GetRequestHelper();
+            return await DeserializeMultipleAsync<Expansion>(helper.GetAsync($"expansion/{idGame}"));
+        }
+
+        //public async Task<Expansion> GetExpansion(int idGame, string name)
+        //{
+
+        //}
+        public async Task<ExpansionCards> GetExpansionCards(int idGame, string expansionName)
+        {
+            GetRequestHelper helper = new GetRequestHelper();
+            return await DeserializeSingleAsync<ExpansionCards>(/*GetWithCacheAsync($"expansions", expansionName)*/helper.GetAsync($"expansion/{idGame}/{expansionName}"), "response");
+        }
 
         public async Task<Article[]> GetArticlesAsync(int idProduct)
         {

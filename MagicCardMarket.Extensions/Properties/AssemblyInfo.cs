@@ -4,11 +4,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("MagicCardMarket.ConsoleApp")]
+[assembly: AssemblyTitle("MagicCardMarket.Extensions")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("MagicCardMarket.ConsoleApp")]
+[assembly: AssemblyProduct("MagicCardMarket.Extensions")]
 [assembly: AssemblyCopyright("Copyright © 2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -19,7 +19,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("e55a6acb-976e-4f16-91a6-6c67c51a720f")]
+[assembly: Guid("57cdad5e-aff3-45a1-b578-672bb1f75319")]
 
 // Version information for an assembly consists of the following four values:
 //

@@ -28,7 +28,7 @@ namespace MagicCardMarket.Request
                 try
                 {
                     HttpWebResponse response = (HttpWebResponse)httpWebRequest.GetResponse();
-                    Log.Log.Default.WriteLine(LogLevels.Info, $"X-Request-Limit: {response.Headers["X-Request-Limit-Count"]}/{response.Headers["X-Request-Limit-Max"]}");
+                    Log.Log.Default.WriteLine(LogLevels.Debug, $"X-Request-Limit: {response.Headers["X-Request-Limit-Count"]}/{response.Headers["X-Request-Limit-Max"]}");
                     return XDocument.Load(new StreamReader(response.GetResponseStream()));
                 }
                 catch (WebException ex)
@@ -60,7 +60,7 @@ namespace MagicCardMarket.Request
                 try
                 {
                     HttpWebResponse response = (HttpWebResponse)await httpWebRequest.GetResponseAsync();
-                    Log.Log.Default.WriteLine(LogLevels.Info, $"X-Request-Limit: {response.Headers["X-Request-Limit-Count"]}/{response.Headers["X-Request-Limit-Max"]}");
+                    Log.Log.Default.WriteLine(LogLevels.Debug, $"X-Request-Limit: {response.Headers["X-Request-Limit-Count"]}/{response.Headers["X-Request-Limit-Max"]}");
                     return XDocument.Load(new StreamReader(response.GetResponseStream()));
                 }
                 catch (WebException ex)
