@@ -12,14 +12,14 @@ namespace MagicCardMarket.APIHelpers
     {
         public async Task<WantsList[]> GetWantsListAsync()
         {
-            GetRequestHelper helper = new GetRequestHelper();
+            IGetRequest helper = new GetRequestHelper();
             //return await DeserializeMultipleAsync<WantsList>(helper.GetAsync("wantslist"));
             return await DeserializeMultipleAsync<WantsList>(GetWithCacheAsync("wantslist", 1, () => helper.GetAsync("wantslist")));
         }
 
         public async Task<Want[]> GetWantsAsync(int idWantsList)
         {
-            GetRequestHelper helper = new GetRequestHelper();
+            IGetRequest helper = new GetRequestHelper();
             //return await DeserializeMultipleAsync<Want>(helper.GetAsync($"wantslist/{idWantsList}"));
             return await DeserializeMultipleAsync<Want>(GetWithCacheAsync("wants", idWantsList, () => helper.GetAsync($"wantslist/{idWantsList}")));
         }
@@ -60,7 +60,7 @@ namespace MagicCardMarket.APIHelpers
                     },
                 }
             };
-            IPutRequestHelper helper = new PutRequestHelper();
+            IPutRequest helper = new PutRequestHelper();
             return await DeserializeSingleAsync<Want>(helper.PutAsync($"wantslist/{wantsListId}", Serialize(request)));
         }
 
@@ -86,7 +86,7 @@ namespace MagicCardMarket.APIHelpers
                     },
                 }
             };
-            IPutRequestHelper helper = new PutRequestHelper();
+            IPutRequest helper = new PutRequestHelper();
             return await DeserializeSingleAsync<Want>(helper.PutAsync($"wantslist/{wantsListId}", Serialize(request)));
         }
 
@@ -98,7 +98,7 @@ namespace MagicCardMarket.APIHelpers
                 MetaProducts = metaProducts?.ToArray(),
                 Products = products?.ToArray(),
             };
-            IPutRequestHelper helper = new PutRequestHelper();
+            IPutRequest helper = new PutRequestHelper();
             return await DeserializeMultipleAsync<Want>(helper.PutAsync($"wantslist/{wantsListId}", Serialize(request)));
         }
 

@@ -7,7 +7,7 @@ using MagicCardMarket.Request.Exceptions;
 
 namespace MagicCardMarket.Request
 {
-    public class GetRequestHelper : IGetRequestHelper
+    public class GetRequestHelper : IGetRequest
     {
         #region IGetRequestHelper
 

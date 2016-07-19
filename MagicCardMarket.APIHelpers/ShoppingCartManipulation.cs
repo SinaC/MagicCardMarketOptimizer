@@ -12,7 +12,7 @@ namespace MagicCardMarket.APIHelpers
     {
         public async Task<ShoppingCarts> GetShoppingCartAsync()
         {
-            GetRequestHelper helper = new GetRequestHelper();
+            IGetRequest helper = new GetRequestHelper();
             return await DeserializeSingleAsync<ShoppingCarts>(helper.GetAsync("shoppingcart"), "response");
         }
 
@@ -30,7 +30,7 @@ namespace MagicCardMarket.APIHelpers
                     },
                 }
             };
-            IPutRequestHelper helper = new PutRequestHelper();
+            IPutRequest helper = new PutRequestHelper();
             return await DeserializeSingleAsync<ShoppingCarts>(helper.PutAsync("shoppingcart", Serialize(request)), "response");
         }
 
@@ -45,13 +45,13 @@ namespace MagicCardMarket.APIHelpers
                     Amount = x.Item2
                 }).ToArray()
             };
-            IPutRequestHelper helper = new PutRequestHelper();
+            IPutRequest helper = new PutRequestHelper();
             return await DeserializeSingleAsync<ShoppingCarts>(helper.PutAsync("shoppingcart", Serialize(request)), "response");
         }
 
         public async Task EmptyShoppingCart()
         {
-            IDeleteRequestHelper helper = new DeleteRequestHelper();
+            IDeleteRequest helper = new DeleteRequestHelper();
             await helper.DeleteAsync("shoppingcart", null);
         }
 
@@ -60,7 +60,7 @@ namespace MagicCardMarket.APIHelpers
 
         public async Task<ShippingMethod[]> GetShippingMethods(int idReservation)
         {
-            GetRequestHelper helper = new GetRequestHelper();
+            IGetRequest helper = new GetRequestHelper();
             return await DeserializeMultipleAsync<ShippingMethod>(helper.GetAsync($"shoppingcart/shippingmethod/{idReservation}"));
         }
 
@@ -70,7 +70,7 @@ namespace MagicCardMarket.APIHelpers
             {
                 ShippingMethodId = idShippingMethod
             };
-            IPutRequestHelper helper = new PutRequestHelper();
+            IPutRequest helper = new PutRequestHelper();
            return await DeserializeSingleAsync<ShoppingCarts>(helper.PutAsync($"shoppingcart/shippingmethod/{idReservation}", Serialize(request)), "response");
         }
 

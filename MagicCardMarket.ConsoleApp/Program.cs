@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using MagicCardMarket.Extensions;
+using MagicCardMarket.Log;
 
 namespace MagicCardMarket.ConsoleApp
 {
@@ -53,24 +54,23 @@ namespace MagicCardMarket.ConsoleApp
             //helper.EmptyShoppingCart().Wait();
             //helper.Test();
 
-            WantsListManagement helper = new WantsListManagement();
-            helper.Test();
+            //WantsListManagement helper = new WantsListManagement();
+            //helper.Test();
 
+            Log.Log.Default.WriteLine(LogLevels.Info, "Building tree");
+            WantsListObject tree = BuildWantsListObject(968414);
+            Log.Log.Default.WriteLine(LogLevels.Info, "Done");
 
-            //Log.Log.Default.WriteLine(LogLevels.Info, "Building tree");
-            //WantsListObject tree = BuildWantsListObject(968414);
-            //Log.Log.Default.WriteLine(LogLevels.Info, "Done");
+            Log.Log.Default.WriteLine(LogLevels.Info, "Searching sellers with most cards");
+            List<SellerObject> sellersWithMostCards = BuildSellersWithMostCards(tree);
+            Log.Log.Default.WriteLine(LogLevels.Info, "Done");
 
-            //Log.Log.Default.WriteLine(LogLevels.Info, "Searching sellers with most cards");
-            //List<SellerObject> sellersWithMostCards = BuildSellersWithMostCards(tree);
-            //Log.Log.Default.WriteLine(LogLevels.Info, "Done");
+            //var prettyPrint = tree.WantObjects.Select(w => new {w.Want.Id, w.Want.Count, Name = w.AllProductObjects.First().Product.Names.First(p => p.LanguageId == 1).Name});
 
-            ////var prettyPrint = tree.WantObjects.Select(w => new {w.Want.Id, w.Want.Count, Name = w.AllProductObjects.First().Product.Names.First(p => p.LanguageId == 1).Name});
-
-            //// Search cheapest seller for each want
-            //Log.Log.Default.WriteLine(LogLevels.Info, "Searching cheapest articles by condition");
-            //List<CheapestWantByConditionObject> cheapestSellers = BuildCheapestArticlesByCondition(tree);
-            //Log.Log.Default.WriteLine(LogLevels.Info, "Done");
+            // Search cheapest seller for each want
+            Log.Log.Default.WriteLine(LogLevels.Info, "Searching cheapest articles by condition");
+            List<CheapestWantByConditionObject> cheapestSellers = BuildCheapestArticlesByCondition(tree);
+            Log.Log.Default.WriteLine(LogLevels.Info, "Done");
 
             System.Diagnostics.Debugger.Break();
         }

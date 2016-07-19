@@ -39,13 +39,15 @@
   <ItemGroup>
     <Compile Include="DeleteRequestHelper.cs" />
     <Compile Include="Exceptions\MissingTokenEntryException.cs" />
-    <Compile Include="IDeleteRequestHelper.cs" />
-    <Compile Include="IGetRequestHelper.cs" />
+    <Compile Include="IDeleteRequest.cs" />
+    <Compile Include="IGetPagingRequest.cs" />
+    <Compile Include="IGetRequest.cs" />
     <Compile Include="IPostRequestHelper.cs" />
-    <Compile Include="IPutRequestHelper.cs" />
+    <Compile Include="IPutRequest.cs" />
     <Compile Include="GetPagingRequestHelper.cs" />
     <Compile Include="GetRequestHelper.cs" />
     <Compile Include="OAuthHeader.cs" />
+    <Compile Include="PagingResult.cs" />
     <Compile Include="PostRequestHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PutRequestHelper.cs" />

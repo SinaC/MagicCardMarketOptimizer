@@ -15,7 +15,7 @@ namespace MagicCardMarket.APIHelpers
 
         public async Task<Game[]> GetGamesAsync()
         {
-            GetRequestHelper helper = new GetRequestHelper();
+            IGetRequest helper = new GetRequestHelper();
             return await DeserializeMultipleAsync<Game>(helper.GetAsync("games"));
         }
 
@@ -39,7 +39,7 @@ namespace MagicCardMarket.APIHelpers
 
         public async Task<Product> GetProductAsync(int idProduct)
         {
-            GetRequestHelper helper = new GetRequestHelper();
+            IGetRequest helper = new GetRequestHelper();
             return await DeserializeSingleAsync<Product>(GetWithCacheAsync("product", idProduct, () => helper.GetAsync($"product/{idProduct}")));
         }
 
@@ -47,7 +47,7 @@ namespace MagicCardMarket.APIHelpers
 
         public async Task<Expansion[]> GetExpansions(int idGame)
         {
-            GetRequestHelper helper = new GetRequestHelper();
+            IGetRequest helper = new GetRequestHelper();
             return await DeserializeMultipleAsync<Expansion>(helper.GetAsync($"expansion/{idGame}"));
         }
 
@@ -57,7 +57,7 @@ namespace MagicCardMarket.APIHelpers
         //}
         public async Task<ExpansionCards> GetExpansionCards(int idGame, string expansionName)
         {
-            GetRequestHelper helper = new GetRequestHelper();
+            IGetRequest helper = new GetRequestHelper();
             return await DeserializeSingleAsync<ExpansionCards>(/*GetWithCacheAsync($"expansions", expansionName)*/helper.GetAsync($"expansion/{idGame}/{expansionName}"), "response");
         }
 
@@ -76,7 +76,7 @@ namespace MagicCardMarket.APIHelpers
             //    ArticlesByProductIdCache.Set(idProduct, articles);
             //}
             //return articles;
-            GetPagingRequestHelper helper = new GetPagingRequestHelper();
+            IGetRequest helper = new GetPagingRequestHelper();
             return await DeserializeMultipleAsync<Article>(GetWithCacheAsync("article", idProduct, () => helper.GetAsync($"articles/{idProduct}")));
         }
 

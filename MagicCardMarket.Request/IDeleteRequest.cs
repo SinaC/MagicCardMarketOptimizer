@@ -3,7 +3,7 @@ using System.Xml.Linq;
 
 namespace MagicCardMarket.Request
 {
-    public interface IDeleteRequestHelper
+    public interface IDeleteRequest
     {
         void Delete(string request, XDocument data);
 

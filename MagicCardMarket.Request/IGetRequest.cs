@@ -3,7 +3,7 @@ using System.Xml.Linq;
 
 namespace MagicCardMarket.Request
 {
-    public interface IGetRequestHelper
+    public interface IGetRequest
     {
         XDocument Get(string request);
 

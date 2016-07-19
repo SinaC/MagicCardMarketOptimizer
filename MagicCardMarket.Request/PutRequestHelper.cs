@@ -8,7 +8,7 @@ using MagicCardMarket.Request.Exceptions;
 
 namespace MagicCardMarket.Request
 {
-    public class PutRequestHelper : IPutRequestHelper
+    public class PutRequestHelper : IPutRequest
     {
         public XDocument Put(string request, XDocument data)
         {

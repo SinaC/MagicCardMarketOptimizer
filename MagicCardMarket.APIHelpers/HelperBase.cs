@@ -27,10 +27,7 @@ namespace MagicCardMarket.APIHelpers
         //    T[] values = new T[doc.Root.Nodes().Count()];
         //    int index = 0;
         //    foreach (XNode node in doc.Root.Nodes()) // loop on <response> subnodes
-        //    {
-        //        values[index] = (T)serializer.Deserialize(node.CreateReader());
-        //        index++;
-        //    }
+        //        values[index++] = (T)serializer.Deserialize(node.CreateReader());
         //    return values;
         //}
 
@@ -66,10 +63,7 @@ namespace MagicCardMarket.APIHelpers
             T[] values = new T[doc.Root.Nodes().Count()];
             int index = 0;
             foreach (XNode node in doc.Root.Nodes()) // loop on <response> subnodes
-            {
-                values[index] = (T)serializer.Deserialize(node.CreateReader());
-                index++;
-            }
+                values[index++] = (T)serializer.Deserialize(node.CreateReader());
             return values;
         }
 

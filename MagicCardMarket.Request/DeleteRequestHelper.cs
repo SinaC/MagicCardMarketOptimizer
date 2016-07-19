@@ -8,7 +8,7 @@ using MagicCardMarket.Request.Exceptions;
 
 namespace MagicCardMarket.Request
 {
-    public class DeleteRequestHelper : IDeleteRequestHelper
+    public class DeleteRequestHelper : IDeleteRequest
     {
         public void Delete(string request, XDocument data)
         {

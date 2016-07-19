@@ -3,7 +3,7 @@ using System.Xml.Linq;
 
 namespace MagicCardMarket.Request
 {
-    public interface IPutRequestHelper
+    public interface IPutRequest
     {
         XDocument Put(string request, XDocument data);
 
