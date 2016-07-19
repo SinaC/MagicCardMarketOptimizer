@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using MagicCardMarket.Log;
@@ -25,7 +22,7 @@ namespace MagicCardMarket.Request
 
         public async Task DeleteAsync(string request, XDocument data)
         {
-            using (new LogExecutionTime($"PutAsync: request={request}"))
+            using (new LogExecutionTime($"DeleteAsync: request={request}"))
             {
                 string url = Tokens.Instance.Url + request;
 

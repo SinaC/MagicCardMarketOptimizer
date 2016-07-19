@@ -8,16 +8,16 @@ using MagicCardMarket.Request.Exceptions;
 
 namespace MagicCardMarket.Request
 {
-    public class PutRequestHelper : IPutRequestHelper
+    public class PostRequestHelper : IPostRequestHelper
     {
-        public XDocument Put(string request, XDocument data)
+        public XDocument Post(string request, XDocument data)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<XDocument> PutAsync(string request, XDocument data)
+        public async Task<XDocument> PostAsync(string request, XDocument data)
         {
-            using (new LogExecutionTime($"PutAsync: request={request}"))
+            using (new LogExecutionTime($"PostAsync: request={request}"))
             {
                 string url = Tokens.Instance.Url + request;
 
@@ -26,8 +26,8 @@ namespace MagicCardMarket.Request
                 HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
 
                 OAuthHeader header = new OAuthHeader();
-                httpWebRequest.Headers.Add(HttpRequestHeader.Authorization, header.GetAuthorizationHeader("PUT", url));
-                httpWebRequest.Method = "PUT";
+                httpWebRequest.Headers.Add(HttpRequestHeader.Authorization, header.GetAuthorizationHeader("POST", url));
+                httpWebRequest.Method = "POST";
 
                 using (Stream stream = await httpWebRequest.GetRequestStreamAsync())
                 {

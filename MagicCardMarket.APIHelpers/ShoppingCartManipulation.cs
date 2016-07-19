@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Xml.Linq;
-using System.Xml.Serialization;
 using MagicCardMarket.Models;
 using MagicCardMarket.Request;
 
@@ -18,7 +16,7 @@ namespace MagicCardMarket.APIHelpers
             return await DeserializeSingleAsync<ShoppingCarts>(helper.GetAsync("shoppingcart"), "response");
         }
 
-        public async Task<ShoppingCarts> AddArticleInShoppingCart(int idArticle , int amount)
+        public async Task<ShoppingCarts> AddArticleInShoppingCart(int idArticle, int amount)
         {
             ShoppingCartRequest request = new ShoppingCartRequest
             {
@@ -29,18 +27,14 @@ namespace MagicCardMarket.APIHelpers
                     {
                         Id = idArticle,
                         Amount = amount
-                    }, 
+                    },
                 }
             };
-            XmlSerializer serializer = new XmlSerializer(typeof(ShoppingCartRequest));
-            XDocument document = new XDocument();
-            using (var writer = document.CreateWriter())
-                serializer.Serialize(writer, request);
             IPutRequestHelper helper = new PutRequestHelper();
-            return await DeserializeSingleAsync<ShoppingCarts>(helper.PutAsync("shoppingcart", document), "response");
+            return await DeserializeSingleAsync<ShoppingCarts>(helper.PutAsync("shoppingcart", Serialize(request)), "response");
         }
 
-        public async Task<ShoppingCarts> RemoveArticlesFromShoppingCart(params Tuple<int,int>[] articleIdAndCount)
+        public async Task<ShoppingCarts> RemoveArticlesFromShoppingCart(params Tuple<int, int>[] articleIdAndCount)
         {
             ShoppingCartRequest request = new ShoppingCartRequest
             {
@@ -51,12 +45,8 @@ namespace MagicCardMarket.APIHelpers
                     Amount = x.Item2
                 }).ToArray()
             };
-            XmlSerializer serializer = new XmlSerializer(typeof(ShoppingCartRequest));
-            XDocument document = new XDocument();
-            using (var writer = document.CreateWriter())
-                serializer.Serialize(writer, request);
             IPutRequestHelper helper = new PutRequestHelper();
-            return await DeserializeSingleAsync<ShoppingCarts>(helper.PutAsync("shoppingcart", document), "response");
+            return await DeserializeSingleAsync<ShoppingCarts>(helper.PutAsync("shoppingcart", Serialize(request)), "response");
         }
 
         public async Task EmptyShoppingCart()
@@ -67,7 +57,40 @@ namespace MagicCardMarket.APIHelpers
 
 //CheckOutShoppingCart()
 //ChangeShippingAddress(name, extra, street, zip, city, country)
-//GetShippingMethods(idReservation)
-//ChangeShippingMethod(idReservation, idShippingMethod)
+
+        public async Task<ShippingMethod[]> GetShippingMethods(int idReservation)
+        {
+            GetRequestHelper helper = new GetRequestHelper();
+            return await DeserializeMultipleAsync<ShippingMethod>(helper.GetAsync($"shoppingcart/shippingmethod/{idReservation}"));
+        }
+
+        public async Task<ShoppingCarts> ChangeShippingMethod(int idReservation, int idShippingMethod)
+        {
+            ChangeShippingMethodRequest request = new ChangeShippingMethodRequest
+            {
+                ShippingMethodId = idShippingMethod
+            };
+            IPutRequestHelper helper = new PutRequestHelper();
+           return await DeserializeSingleAsync<ShoppingCarts>(helper.PutAsync($"shoppingcart/shippingmethod/{idReservation}", Serialize(request)), "response");
+        }
+
+        public void Test()
+        {
+            //ShoppingCarts carts = AddArticleInShoppingCart(238672691, 1).Result;
+            //ShippingMethod[] methods = GetShippingMethods(carts.Carts[0].ReservationId).Result;
+
+            //ChangeShippingMethodRequest request = new ChangeShippingMethodRequest
+            //{
+            //    ShippingMethodId = methods.Last().Id
+            //};
+            //XmlSerializer serializer = new XmlSerializer(typeof(ChangeShippingMethodRequest));
+            //XDocument payload = new XDocument();
+            //using (var writer = payload.CreateWriter())
+            //    serializer.Serialize(writer, request);
+            //IPutRequestHelper helper = new PutRequestHelper();
+
+            //ShoppingCarts cart = DeserializeSingleAsync<ShoppingCarts>(helper.PutAsync($"shoppingcart/shippingmethod/{carts.Carts[0].ReservationId}", payload), "response").Result;
+            //ShoppingCarts cart = ChangeShippingMethod(carts.Carts[0].ReservationId, methods.First().Id).Result;
+        }
     }
 }

@@ -7,7 +7,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using MagicCardMarket.Extensions;
-using MagicCardMarket.Log;
 
 namespace MagicCardMarket.ConsoleApp
 {
@@ -44,7 +43,7 @@ namespace MagicCardMarket.ConsoleApp
             //AccountManagement helper = new AccountManagement();
             //MessageThread messageThread = AsyncGetResult(helper.GetMessageThreadAsync(1679796));
 
-            ShoppingCartManipulation helper = new ShoppingCartManipulation();
+            //ShoppingCartManipulation helper = new ShoppingCartManipulation();
             //ShoppingCarts carts1 = AsyncGetResult(helper.GetShoppingCartAsync());
             //XDocument doc = XDocument.Load(@"d:\temp\MCMO\shoppingcart.xml");
             //XmlSerializer serializer = new XmlSerializer(typeof(ShoppingCarts));
@@ -53,6 +52,9 @@ namespace MagicCardMarket.ConsoleApp
             //ShoppingCarts carts3 = AsyncGetResult(helper.RemoveArticlesFromShoppingCart(new Tuple<int, int>(238672691, 1)));
             //helper.EmptyShoppingCart().Wait();
             //helper.Test();
+
+            WantsListManagement helper = new WantsListManagement();
+            helper.Test();
 
 
             //Log.Log.Default.WriteLine(LogLevels.Info, "Building tree");

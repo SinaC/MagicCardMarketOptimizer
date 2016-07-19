@@ -36,9 +36,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Account.cs" />
+    <Compile Include="AddMetaProduct.cs" />
+    <Compile Include="AddMetaProductOrProductRequest.cs" />
+    <Compile Include="AddProduct.cs" />
     <Compile Include="Address.cs" />
     <Compile Include="AccountName.cs" />
     <Compile Include="Article.cs" />
+    <Compile Include="ChangeShippingMethodRequest.cs" />
+    <Compile Include="CreateWantsList.cs" />
+    <Compile Include="CreateWantsListRequest.cs" />
     <Compile Include="ExpansionCards.cs" />
     <Compile Include="Helpers.cs" />
     <Compile Include="Language.cs" />

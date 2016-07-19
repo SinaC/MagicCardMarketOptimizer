@@ -34,6 +34,15 @@ namespace MagicCardMarket.APIHelpers
         //    return values;
         //}
 
+        protected XDocument Serialize<T>(T data)
+        {
+            XmlSerializer serializer = new XmlSerializer(typeof(T));
+            XDocument payload = new XDocument();
+            using (var writer = payload.CreateWriter())
+                serializer.Serialize(writer, data);
+            return payload;
+        }
+
         protected async Task<T> DeserializeSingleAsync<T>(Task<XDocument> documentTask)
         {
             XmlSerializer serializer = new XmlSerializer(typeof(T));

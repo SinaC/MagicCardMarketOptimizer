@@ -1,6 +1,4 @@
 ﻿using System;
-using System.IO;
-using System.Text;
 using System.Threading.Tasks;
 using MagicCardMarket.Cache;
 using MagicCardMarket.Models;

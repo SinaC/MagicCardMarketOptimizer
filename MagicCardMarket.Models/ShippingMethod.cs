@@ -5,7 +5,8 @@ using System.Xml.Serialization;
 namespace MagicCardMarket.Models
 {
     [Serializable]
-    [XmlType(AnonymousType = true)]
+    [XmlType("availableMethod", AnonymousType = true)]
+    [XmlRoot(Namespace = "", ElementName = "availableMethod", IsNullable = false)]
     public class ShippingMethod
     {
         [XmlElement("idShippingMethod", Form = XmlSchemaForm.Unqualified)]
