@@ -31,9 +31,13 @@ namespace MagicCardMarket.ConsoleApp
             //helper.GetArticlesAsync(289367);
             //Expansion[] expansions = AsyncGetResult(helper.GetExpansions(1));
             //ExpansionCards cards = AsyncGetResult(helper.GetExpansionCards(1, "Alpha"));
+            //Product[] products = AsyncGetResult(helper.SearchProducts("island", 1, 1, false));
+            //Article[] articles = AsyncGetResult(helper.GetArticlesByUserAsync(1679796));
+            //helper.Test();
 
             //AccountManagement helper = new AccountManagement();
             //MessageThread[] messageThreadOverview = AsyncGetResult(helper.GetMessageThreadOverviewAsync());
+            //Account account = AsyncGetResult(helper.GetAccountAsync());
 
             //XDocument doc = XDocument.Load(@"d:\temp\MCMO\messagethreadoverview.xml");
             //XmlSerializer serializer = new XmlSerializer(typeof(MessageThread));
@@ -57,20 +61,24 @@ namespace MagicCardMarket.ConsoleApp
             //WantsListManagement helper = new WantsListManagement();
             //helper.Test();
 
-            Log.Log.Default.WriteLine(LogLevels.Info, "Building tree");
-            WantsListObject tree = BuildWantsListObject(968414);
-            Log.Log.Default.WriteLine(LogLevels.Info, "Done");
+            OrderManagement helper = new OrderManagement();
+            //Order[] orders = AsyncGetResult(helper.GetOrders(2, 4));
+            helper.Test();
 
-            Log.Log.Default.WriteLine(LogLevels.Info, "Searching sellers with most cards");
-            List<SellerObject> sellersWithMostCards = BuildSellersWithMostCards(tree);
-            Log.Log.Default.WriteLine(LogLevels.Info, "Done");
+            //Log.Log.Default.WriteLine(LogLevels.Info, "Building tree");
+            //WantsListObject tree = BuildWantsListObject(968414);
+            //Log.Log.Default.WriteLine(LogLevels.Info, "Done");
 
-            //var prettyPrint = tree.WantObjects.Select(w => new {w.Want.Id, w.Want.Count, Name = w.AllProductObjects.First().Product.Names.First(p => p.LanguageId == 1).Name});
+            //Log.Log.Default.WriteLine(LogLevels.Info, "Searching sellers with most cards");
+            //List<SellerObject> sellersWithMostCards = BuildSellersWithMostCards(tree);
+            //Log.Log.Default.WriteLine(LogLevels.Info, "Done");
 
-            // Search cheapest seller for each want
-            Log.Log.Default.WriteLine(LogLevels.Info, "Searching cheapest articles by condition");
-            List<CheapestWantByConditionObject> cheapestSellers = BuildCheapestArticlesByCondition(tree);
-            Log.Log.Default.WriteLine(LogLevels.Info, "Done");
+            ////var prettyPrint = tree.WantObjects.Select(w => new {w.Want.Id, w.Want.Count, Name = w.AllProductObjects.First().Product.Names.First(p => p.LanguageId == 1).Name});
+
+            //// Search cheapest seller for each want
+            //Log.Log.Default.WriteLine(LogLevels.Info, "Searching cheapest articles by condition");
+            //List<CheapestWantByConditionObject> cheapestSellers = BuildCheapestArticlesByCondition(tree);
+            //Log.Log.Default.WriteLine(LogLevels.Info, "Done");
 
             System.Diagnostics.Debugger.Break();
         }

@@ -16,7 +16,7 @@ namespace MagicCardMarket.APIHelpers
             return await DeserializeSingleAsync<ShoppingCarts>(helper.GetAsync("shoppingcart"), "response");
         }
 
-        public async Task<ShoppingCarts> AddArticleInShoppingCart(int idArticle, int amount)
+        public async Task<ShoppingCarts> AddArticleInShoppingCartAsync(int idArticle, int amount)
         {
             ShoppingCartRequest request = new ShoppingCartRequest
             {
@@ -34,7 +34,7 @@ namespace MagicCardMarket.APIHelpers
             return await DeserializeSingleAsync<ShoppingCarts>(helper.PutAsync("shoppingcart", Serialize(request)), "response");
         }
 
-        public async Task<ShoppingCarts> RemoveArticlesFromShoppingCart(params Tuple<int, int>[] articleIdAndCount)
+        public async Task<ShoppingCarts> RemoveArticlesFromShoppingCartAsync(params Tuple<int, int>[] articleIdAndCount)
         {
             ShoppingCartRequest request = new ShoppingCartRequest
             {
@@ -49,7 +49,7 @@ namespace MagicCardMarket.APIHelpers
             return await DeserializeSingleAsync<ShoppingCarts>(helper.PutAsync("shoppingcart", Serialize(request)), "response");
         }
 
-        public async Task EmptyShoppingCart()
+        public async Task EmptyShoppingCartAsync()
         {
             IDeleteRequest helper = new DeleteRequestHelper();
             await helper.DeleteAsync("shoppingcart", null);
@@ -58,13 +58,13 @@ namespace MagicCardMarket.APIHelpers
 //CheckOutShoppingCart()
 //ChangeShippingAddress(name, extra, street, zip, city, country)
 
-        public async Task<ShippingMethod[]> GetShippingMethods(int idReservation)
+        public async Task<ShippingMethod[]> GetShippingMethodsAsync(int idReservation)
         {
             IGetRequest helper = new GetRequestHelper();
             return await DeserializeMultipleAsync<ShippingMethod>(helper.GetAsync($"shoppingcart/shippingmethod/{idReservation}"));
         }
 
-        public async Task<ShoppingCarts> ChangeShippingMethod(int idReservation, int idShippingMethod)
+        public async Task<ShoppingCarts> ChangeShippingMethodAsync(int idReservation, int idShippingMethod)
         {
             ChangeShippingMethodRequest request = new ChangeShippingMethodRequest
             {

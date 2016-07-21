@@ -45,6 +45,7 @@
     <Compile Include="ChangeShippingMethodRequest.cs" />
     <Compile Include="CreateWantsList.cs" />
     <Compile Include="CreateWantsListRequest.cs" />
+    <Compile Include="Evaluation.cs" />
     <Compile Include="ExpansionCards.cs" />
     <Compile Include="Helpers.cs" />
     <Compile Include="Language.cs" />
@@ -56,6 +57,8 @@
     <Compile Include="MetaProduct.cs" />
     <Compile Include="MetaProductIds.cs" />
     <Compile Include="MetaProductName.cs" />
+    <Compile Include="Order.cs" />
+    <Compile Include="OrderState.cs" />
     <Compile Include="Product.cs" />
     <Compile Include="ProductCategory.cs" />
     <Compile Include="ProductName.cs" />
@@ -68,6 +71,7 @@
     <Compile Include="ShoppingCartArticle.cs" />
     <Compile Include="ShoppingCartRequest.cs" />
     <Compile Include="ShoppingCarts.cs" />
+    <Compile Include="User.cs" />
     <Compile Include="Want.cs" />
     <Compile Include="WantsList.cs" />
   </ItemGroup>

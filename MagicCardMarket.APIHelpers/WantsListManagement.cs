@@ -24,7 +24,7 @@ namespace MagicCardMarket.APIHelpers
             return await DeserializeMultipleAsync<Want>(GetWithCacheAsync("wants", idWantsList, () => helper.GetAsync($"wantslist/{idWantsList}")));
         }
 
-        public async Task<WantsList[]> CreateWantsList(int idGame, string name)
+        public async Task<WantsList[]> CreateWantsListAsync(int idGame, string name)
         {
             CreateWantsListRequest request = new CreateWantsListRequest
             {
@@ -38,7 +38,7 @@ namespace MagicCardMarket.APIHelpers
             return await DeserializeMultipleAsync<WantsList>(helper.PostAsync("wantslist", Serialize(request)));
         }
 
-        public async Task<Want> AddProductInWantsList(int wantsListId, int idProduct, int count, int idLanguage, string minCondition, decimal wishPrice, bool isFoil = false, bool isPlayset = false, bool isAltered = false, bool isSigned = false, bool isFirstEd = false)
+        public async Task<Want> AddProductInWantsListAsync(int wantsListId, int idProduct, int count, int idLanguage, string minCondition, decimal wishPrice, bool isFoil = false, bool isPlayset = false, bool isAltered = false, bool isSigned = false, bool isFirstEd = false)
         {
             AddMetaProductOrProductRequest request = new AddMetaProductOrProductRequest
             {
@@ -64,7 +64,7 @@ namespace MagicCardMarket.APIHelpers
             return await DeserializeSingleAsync<Want>(helper.PutAsync($"wantslist/{wantsListId}", Serialize(request)));
         }
 
-        public async Task<Want> AddMetaProductInWantsList(int wantsListId, int idMetaProduct, int count, int idLanguage, decimal wishPrice, string minCondition = "PO", bool isFoil = false, bool isPlayset = false, bool isAltered = false, bool isSigned = false, bool isFirstEd = false)
+        public async Task<Want> AddMetaProductInWantsListAsync(int wantsListId, int idMetaProduct, int count, int idLanguage, decimal wishPrice, string minCondition = "PO", bool isFoil = false, bool isPlayset = false, bool isAltered = false, bool isSigned = false, bool isFirstEd = false)
         {
             AddMetaProductOrProductRequest request = new AddMetaProductOrProductRequest
             {
@@ -90,7 +90,7 @@ namespace MagicCardMarket.APIHelpers
             return await DeserializeSingleAsync<Want>(helper.PutAsync($"wantslist/{wantsListId}", Serialize(request)));
         }
 
-        public async Task<Want[]> AddMultipleInWantsList(int wantsListId, IEnumerable<AddMetaProduct> metaProducts, IEnumerable<AddProduct> products)
+        public async Task<Want[]> AddMultipleInWantsListAsync(int wantsListId, IEnumerable<AddMetaProduct> metaProducts, IEnumerable<AddProduct> products)
         {
             AddMetaProductOrProductRequest request = new AddMetaProductOrProductRequest
             {
@@ -108,27 +108,27 @@ namespace MagicCardMarket.APIHelpers
 
         public void Test()
         {
-            const int wantsListId = 979827;
+            //const int wantsListId = 979827;
 
-            Want[] wants = AddMultipleInWantsList(wantsListId, new AddMetaProduct[]
-            {
-                new AddMetaProduct
-                {
-                    Id = 5395,
-                    Count = 2,
-                    WishPrice = 15,
-                    LanguageId = 1
-                }
-            }, new AddProduct[]
-            {
-                new AddProduct
-                {
-                    Id = 258288,
-                    Count = 3,
-                    WishPrice = 12,
-                    LanguageId = 1
-                },
-            }).Result;
+            //Want[] wants = AddMultipleInWantsListAsync(wantsListId, new AddMetaProduct[]
+            //{
+            //    new AddMetaProduct
+            //    {
+            //        Id = 5395,
+            //        Count = 2,
+            //        WishPrice = 15,
+            //        LanguageId = 1
+            //    }
+            //}, new AddProduct[]
+            //{
+            //    new AddProduct
+            //    {
+            //        Id = 258288,
+            //        Count = 3,
+            //        WishPrice = 12,
+            //        LanguageId = 1
+            //    },
+            //}).Result;
         }
     }
 }

@@ -4,10 +4,9 @@ using MagicCardMarket.Cache;
 using MagicCardMarket.Models;
 using MagicCardMarket.Request;
 
-// TODO: implement every methods
 namespace MagicCardMarket.APIHelpers
 {
-    //c
+    //https://www.mkmapi.eu/ws/documentation/API_1.1:Market_Place_Information
     public class MarketPlaceInformation : HelperBase
     {
         private static readonly Lazy<ICache<Article[]>> LazyArticlesByProductIdCache = new Lazy<ICache<Article[]>>(() => new MemoryCache<Article[]>());
@@ -21,21 +20,11 @@ namespace MagicCardMarket.APIHelpers
 
         public async Task<MetaProduct> GetMetaProductAsync(int idMetaProduct)
         {
-            //XDocument document;
-            //if (Cache.Contains("metaproduct", idMetaProduct))
-            //    document = Cache.Get("metaproduct", idMetaProduct);
-            //else
-            //{
-            //    GetRequestHelper helper = new GetRequestHelper();
-            //    document = await helper.GetAsync($"metaproduct/{idMetaProduct}");
-            //    Cache.Set("metaproduct", idMetaProduct, document);
-            //}
-            //return DeserializeSingle<MetaProduct>(document);
             GetRequestHelper helper = new GetRequestHelper();
             return await DeserializeSingleAsync<MetaProduct>(GetWithCacheAsync("metaproduct", idMetaProduct, () => helper.GetAsync($"metaproduct/{idMetaProduct}")));
         }
 
-        //SearchMetaProducts(name, idGame, idLanguage)
+        //GetMetaProducts(name, idGame, idLanguage)
 
         public async Task<Product> GetProductAsync(int idProduct)
         {
@@ -43,19 +32,19 @@ namespace MagicCardMarket.APIHelpers
             return await DeserializeSingleAsync<Product>(GetWithCacheAsync("product", idProduct, () => helper.GetAsync($"product/{idProduct}")));
         }
 
-//SearchProducts(name, idGame, idLanguage, isExact) **
+        public async Task<Product[]> SearchProductsAsync(string name, int idGame, int idLanguage, bool isExact)
+        {
+            IGetRequest helper = new GetPagingRequestHelper();
+            return await DeserializeMultipleAsync<Product>(helper.GetAsync($"products/{name}/{idGame}/{idLanguage}/{isExact}"));
+        }
 
-        public async Task<Expansion[]> GetExpansions(int idGame)
+        public async Task<Expansion[]> GetExpansionsAsync(int idGame)
         {
             IGetRequest helper = new GetRequestHelper();
             return await DeserializeMultipleAsync<Expansion>(helper.GetAsync($"expansion/{idGame}"));
         }
 
-        //public async Task<Expansion> GetExpansion(int idGame, string name)
-        //{
-
-        //}
-        public async Task<ExpansionCards> GetExpansionCards(int idGame, string expansionName)
+        public async Task<ExpansionCards> GetExpansionCardsAsync(int idGame, string expansionName)
         {
             IGetRequest helper = new GetRequestHelper();
             return await DeserializeSingleAsync<ExpansionCards>(/*GetWithCacheAsync($"expansions", expansionName)*/helper.GetAsync($"expansion/{idGame}/{expansionName}"), "response");
@@ -63,6 +52,7 @@ namespace MagicCardMarket.APIHelpers
 
         public async Task<Article[]> GetArticlesAsync(int idProduct)
         {
+            // Memory cache
             //Article[] articles;
             //if (ArticlesByProductIdCache.Contains(idProduct))
             //{
@@ -76,11 +66,38 @@ namespace MagicCardMarket.APIHelpers
             //    ArticlesByProductIdCache.Set(idProduct, articles);
             //}
             //return articles;
+
+            // Disk cache
             IGetRequest helper = new GetPagingRequestHelper();
             return await DeserializeMultipleAsync<Article>(GetWithCacheAsync("article", idProduct, () => helper.GetAsync($"articles/{idProduct}")));
         }
 
-//GetUser(idUser)
-//GetArticles(idUser) **
+        public async Task<User> GetUserAsync(string name)
+        {
+            IGetRequest helper = new GetRequestHelper();
+            return await DeserializeSingleAsync<User>(helper.GetAsync($"user/{name}"));
+        }
+
+        public async Task<User> GetUserAsync(int idUser)
+        {
+            IGetRequest helper = new GetRequestHelper();
+            return await DeserializeSingleAsync<User>(helper.GetAsync($"user/{idUser}"));
+        }
+
+        public async Task<Article[]> GetArticlesByUserAsync(int idUser)
+        {
+            IGetRequest helper = new GetPagingRequestHelper();
+            return await DeserializeMultipleAsync<Article>(helper.GetAsync($"articles/user/{idUser}"));
+        }
+
+        public void Test()
+        {
+            //User user = GetUserAsync("pgeffe76").Result;
+            //GetArticles(idUser) **
+            //1679796
+            //IGetRequest helper = new GetPagingRequestHelper();
+            //XDocument document = helper.GetAsync("articles/user/1679796").Result;
+            //Article[] articles = DeserializeMultipleAsync<Article>(Task.FromResult(document)).Result;
+        }
     }
 }
