@@ -1,0 +1,37 @@
+﻿<UserControl x:Class="MagicCardMarket.App.Selling.SellingView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:selling="clr-namespace:MagicCardMarket.App.Selling"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance selling:SellingViewModelDesignData, IsDesignTimeCreatable=True}"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <DataGrid AutoGenerateColumns="False"
+                  ItemsSource="{Binding Articles}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name"
+                                    Binding="{Binding Name}" />
+                <DataGridTextColumn Header="Cond."
+                                    Binding="{Binding Article.Condition}"/>
+                <DataGridTextColumn Header="Price"
+                                    Binding="{Binding RealPrice}" />
+                <DataGridTextColumn Header="Trend diff"
+                                    Binding="{Binding PriceHistory.TrendPriceDifference}" />
+                <DataGridTextColumn Header="Last update"
+                                    Binding="{Binding PriceHistory.MostRecentPrices.Timestamp, StringFormat={}{0:dd/MM/yyyy HH:mm:ss}}" />
+                <DataGridTextColumn Header="Sell"
+                                    Binding="{Binding PriceHistory.MostRecentPrices.Prices.Sell}" />
+                <DataGridTextColumn Header="Low"
+                                    Binding="{Binding PriceHistory.MostRecentPrices.Prices.Low}" />
+                <DataGridTextColumn Header="LowEx"
+                                    Binding="{Binding PriceHistory.MostRecentPrices.Prices.LowEx}" />
+                <DataGridTextColumn Header="Avg"
+                                    Binding="{Binding PriceHistory.MostRecentPrices.Prices.Average}" />
+                <DataGridTextColumn Header="Trend"
+                                    Binding="{Binding PriceHistory.MostRecentPrices.Prices.Trend}" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

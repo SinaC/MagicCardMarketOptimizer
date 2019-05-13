@@ -1,16 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2026
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagicCardMarket.App", "MagicCardMarket.App\MagicCardMarket.App.csproj", "{D3589714-FE74-4647-A96F-5A53D4DF89A0}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagicCardMarket.Models", "MagicCardMarket.Models\MagicCardMarket.Models.csproj", "{CD5AFF37-EA2E-4379-BB15-57466A9082FE}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagicCardMarket.Request", "MagicCardMarket.Request\MagicCardMarket.Request.csproj", "{21723232-14A9-4688-ABDC-D1E4A0AB49D6}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagicCardMarket.MVVM", "MagicCardMarket.MVVM\MagicCardMarket.MVVM.csproj", "{35F68C5D-10F1-4248-B3BC-6A76F437FEEE}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdornedControl", "AdornedControl\AdornedControl.csproj", "{94B81CB7-F8A6-44BC-BD71-E927F701E0D8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solutions Items", "Solutions Items", "{E327C31B-F005-4A7F-A4D7-CB93FE75BEDA}"
@@ -28,28 +20,20 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagicCardMarket.ConsoleApp"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagicCardMarket.Extensions", "MagicCardMarket.Extensions\MagicCardMarket.Extensions.csproj", "{57CDAD5E-AFF3-45A1-B578-672BB1F75319}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagicCardMarket.App", "MagicCardMarket.App\MagicCardMarket.App.csproj", "{D3589714-FE74-4647-A96F-5A53D4DF89A0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagicCardMarket.Models", "MagicCardMarket.Models\MagicCardMarket.Models.csproj", "{CD5AFF37-EA2E-4379-BB15-57466A9082FE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagicCardMarket.MVVM", "MagicCardMarket.MVVM\MagicCardMarket.MVVM.csproj", "{35F68C5D-10F1-4248-B3BC-6A76F437FEEE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagicCardMarket.Request", "MagicCardMarket.Request\MagicCardMarket.Request.csproj", "{21723232-14A9-4688-ABDC-D1E4A0AB49D6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{D3589714-FE74-4647-A96F-5A53D4DF89A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D3589714-FE74-4647-A96F-5A53D4DF89A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D3589714-FE74-4647-A96F-5A53D4DF89A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D3589714-FE74-4647-A96F-5A53D4DF89A0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CD5AFF37-EA2E-4379-BB15-57466A9082FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CD5AFF37-EA2E-4379-BB15-57466A9082FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CD5AFF37-EA2E-4379-BB15-57466A9082FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CD5AFF37-EA2E-4379-BB15-57466A9082FE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{21723232-14A9-4688-ABDC-D1E4A0AB49D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{21723232-14A9-4688-ABDC-D1E4A0AB49D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{21723232-14A9-4688-ABDC-D1E4A0AB49D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{21723232-14A9-4688-ABDC-D1E4A0AB49D6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{35F68C5D-10F1-4248-B3BC-6A76F437FEEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{35F68C5D-10F1-4248-B3BC-6A76F437FEEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{35F68C5D-10F1-4248-B3BC-6A76F437FEEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{35F68C5D-10F1-4248-B3BC-6A76F437FEEE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{94B81CB7-F8A6-44BC-BD71-E927F701E0D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{94B81CB7-F8A6-44BC-BD71-E927F701E0D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{94B81CB7-F8A6-44BC-BD71-E927F701E0D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -74,8 +58,27 @@ Global
 		{57CDAD5E-AFF3-45A1-B578-672BB1F75319}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{57CDAD5E-AFF3-45A1-B578-672BB1F75319}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{57CDAD5E-AFF3-45A1-B578-672BB1F75319}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3589714-FE74-4647-A96F-5A53D4DF89A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3589714-FE74-4647-A96F-5A53D4DF89A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3589714-FE74-4647-A96F-5A53D4DF89A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3589714-FE74-4647-A96F-5A53D4DF89A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD5AFF37-EA2E-4379-BB15-57466A9082FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD5AFF37-EA2E-4379-BB15-57466A9082FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD5AFF37-EA2E-4379-BB15-57466A9082FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD5AFF37-EA2E-4379-BB15-57466A9082FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{35F68C5D-10F1-4248-B3BC-6A76F437FEEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35F68C5D-10F1-4248-B3BC-6A76F437FEEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35F68C5D-10F1-4248-B3BC-6A76F437FEEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35F68C5D-10F1-4248-B3BC-6A76F437FEEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21723232-14A9-4688-ABDC-D1E4A0AB49D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21723232-14A9-4688-ABDC-D1E4A0AB49D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21723232-14A9-4688-ABDC-D1E4A0AB49D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21723232-14A9-4688-ABDC-D1E4A0AB49D6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {08E8A3FD-E510-421A-83C6-A5D3A79312B9}
 	EndGlobalSection
 EndGlobal

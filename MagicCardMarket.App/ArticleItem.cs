@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using MagicCardMarket.Models;
 using MagicCardMarket.MVVM;
 
@@ -11,6 +13,8 @@ namespace MagicCardMarket.App
         public Product Product { get; protected set; }
 
         public MetaProduct MetaProduct { get; protected set; }
+
+        public ProductPriceHistory PriceHistory { get; protected set; }
 
         public string Name { get; protected set; }
 
@@ -34,6 +38,15 @@ namespace MagicCardMarket.App
 
             Name = MetaProduct.Names?.FirstOrDefault(x => x.LanguageId == 1)?.Name;
         }
+
+        public ArticleItem(Article article, Product product, ProductPriceHistory priceHistory)
+        {
+            Article = article;
+            Product = product;
+            PriceHistory = priceHistory;
+
+            Name = Product.Names?.FirstOrDefault(x => x.LanguageId == 1)?.Name;
+        }
     }
 
     public class ArticleItemDesignData : ArticleItem
@@ -56,6 +69,28 @@ namespace MagicCardMarket.App
                  },
                  1)
         {
+            PriceHistory = new ProductPriceHistory
+            {
+                PricesHistory = new List<PriceHistoryEntry>
+                {
+                    new PriceHistoryEntry
+                    {
+                        Timestamp = DateTime.Now,
+                        Prices = new ProductPriceGuide
+                        {
+                            Trend = 8,
+                        }
+                    },
+                    new PriceHistoryEntry
+                    {
+                        Timestamp = DateTime.Now.AddDays(-1),
+                        Prices = new ProductPriceGuide
+                        {
+                            Trend = 8.75,
+                        }
+                    }
+                }
+            };
         }
     }
 }

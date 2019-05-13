@@ -7,7 +7,7 @@ using MagicCardMarket.Request;
 // TODO: implement every methods
 namespace MagicCardMarket.APIHelpers
 {
-    //https://www.mkmapi.eu/ws/documentation/API_1.1:Wants_List_Management
+    //https://api.cardmarket.com/ws/documentation/API_1.1:Wants_List_Management
     public class WantsListManagement : HelperBase
     {
         public async Task<WantsList[]> GetWantsListAsync(bool forceReload)

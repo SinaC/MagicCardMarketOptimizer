@@ -7,7 +7,7 @@ using MagicCardMarket.Request;
 // TODO: implement every methods
 namespace MagicCardMarket.APIHelpers
 {
-    //https://www.mkmapi.eu/ws/documentation/API_1.1:Shopping_Cart_Manipulation
+    //https://api.cardmarket.com/ws/documentation/API_1.1:Shopping_Cart_Manipulation
     public class ShoppingCartManipulation : HelperBase
     {
         public async Task<ShoppingCarts> GetShoppingCartAsync()

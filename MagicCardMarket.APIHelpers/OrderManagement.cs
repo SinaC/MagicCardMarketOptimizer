@@ -5,7 +5,7 @@ using MagicCardMarket.Request;
 // TODO: implement every methods
 namespace MagicCardMarket.APIHelpers
 {
-    //https://www.mkmapi.eu/ws/documentation/API_1.1:Order_Management
+    //https://api.cardmarket.com/ws/documentation/API_1.1:Order_Management
     public class OrderManagement : HelperBase
     {
         public async Task<Order> GetOrder(int idOrder)

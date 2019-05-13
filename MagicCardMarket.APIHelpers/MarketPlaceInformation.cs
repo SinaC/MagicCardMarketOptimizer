@@ -6,7 +6,7 @@ using MagicCardMarket.Request;
 
 namespace MagicCardMarket.APIHelpers
 {
-    //https://www.mkmapi.eu/ws/documentation/API_1.1:Market_Place_Information
+    //https://api.cardmarket.com/ws/documentation/API_1.1:Market_Place_Information
     public class MarketPlaceInformation : HelperBase
     {
         private static readonly Lazy<ICache<Article[]>> LazyArticlesByProductIdCache = new Lazy<ICache<Article[]>>(() => new MemoryCache<Article[]>());

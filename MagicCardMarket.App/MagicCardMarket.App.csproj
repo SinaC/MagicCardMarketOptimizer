@@ -56,6 +56,10 @@
     <Compile Include="BusyIndicator.xaml.cs">
       <DependentUpon>BusyIndicator.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Buying\BuyingView.xaml.cs">
+      <DependentUpon>BuyingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Buying\BuyingViewModel.cs" />
     <Compile Include="CircularProgressBarControl.xaml.cs">
       <DependentUpon>CircularProgressBarControl.xaml</DependentUpon>
     </Compile>
@@ -63,12 +67,21 @@
     <Compile Include="MetaProductItem.cs" />
     <Compile Include="MissingItem.cs" />
     <Compile Include="Parameters.cs" />
+    <Compile Include="ProductPriceHistory.cs" />
     <Compile Include="SellerArticleItem.cs" />
     <Compile Include="SellerItem.cs" />
+    <Compile Include="Selling\SellingView.xaml.cs">
+      <DependentUpon>SellingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Selling\SellingViewModel.cs" />
     <Compile Include="ViewModelBase.cs" />
     <Compile Include="ProductItem.cs" />
     <Compile Include="WantItemBase.cs" />
     <Page Include="BusyIndicator.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Buying\BuyingView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -89,6 +102,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Selling\SellingView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -146,6 +163,7 @@
       <Name>MagicCardMarket.MVVM</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:app="clr-namespace:MagicCardMarket.App"
         xmlns:adornedControl="clr-namespace:AdornedControl;assembly=AdornedControl"
-        xmlns:models="clr-namespace:MagicCardMarket.Models;assembly=MagicCardMarket.Models"
+        xmlns:buying="clr-namespace:MagicCardMarket.App.Buying"
+        xmlns:selling="clr-namespace:MagicCardMarket.App.Selling"
         mc:Ignorable="d"
         Title="Magic Card Market Optimizer"
         Height="600"
@@ -28,27 +29,13 @@
             <Setter Property="FontSize"
                     Value="10" />
         </Style>
-        <Style x:Key="EllipsisTextBlockStyle"
-               TargetType="{x:Type TextBlock}"
-               BasedOn="{StaticResource {x:Type TextBlock}}">
-            <Setter Property="TextTrimming"
-                    Value="CharacterEllipsis" />
-            <Setter Property="ToolTip"
-                    Value="{Binding Text, RelativeSource={RelativeSource Self}}" />
-        </Style>
-        <!--http://stackoverflow.com/questions/33132257/fill-remaining-space-of-parent-with-2-or-more-expanders-wpf-->
-        <Style x:Key="ResizableExpanderRowDefinitionStyle"
-               TargetType="{x:Type RowDefinition}">
-            <Setter Property="Height"
-                    Value="Auto" />
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding Tag.IsExpanded, RelativeSource={RelativeSource Self}}"
-                             Value="True">
-                    <Setter Property="Height"
-                            Value="*" />
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <DataTemplate x:Key="BuyingTemplate">
+            <buying:BuyingView DataContext="{Binding BuyingViewModel}"/>
+        </DataTemplate>
+        <DataTemplate x:Key="SellingTemplate">
+            <selling:SellingView DataContext="{Binding SellingViewModel}"/>
+        </DataTemplate>
     </Window.Resources>
     <!--http://www.codeproject.com/Articles/57984/WPF-Loading-Wait-Adorner-->
     <adornedControl:AdornedControl IsAdornerVisible="{Binding IsBusy}">
@@ -65,383 +52,129 @@
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
-                <RowDefinition Tag="{Binding ElementName=ArticlesExpander}"
-                               Style="{StaticResource ResizableExpanderRowDefinitionStyle}" />
-                <RowDefinition Tag="{Binding ElementName=SellerArticlesExpander}"
-                               Style="{StaticResource ResizableExpanderRowDefinitionStyle}" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <!-- Account -->
             <Grid Grid.Row="0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <GroupBox Grid.Row="0"
-                          Grid.Column="0">
-                    <GroupBox.Header>
-                        <TextBlock FontWeight="Bold"
-                                   Text="Account" />
-                    </GroupBox.Header>
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-
-                        <!-- Row 0 -->
-                        <StackPanel Grid.Row="0"
-                                    Grid.Column="0"
-                                    Margin="5,2">
-                            <TextBlock FontWeight="Bold"
-                                       Text="Id" />
-                            <TextBlock Text="{Binding Id}" />
-                        </StackPanel>
-
-                        <StackPanel Grid.Row="0"
-                                    Grid.Column="1"
-                                    Margin="5,2">
-                            <TextBlock FontWeight="Bold"
-                                       Text="Username" />
-                            <TextBlock Text="{Binding UserName}" />
-                        </StackPanel>
-
-                        <StackPanel Grid.Row="0"
-                                    Grid.Column="2"
-                                    Margin="5,2">
-                            <TextBlock FontWeight="Bold"
-                                       Text="Unread messages" />
-                            <TextBlock Text="{Binding UnreadMessages}" />
-                        </StackPanel>
-
-                        <!-- Row 1 -->
-                        <StackPanel Grid.Row="1"
-                                    Grid.Column="0"
-                                    Margin="5,2">
-                            <TextBlock FontWeight="Bold"
-                                       Text="Balance" />
-                            <TextBlock Text="{Binding AccountBalance}" />
-                        </StackPanel>
-
-                        <StackPanel Grid.Row="1"
-                                    Grid.Column="1"
-                                    Margin="5,2">
-                            <TextBlock FontWeight="Bold"
-                                       Text="Bank recharge" />
-                            <TextBlock Text="{Binding BankRecharge}" />
-                        </StackPanel>
-
-                        <StackPanel Grid.Row="1"
-                                    Grid.Column="2"
-                                    Margin="5,2">
-                            <TextBlock FontWeight="Bold"
-                                       Text="PayPal recharge" />
-                            <TextBlock Text="{Binding PayPalRecharge}" />
-                        </StackPanel>
-
-                        <Button Grid.Row="0"
-                                Grid.Column="3"
-                                Margin="5,2"
-                                Command="{Binding ReloadCommand}">
-                            <TextBlock Text="Reload"/>
-                        </Button>
-                    </Grid>
-                </GroupBox>
-
-                <!-- Wants -->
-                <Grid Grid.Row="1"
-                      Grid.Column="0">
+                <!-- Account -->
+                <Grid Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-
-                    <!-- Wants List + Wants -->
-                    <GroupBox Grid.Column="0">
+                    <GroupBox Grid.Row="0"
+                              Grid.Column="0">
                         <GroupBox.Header>
                             <TextBlock FontWeight="Bold"
-                                       Text="Wants List / Wants" />
+                                       Text="Account" />
                         </GroupBox.Header>
                         <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
 
-                            <!-- Wants list -->
-                            <ListBox Grid.Column="0"
-                                     Margin="5,2"
-                                     MaxHeight="200"
-                                     ItemsSource="{Binding WantsLists}"
-                                     SelectedItem="{Binding SelectedWantsList}">
-                                <ListBox.ItemTemplate>
-                                    <DataTemplate DataType="{x:Type models:WantsList}">
-                                        <TextBlock>
-                                            <TextBlock.Text>
-                                                <MultiBinding StringFormat="{}{0} ({1})">
-                                                    <Binding Path="Name" />
-                                                    <Binding Path="ItemCount" />
-                                                </MultiBinding>
-                                            </TextBlock.Text>
-                                        </TextBlock>
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>
-                            </ListBox>
+                            <!-- Row 0 -->
+                            <StackPanel Grid.Row="0"
+                                        Grid.Column="0"
+                                        Margin="5,2">
+                                <TextBlock FontWeight="Bold"
+                                           Text="Id" />
+                                <TextBlock Text="{Binding Id}" />
+                            </StackPanel>
 
-                            <!-- Wants -->
-                            <DataGrid Grid.Column="1"
-                                      Margin="5,2"
-                                      MaxHeight="200"
-                                      VerticalAlignment="Top"
-                                      VerticalScrollBarVisibility="Auto"
-                                      CanUserDeleteRows="False"
-                                      CanUserAddRows="False"
-                                      IsReadOnly="True"
-                                      ItemsSource="{Binding Wants}"
-                                      SelectedItem="{Binding SelectedWantItem}"
-                                      AutoGenerateColumns="False">
-                                <DataGrid.Columns>
-                                    <DataGridTextColumn Header="Name"
-                                                        Binding="{Binding Name}" />
-                                    <DataGridTextColumn Header="Count"
-                                                        Binding="{Binding Count}" />
-                                    <DataGridTextColumn Header="Min. cond."
-                                                        Binding="{Binding MinCondition}" />
-                                </DataGrid.Columns>
-                            </DataGrid>
+                            <StackPanel Grid.Row="0"
+                                        Grid.Column="1"
+                                        Margin="5,2">
+                                <TextBlock FontWeight="Bold"
+                                           Text="Username" />
+                                <TextBlock Text="{Binding UserName}" />
+                            </StackPanel>
+
+                            <StackPanel Grid.Row="0"
+                                        Grid.Column="2"
+                                        Margin="5,2">
+                                <TextBlock FontWeight="Bold"
+                                           Text="Unread messages" />
+                                <TextBlock Text="{Binding UnreadMessages}" />
+                            </StackPanel>
+
+                            <!-- Row 1 -->
+                            <StackPanel Grid.Row="1"
+                                        Grid.Column="0"
+                                        Margin="5,2">
+                                <TextBlock FontWeight="Bold"
+                                           Text="Balance" />
+                                <TextBlock Text="{Binding AccountBalance}" />
+                            </StackPanel>
+
+                            <StackPanel Grid.Row="1"
+                                        Grid.Column="1"
+                                        Margin="5,2">
+                                <TextBlock FontWeight="Bold"
+                                           Text="Bank recharge" />
+                                <TextBlock Text="{Binding BankRecharge}" />
+                            </StackPanel>
+
+                            <StackPanel Grid.Row="1"
+                                        Grid.Column="2"
+                                        Margin="5,2">
+                                <TextBlock FontWeight="Bold"
+                                           Text="PayPal recharge" />
+                                <TextBlock Text="{Binding PayPalRecharge}" />
+                            </StackPanel>
                         </Grid>
                     </GroupBox>
                 </Grid>
-
-                <!-- Optimization (Sellers with most cards) -->
-                <GroupBox Grid.Row="1"
-                          Grid.Column="1">
-                    <GroupBox.Header>
-                        <TextBlock FontWeight="Bold"
-                                   Text="Optimization" />
-                    </GroupBox.Header>
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-                        <Grid Grid.Row="0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-                            <Button Grid.Column="0"
-                                    Margin="5,2"
-                                Command="{Binding OptimizeCommand}"
-                                Content="Optimize" />
-                            <StackPanel Grid.Column="1"
-                                        Margin="5,2"
-                                        Orientation="Vertical">
-                                <CheckBox Margin="5,2"
-                                        IsChecked="{Binding FilterOutSpecial}">
-                                    <TextBlock Text="Filter out special"/>
-                                </CheckBox>
-                                <CheckBox Margin="5,2"
-                                        IsChecked="{Binding FilterOutBasicLand}">
-                                    <TextBlock Text="Filter out basic lands"/>
-                                </CheckBox>
-                            </StackPanel>
-                            <StackPanel Grid.Column="2"
-                                        Margin="5,2"
-                                        Orientation="Vertical">
-                                <CheckBox Margin="5,2"
-                                        IsChecked="{Binding UseHigherIdHeuristic}">
-                                    <TextBlock Text="Use higher id heuristic"/>
-                                </CheckBox>
-                                <CheckBox Margin="5,2"
-                                        IsChecked="{Binding UseTrendPriceHeuristic}">
-                                    <TextBlock Text="Use trend price heuristic (not recommended)"/>
-                                </CheckBox>
-                            </StackPanel>
-                        </Grid>
-                        <DataGrid Grid.Row="1"
-                                  VirtualizingStackPanel.IsVirtualizing="True"
-                                  VirtualizingPanel.VirtualizationMode="Recycling"
-                                  MaxHeight="240"
-                                  Margin="5,2"
-                                  VerticalAlignment="Top"
-                                  HorizontalAlignment="Left"
-                                  ItemsSource="{Binding Sellers}"
-                                  SelectedItem="{Binding SelectedSeller}"
-                                  AutoGenerateColumns="False"
-                                  CanUserDeleteRows="False"
-                                  CanUserAddRows="False"
-                                  IsReadOnly="True">
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Binding="{Binding Seller.Country}" />
-                                <DataGridTextColumn Header="Seller"
-                                                    Binding="{Binding Seller.UserName}" />
-                                <DataGridTextColumn Header="Price"
-                                                    Binding="{Binding BestTotalPrices}" />
-                                <DataGridTextColumn Header="Matches"
-                                                    Binding="{Binding WantsCount}" />
-                            </DataGrid.Columns>
-                        </DataGrid>
-                    </Grid>
-                </GroupBox>
+                <!-- Toggle button -->
+                <StackPanel Grid.Column="1"
+                            Orientation="Horizontal">
+                    <Button Margin="5,2"
+                            Command="{Binding SwitchToBuyingCommand}">
+                        <TextBlock Text="Buying"/>
+                    </Button>
+                    <Button Margin="5,2"
+                            Command="{Binding SwitchToSellingCommand}">
+                        <TextBlock Text="Selling"/>
+                    </Button>
+                </StackPanel>
             </Grid>
 
-            <!-- Articles from want list -->
-            <Expander Name="ArticlesExpander"
-                      Grid.Row="1"
-                      IsExpanded="{Binding IsArticlesExpanded}">
-                <Expander.Header>
-                    <TextBlock FontWeight="Bold">
-                        <TextBlock.Text>
-                            <MultiBinding StringFormat="{}Articles for product {0}">
-                                <Binding Path="SelectedWantItem.Name" />
-                            </MultiBinding>
-                        </TextBlock.Text>
-                    </TextBlock>
-                </Expander.Header>
-                <Grid>
-                    <DataGrid Margin="5,2"
-                              VerticalAlignment="Stretch"
-                              VerticalScrollBarVisibility="Auto"
-                              ItemsSource="{Binding Articles}"
-                              AutoGenerateColumns="False"
-                              CanUserAddRows="False"
-                              CanUserDeleteRows="False"
-                              IsReadOnly="True">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding Article.Seller.Country}" />
-                            <DataGridTextColumn Header="Seller"
-                                                Binding="{Binding Article.Seller.UserName}"
-                                                Width="150"
-                                                ElementStyle="{StaticResource EllipsisTextBlockStyle}" />
-                            <DataGridTextColumn Header="Exp."
-                                                Binding="{Binding Product.Expansion}"
-                                                Width="100"
-                                                ElementStyle="{StaticResource EllipsisTextBlockStyle}" />
-                            <DataGridTextColumn Header="Rarity"
-                                                Binding="{Binding Product.Rarity}" />
-                            <DataGridTextColumn Header="Language"
-                                                Binding="{Binding Article.Language.Name}" />
-                            <DataGridTextColumn Header="Condition"
-                                                Binding="{Binding Article.Condition}" />
-                            <DataGridCheckBoxColumn Header="Foil?"
-                                                    Binding="{Binding Article.IsFoil}" />
-                            <DataGridCheckBoxColumn Header="4?"
-                                                    Binding="{Binding Article.IsPlayset}" />
-                            <DataGridTextColumn Header="Comments"
-                                                Binding="{Binding Article.Comments}"
-                                                Width="100"
-                                                ElementStyle="{StaticResource EllipsisTextBlockStyle}" />
-                            <DataGridTextColumn Header="Price"
-                                                Binding="{Binding Article.Price}" />
-                            <DataGridTextColumn Header="Avail."
-                                                Binding="{Binding Article.Count}" />
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </Grid>
-            </Expander>
-
-            <!-- Articles from seller -->
-            <Expander Name="SellerArticlesExpander"
-                      Grid.Row="2"
-                      VerticalAlignment="Stretch"
-                      IsExpanded="{Binding IsSellerArticlesExpanded}">
-                <Expander.Header>
-                    <TextBlock FontWeight="Bold">
-                        <TextBlock.Text>
-                            <MultiBinding StringFormat="{}Articles for seller {0}">
-                                <Binding Path="SelectedSeller.Seller.UserName" />
-                            </MultiBinding>
-                        </TextBlock.Text>
-                    </TextBlock>
-                </Expander.Header>
-                <ScrollViewer VerticalAlignment="Stretch" VerticalScrollBarVisibility="Auto">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-                        <!-- Available -->
-                        <DataGrid Grid.Row="0"
-                                  Margin="5,2"
-                                  VerticalAlignment="Stretch"
-                                  VerticalScrollBarVisibility="Auto"
-                                  ItemsSource="{Binding SellerArticles}"
-                                  AutoGenerateColumns="False"
-                                  CanUserAddRows="False"
-                                  CanUserDeleteRows="False"
-                                  IsReadOnly="True">
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Binding="{Binding ArticleItem.Article.Seller.Country}" />
-                                <DataGridTextColumn Header="Product"
-                                                    Binding="{Binding ArticleItem.Name}"
-                                                    Width="150"
-                                                    ElementStyle="{StaticResource EllipsisTextBlockStyle}" />
-                                <DataGridTextColumn Header="Exp."
-                                                    Binding="{Binding ArticleItem.Product.Expansion}"
-                                                    Width="100"
-                                                    ElementStyle="{StaticResource EllipsisTextBlockStyle}" />
-                                <DataGridTextColumn Header="Rarity"
-                                                    Binding="{Binding ArticleItem.Product.Rarity}" />
-                                <DataGridTextColumn Header="Language"
-                                                    Binding="{Binding ArticleItem.Article.Language.Name}" />
-                                <DataGridTextColumn Header="Condition"
-                                                    Binding="{Binding ArticleItem.Article.Condition}" />
-                                <DataGridCheckBoxColumn Header="Foil?"
-                                                        Binding="{Binding ArticleItem.Article.IsFoil}" />
-                                <DataGridCheckBoxColumn Header="4?"
-                                                        Binding="{Binding ArticleItem.Article.IsPlayset}" />
-                                <DataGridTextColumn Header="Comments"
-                                                    Binding="{Binding ArticleItem.Article.Comments}"
-                                                    Width="100"
-                                                    ElementStyle="{StaticResource EllipsisTextBlockStyle}" />
-                                <DataGridTextColumn Header="Price"
-                                                    Binding="{Binding ArticleItem.Article.Price}" />
-                                <DataGridTextColumn Header="Avail."
-                                                    Binding="{Binding ArticleItem.Article.Count}" />
-                                <DataGridTextColumn Header="Count"
-                                                    Binding="{Binding Count}" />
-                            </DataGrid.Columns>
-                        </DataGrid>
-
-                        <!-- Missing -->
-                        <TextBlock Grid.Row="1"
-                                   Margin="5,2"
-                                   FontWeight="Bold"
-                                   Text="Missing"/>
-                        <DataGrid Grid.Row="2"
-                                  Margin="5,2"
-                                  VerticalAlignment="Stretch"
-                                  VerticalScrollBarVisibility="Auto"
-                                  ItemsSource="{Binding MissingItems}"
-                                  AutoGenerateColumns="False"
-                                  CanUserAddRows="False"
-                                  CanUserDeleteRows="False"
-                                  IsReadOnly="True">
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Header="Product"
-                                                    Binding="{Binding Want.Name}"
-                                                    Width="150"
-                                                    ElementStyle="{StaticResource EllipsisTextBlockStyle}" />
-                                <DataGridTextColumn Header="Count"
-                                                    Binding="{Binding Count}" />
-                            </DataGrid.Columns>
-                        </DataGrid>
-                    </Grid>
-                </ScrollViewer>
-            </Expander>
+            <!-- Buying or Selling -->
+            <ContentControl Grid.Row="1"
+                            Content="{Binding}" IsTabStop="False">
+                <ContentControl.Style>
+                    <Style TargetType="{x:Type ContentControl}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsBuyingSelected}" Value="True">
+                                <Setter Property="ContentTemplate" Value="{StaticResource BuyingTemplate}"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsSellingSelected}" Value="True">
+                                <Setter Property="ContentTemplate" Value="{StaticResource SellingTemplate}"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ContentControl.Style>
+            </ContentControl>
+            <!--<buying:BuyingView Grid.Row="1"
+                               Visibility="{Binding IsBuyingSelected, Converter={StaticResource BooleanToVisibilityConverter}}"
+                               DataContext="{Binding BuyingViewModel}"/>
+            <selling:SellingView Grid.Row="1"
+                                 Visibility="{Binding IsSellingSelected, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                 DataContext="{Binding SellingViewModel}"/>-->
         </Grid>
     </adornedControl:AdornedControl>
 </Window>
