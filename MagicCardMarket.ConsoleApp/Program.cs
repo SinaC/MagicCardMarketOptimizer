@@ -89,7 +89,7 @@ namespace MagicCardMarket.ConsoleApp
             MarketPlaceInformation marketHelper = new MarketPlaceInformation();
 
             // Wants
-            List<Want> wants = AsyncGetResult(wantHelper.GetWantsAsync(wantsListId)).ToList();
+            List<Want> wants = AsyncGetResult(wantHelper.GetWantsAsync(wantsListId, false)).ToList();
             WantsListObject wantsListObject = new WantsListObject
             {
                 WantsListId = wantsListId,

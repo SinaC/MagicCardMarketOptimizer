@@ -80,10 +80,10 @@ namespace MagicCardMarket.APIHelpers
         //    return document;
         //}
 
-        protected async Task<XDocument> GetWithCacheAsync(string category, int id, Func<Task<XDocument>> documentTaskFunc)
+        protected async Task<XDocument> GetWithCacheAsync(string category, int id, bool forceReload, Func<Task<XDocument>> documentTaskFunc)
         {
             XDocument document;
-            if (Cache.Contains(category, id))
+            if (!forceReload && Cache.Contains(category, id))
             {
                 Log.Log.Default.WriteLine(LogLevels.Debug, $"CACHE HIT GetWithCacheAsync: category={category} id={id}");
                 document = Cache.Get(category, id);

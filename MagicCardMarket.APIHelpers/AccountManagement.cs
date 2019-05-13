@@ -8,11 +8,11 @@ namespace MagicCardMarket.APIHelpers
     //https://www.mkmapi.eu/ws/documentation/API_1.1:Account_Management
     public class AccountManagement : HelperBase
     {
-        public async Task<Account> GetAccountAsync()
+        public async Task<Account> GetAccountAsync(bool forceReload)
         {
             IGetRequest helper = new GetRequestHelper();
             //return await DeserializeSingleAsync<Account>(helper.GetAsync("account"));
-            return await DeserializeSingleAsync<Account>(GetWithCacheAsync("account", 1, () => helper.GetAsync("account")));
+            return await DeserializeSingleAsync<Account>(GetWithCacheAsync("account", 1, forceReload, () => helper.GetAsync("account")));
         }
 
         //SetVacation(isOnVacation)

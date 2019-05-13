@@ -16,7 +16,7 @@ namespace MagicCardMarket.Request
         public string AppSecret { get; }
         public string AccessToken { get; }
         public string AccessSecret { get; }
-        public string Url = "https://www.mkmapi.eu/ws/v1.1/";
+        public string Url = "https://sandbox.mkmapi.eu/ws/v1.1/";
 
         private Tokens()
         {
@@ -27,7 +27,7 @@ namespace MagicCardMarket.Request
             string[] lines = File.ReadAllLines(filename);
             foreach (string s in lines)
             {
-                if (s.StartsWith("URL="))
+                if (s.StartsWith("Url="))
                     Url = Clean(s.Split('=')[1]);
                 else if (s.StartsWith("App token="))
                     AppToken = Clean(s.Split('=')[1]);

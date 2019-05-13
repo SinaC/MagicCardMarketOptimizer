@@ -18,18 +18,18 @@ namespace MagicCardMarket.APIHelpers
             return await DeserializeMultipleAsync<Game>(helper.GetAsync("games"));
         }
 
-        public async Task<MetaProduct> GetMetaProductAsync(int idMetaProduct)
+        public async Task<MetaProduct> GetMetaProductAsync(int idMetaProduct, bool forceReload = false)
         {
             GetRequestHelper helper = new GetRequestHelper();
-            return await DeserializeSingleAsync<MetaProduct>(GetWithCacheAsync("metaproduct", idMetaProduct, () => helper.GetAsync($"metaproduct/{idMetaProduct}")));
+            return await DeserializeSingleAsync<MetaProduct>(GetWithCacheAsync("metaproduct", idMetaProduct, forceReload, () => helper.GetAsync($"metaproduct/{idMetaProduct}")));
         }
 
         //GetMetaProducts(name, idGame, idLanguage)
 
-        public async Task<Product> GetProductAsync(int idProduct)
+        public async Task<Product> GetProductAsync(int idProduct, bool forceReload = false)
         {
             IGetRequest helper = new GetRequestHelper();
-            return await DeserializeSingleAsync<Product>(GetWithCacheAsync("product", idProduct, () => helper.GetAsync($"product/{idProduct}")));
+            return await DeserializeSingleAsync<Product>(GetWithCacheAsync("product", idProduct, forceReload, () => helper.GetAsync($"product/{idProduct}")));
         }
 
         public async Task<Product[]> SearchProductsAsync(string name, int idGame, int idLanguage, bool isExact)
@@ -50,7 +50,7 @@ namespace MagicCardMarket.APIHelpers
             return await DeserializeSingleAsync<ExpansionCards>(/*GetWithCacheAsync($"expansions", expansionName)*/helper.GetAsync($"expansion/{idGame}/{expansionName}"), "response");
         }
 
-        public async Task<Article[]> GetArticlesAsync(int idProduct)
+        public async Task<Article[]> GetArticlesAsync(int idProduct, bool forceReload = false)
         {
             // Memory cache
             //Article[] articles;
@@ -69,7 +69,7 @@ namespace MagicCardMarket.APIHelpers
 
             // Disk cache
             IGetRequest helper = new GetPagingRequestHelper();
-            return await DeserializeMultipleAsync<Article>(GetWithCacheAsync("article", idProduct, () => helper.GetAsync($"articles/{idProduct}")));
+            return await DeserializeMultipleAsync<Article>(GetWithCacheAsync("article", idProduct, forceReload, () => helper.GetAsync($"articles/{idProduct}")));
         }
 
         public async Task<User> GetUserAsync(string name)

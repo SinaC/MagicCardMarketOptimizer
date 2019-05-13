@@ -14,7 +14,7 @@ namespace MagicCardMarket.App
             MainViewModel vm = new MainViewModel();
             DataContext = vm;
 
-            vm.Initialize();
+            vm.InitializeAsync();
         }
 
         //public T[] GetDatas<T>(string resource)

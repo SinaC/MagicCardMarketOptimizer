@@ -148,6 +148,13 @@
                                        Text="PayPal recharge" />
                             <TextBlock Text="{Binding PayPalRecharge}" />
                         </StackPanel>
+
+                        <Button Grid.Row="0"
+                                Grid.Column="3"
+                                Margin="5,2"
+                                Command="{Binding ReloadCommand}">
+                            <TextBlock Text="Reload"/>
+                        </Button>
                     </Grid>
                 </GroupBox>
 
@@ -174,6 +181,7 @@
                             <!-- Wants list -->
                             <ListBox Grid.Column="0"
                                      Margin="5,2"
+                                     MaxHeight="200"
                                      ItemsSource="{Binding WantsLists}"
                                      SelectedItem="{Binding SelectedWantsList}">
                                 <ListBox.ItemTemplate>
@@ -216,8 +224,7 @@
                 </Grid>
 
                 <!-- Optimization (Sellers with most cards) -->
-                <GroupBox Grid.Row="0"
-                          Grid.RowSpan="2"
+                <GroupBox Grid.Row="1"
                           Grid.Column="1">
                     <GroupBox.Header>
                         <TextBlock FontWeight="Bold"

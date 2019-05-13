@@ -12,6 +12,22 @@ namespace MagicCardMarket.App
 {
     public class MainViewModel : ViewModelBase
     {
+        private ICommand _reloadCommand;
+        public ICommand ReloadCommand
+        {
+            get
+            {
+                _reloadCommand = _reloadCommand ?? new RelayCommand(async () => await ReloadAsync());
+                return _reloadCommand;
+            }
+        }
+
+        private async Task ReloadAsync()
+        {
+            await LoadAccountAsync(true);
+            await LoadWantsListsAsync(true);
+        }
+
         #region Account
 
         private int _id;
@@ -56,14 +72,14 @@ namespace MagicCardMarket.App
             set { Set(() => UnreadMessages, ref _unreadMessages, value); }
         }
 
-        private async Task LoadAccountAsync()
+        private async Task LoadAccountAsync(bool forceReload)
         {
             try
             {
                 ShowWaitingScreen();
 
                 AccountManagement helper = new AccountManagement();
-                Account account = await helper.GetAccountAsync();
+                Account account = await helper.GetAccountAsync(forceReload);
                 Id = account.Id;
                 UserName = account.UserName;
                 UnreadMessages = account.UnreadMessages;
@@ -99,14 +115,14 @@ namespace MagicCardMarket.App
             }
         }
 
-        private async Task LoadWantsListsAsync()
+        private async Task LoadWantsListsAsync(bool forceReload)
         {
             try
             {
                 ShowWaitingScreen();
 
                 WantsListManagement helper = new WantsListManagement();
-                WantsList[] wantsLists = await helper.GetWantsListAsync();
+                WantsList[] wantsLists = await helper.GetWantsListAsync(forceReload);
                 WantsLists = wantsLists?.OrderBy(x => x.Name).ToList();
                 SelectedWantsList = WantsLists?.FirstOrDefault();
             }
@@ -150,7 +166,7 @@ namespace MagicCardMarket.App
                 SellerArticles = null;
                 Wants = null;
                 WantsListManagement helper = new WantsListManagement();
-                Want[] wants = await helper.GetWantsAsync(SelectedWantsList.Id);
+                Want[] wants = await helper.GetWantsAsync(SelectedWantsList.Id, false);
                 //Wants = wants?.ToList();
                 if (wants != null)
                 {
@@ -234,12 +250,12 @@ namespace MagicCardMarket.App
         {
             get
             {
-                _optimizeCommand = _optimizeCommand ?? new RelayCommand(async () => await Optimize());
+                _optimizeCommand = _optimizeCommand ?? new RelayCommand(async () => await OptimizeAsync());
                 return _optimizeCommand;
             }
         }
 
-        private async Task Optimize()
+        private async Task OptimizeAsync()
         {
             try
             {
@@ -359,7 +375,7 @@ namespace MagicCardMarket.App
 
         #endregion
 
-        public async Task Initialize()
+        public async Task InitializeAsync()
         {
             try
             {
@@ -368,7 +384,7 @@ namespace MagicCardMarket.App
                 RaisePropertyChanged(() => UseHigherIdHeuristic);
                 RaisePropertyChanged(() => UseTrendPriceHeuristic);
 
-                await Task.WhenAll(LoadAccountAsync(), LoadWantsListsAsync());
+                await Task.WhenAll(LoadAccountAsync(false), LoadWantsListsAsync(false));
             }
             catch (Exception ex)
             {
