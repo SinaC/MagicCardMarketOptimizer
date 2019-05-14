@@ -12,7 +12,6 @@ namespace MagicCardMarket.App.Selling
 {
     public class SellingViewModel : ViewModelBase
     {
-        private const bool ForceReload = false;
         private TimeSpan MinDelta = TimeSpan.FromHours(6);
 
         private List<ArticleItem> _articles;
@@ -35,7 +34,7 @@ namespace MagicCardMarket.App.Selling
                 MarketPlaceInformation marketPlaceInformationHelper = new MarketPlaceInformation();
                 foreach (Article article in articles)
                 {
-                    Product product = await marketPlaceInformationHelper.GetProductAsync(article.ProductId, ForceReload);
+                    Product product = await marketPlaceInformationHelper.GetProductAsync(article.ProductId, forceReload);
                     ProductPriceHistory priceHistory = UpdateProductPriceHistory(product);
 
                     items.Add(new ArticleItem(article, product, priceHistory));
@@ -76,7 +75,7 @@ namespace MagicCardMarket.App.Selling
                 saveNeeded = true;
             }
             // Add current price if time delta is enough
-            if (productPriceHistory.PricesHistory.Count == 0 || (productPriceHistory.PricesHistory.Max(x => x.Timestamp) - DateTime.Now) >= MinDelta)
+            if (productPriceHistory.PricesHistory.Count == 0 || (DateTime.Now - productPriceHistory.PricesHistory.Max(x => x.Timestamp)) >= MinDelta)
             {
                 productPriceHistory.PricesHistory.Add(new PriceHistoryEntry
                 {
@@ -101,11 +100,17 @@ namespace MagicCardMarket.App.Selling
         {
             try
             {
+                ShowWaitingScreen();
+
                 await LoadStockAsync(false);
             }
             catch (Exception ex)
             {
                 OnError(true, ex);
+            }
+            finally
+            {
+                HideWaitingScreen();
             }
         }
     }
