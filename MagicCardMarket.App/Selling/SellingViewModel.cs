@@ -1,19 +1,19 @@
 ﻿using MagicCardMarket.APIHelpers;
 using MagicCardMarket.Models;
+using MagicCardMarket.MVVM;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using System.Xml.Serialization;
 
 namespace MagicCardMarket.App.Selling
 {
     public class SellingViewModel : ViewModelBase
     {
-        private TimeSpan MinDelta = TimeSpan.FromHours(6);
-
         private List<ArticleItem> _articles;
         public List<ArticleItem> Articles
         {
@@ -21,21 +21,31 @@ namespace MagicCardMarket.App.Selling
             protected set { Set(() => Articles, ref _articles, value); }
         }
 
-        private async Task LoadStockAsync(bool forceReload)
+        private ICommand _updateCommand;
+        public ICommand UpdateCommand
+        {
+            get
+            {
+                _updateCommand = _updateCommand ?? new RelayCommand(async () => await LoadStockAsync(true));
+                return _updateCommand;
+            }
+        }
+
+        private async Task LoadStockAsync(bool updatePrices)
         {
             try
             {
                 ShowWaitingScreen();
 
                 StockManagement stockHelper = new StockManagement();
-                Article[] articles = await stockHelper.GetStockAsync(forceReload);
+                Article[] articles = await stockHelper.GetStockAsync(true);
 
                 List<ArticleItem> items = new List<ArticleItem>();
                 MarketPlaceInformation marketPlaceInformationHelper = new MarketPlaceInformation();
                 foreach (Article article in articles)
                 {
-                    Product product = await marketPlaceInformationHelper.GetProductAsync(article.ProductId, forceReload);
-                    ProductPriceHistory priceHistory = UpdateProductPriceHistory(product);
+                    Product product = await marketPlaceInformationHelper.GetProductAsync(article.ProductId, updatePrices);
+                    ProductPriceHistory priceHistory = ReadAndUpdateProductPriceHistory(product, updatePrices);
 
                     items.Add(new ArticleItem(article, product, priceHistory));
                 }
@@ -48,11 +58,10 @@ namespace MagicCardMarket.App.Selling
             }
         }
 
-        private ProductPriceHistory UpdateProductPriceHistory(Product product)
+        private ProductPriceHistory ReadAndUpdateProductPriceHistory(Product product, bool updatePrices)
         {
             string path = ConfigurationManager.AppSettings["pricehistorypath"];
 
-            bool saveNeeded = false;
             XmlSerializer serializer = new XmlSerializer(typeof(ProductPriceHistory));
 
             // Read exising or create new one
@@ -72,21 +81,16 @@ namespace MagicCardMarket.App.Selling
                     Product = product,
                     PricesHistory = new List<PriceHistoryEntry>()
                 };
-                saveNeeded = true;
             }
-            // Add current price if time delta is enough
-            if (productPriceHistory.PricesHistory.Count == 0 || (DateTime.Now - productPriceHistory.PricesHistory.Max(x => x.Timestamp)) >= MinDelta)
+            if (updatePrices)
             {
+                // Add current price
                 productPriceHistory.PricesHistory.Add(new PriceHistoryEntry
                 {
                     Timestamp = DateTime.Now,
                     Prices = product.PriceGuide
                 });
-                saveNeeded = true;
-            }
-            // Save if needed
-            if (saveNeeded)
-            {
+                // Save
                 using (TextWriter writer = new StreamWriter(filename))
                 {
                     serializer.Serialize(writer, productPriceHistory);

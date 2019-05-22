@@ -22,7 +22,8 @@
             <Button Grid.Row="0"
                     HorizontalAlignment="Left"
                     Margin="5,2"
-                    Width="120">
+                    Width="120"
+                    Command="{Binding UpdateCommand}">
                 <TextBlock Text="Update"/>
             </Button>
             <!-- Prices -->
