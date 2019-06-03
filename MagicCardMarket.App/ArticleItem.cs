@@ -36,7 +36,7 @@ namespace MagicCardMarket.App
             MetaProduct = metaProduct;
             ProductId = productId;
 
-            Name = MetaProduct.Names?.FirstOrDefault(x => x.LanguageId == 1)?.Name;
+            Name = MetaProduct.Names?.FirstOrDefault(x => x.LanguageId == 1)?.Name + (Article.IsFoil ? "*" : string.Empty);
         }
 
         public ArticleItem(Article article, Product product, ProductPriceHistory priceHistory)
@@ -45,7 +45,7 @@ namespace MagicCardMarket.App
             Product = product;
             PriceHistory = priceHistory;
 
-            Name = Product.Names?.FirstOrDefault(x => x.LanguageId == 1)?.Name;
+            Name = Product.Names?.FirstOrDefault(x => x.LanguageId == 1)?.Name + (Article.IsFoil ? "*" : string.Empty);
         }
     }
 

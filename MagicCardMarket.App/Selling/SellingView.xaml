@@ -37,25 +37,25 @@
                     <DataGridTextColumn Header="Cond."
                                         Binding="{Binding Article.Condition}"/>
                     <DataGridTextColumn Header="Price"
-                                        Binding="{Binding RealPrice}" />
-                    <DataGridTextColumn Header="Trend diff"
-                                        Binding="{Binding PriceHistory.TrendPriceDifference, StringFormat={}{0:0.00}}" />
-                    <DataGridTextColumn Header="Trend %"
+                                        Binding="{Binding RealPrice, StringFormat={}{0:C2}}" />
+                    <DataGridTextColumn Header="Trend"
+                                        Binding="{Binding PriceHistory.MostRecentPrices.Prices.Trend, StringFormat={}{0:C2}}" />
+                    <DataGridTextColumn Header="Trend€ ≠"
+                                        Binding="{Binding PriceHistory.TrendPriceDifference, StringFormat={}{0:C2}}" /> <!-- custom format is needed because negative price are not displayed correctly -->
+                    <DataGridTextColumn Header="Trend% ≠"
                                         Binding="{Binding PriceHistory.TrendPricePercentage, StringFormat=P}" />
-                    <DataGridTextColumn Header="Trend % 7 days"
+                    <DataGridTextColumn Header="Trend% ≠ 7D"
                                         Binding="{Binding PriceHistory.TrendPricePercentage7Days, StringFormat=P}" />
                     <DataGridTextColumn Header="Last update"
                                         Binding="{Binding PriceHistory.MostRecentPrices.Timestamp, StringFormat={}{0:dd/MM/yyyy HH:mm:ss}}" />
                     <DataGridTextColumn Header="Sell"
-                                        Binding="{Binding PriceHistory.MostRecentPrices.Prices.Sell}" />
+                                        Binding="{Binding PriceHistory.MostRecentPrices.Prices.Sell, StringFormat={}{0:C2}}" />
                     <DataGridTextColumn Header="Low"
-                                        Binding="{Binding PriceHistory.MostRecentPrices.Prices.Low}" />
+                                        Binding="{Binding PriceHistory.MostRecentPrices.Prices.Low, StringFormat={}{0:C2}}" />
                     <DataGridTextColumn Header="LowEx"
-                                        Binding="{Binding PriceHistory.MostRecentPrices.Prices.LowEx}" />
+                                        Binding="{Binding PriceHistory.MostRecentPrices.Prices.LowEx, StringFormat={}{0:C2}}" />
                     <DataGridTextColumn Header="Avg"
-                                        Binding="{Binding PriceHistory.MostRecentPrices.Prices.Average}" />
-                    <DataGridTextColumn Header="Trend"
-                                        Binding="{Binding PriceHistory.MostRecentPrices.Prices.Trend}" />
+                                        Binding="{Binding PriceHistory.MostRecentPrices.Prices.Average, StringFormat={}{0:C2}}" />
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>
