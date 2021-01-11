@@ -1,3 +1,5 @@
+display X-Request-Limit-Count/X-Request-Limit-Max in title
+
 !!! remove caching on account, wants list, wants, articles   this has been set for debug purpose
 
 test every methods in APIHelpers
